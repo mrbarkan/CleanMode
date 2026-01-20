@@ -1,0 +1,5 @@
+{
+  "name": "CleanMode",
+  "description": "A browser-based keyboard and trackpad blocker simulation for cleaning your device. Features a 3x double-Cmd press unlock mechanism.",
+  "requestFramePermissions": []
+}
