@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain, globalShortcut } = require('electron');
 const path = require('path');
+const tap = require('./native/eventtap');
 const isDev = !app.isPackaged;
 
 let mainWindow;
@@ -30,27 +31,18 @@ function createWindow() {
     mainWindow.webContents.openDevTools({ mode: 'detach' });
   }
 
-  // CRITICAL: Block inputs at the window level when in cleaning mode
-  // This catches standard keys (F1, Letters, Esc) even if globalShortcut fails
+  // Existing defense-in-depth layer: window-level key blocking.
+  // Allows Meta keys through so renderer can detect unlock combo.
   mainWindow.webContents.on('before-input-event', (event, input) => {
     if (isCleaningMode) {
-      // Allow only the specific unlock combo if needed, but for now 
-      // we rely on the renderer to detect the unlock combo via keyup/down 
-      // before this preventsDefault? 
-      // Actually, preventDefault here stops the Renderer from receiving it.
-      // BUT we need the Renderer to detect the Cmd+Cmd+Cmd unlock sequence.
-      // So we must allow "Meta" (Command) keys through.
-      
       if (input.key === 'Meta' || input.code === 'MetaLeft' || input.code === 'MetaRight') {
-        return; // Let Command keys reach the renderer for the unlock logic
+        return;
       }
-      
       event.preventDefault();
     }
   });
 }
 
-// Global Shortcuts to block system-level interruptions
 const fKeys = Array.from({ length: 24 }, (_, i) => `F${i + 1}`);
 const BLOCKED_KEYS = [
   ...fKeys,
@@ -60,74 +52,78 @@ const BLOCKED_KEYS = [
   'CommandOrControl+H',
   'CommandOrControl+R',
   'CommandOrControl+Shift+I',
-  'CommandOrControl+P', // Print
+  'CommandOrControl+P',
   'Alt+F4',
   'Alt+Tab',
-  'VolumeUp', 
-  'VolumeDown', 
-  'VolumeMute', 
-  'MediaNextTrack', 
-  'MediaPreviousTrack', 
-  'MediaStop', 
-  'MediaPlayPause'
+  'VolumeUp', 'VolumeDown', 'VolumeMute',
+  'MediaNextTrack', 'MediaPreviousTrack', 'MediaStop', 'MediaPlayPause'
 ];
 
-ipcMain.on('set-cleaning-mode', (event, isActive) => {
-  if (!mainWindow) return;
-  isCleaningMode = isActive;
+ipcMain.handle('enter-cleaning-mode', async () => {
+  if (!mainWindow) return { ok: false, error: 'tap-failed' };
 
-  if (isActive) {
-    // ENTER CLEANING MODE
-    // 'simpleFullscreen' often works better on Mac for blocking OS UI than 'kiosk'
-    if (process.platform === 'darwin') {
-      mainWindow.setSimpleFullScreen(true);
-    } else {
-      mainWindow.setKiosk(true);
-    }
-    mainWindow.setAlwaysOnTop(true, 'screen-saver');
-    mainWindow.focus();
+  // Permission gate.
+  if (!tap.isAccessibilityTrusted()) {
+    tap.promptAccessibility();
+    return { ok: false, error: 'accessibility-denied' };
+  }
 
-    // Register Global Shortcuts (System Level)
-    BLOCKED_KEYS.forEach(key => {
-      try {
-        globalShortcut.register(key, () => {
-          // Do nothing (swallow event)
-          return false;
-        });
-      } catch (e) {
-        console.error(`Failed to register ${key}`, e);
-      }
-    });
+  // Native tap (the primary blocker for Fn-mapped events).
+  if (!tap.start()) {
+    return { ok: false, error: 'tap-failed' };
+  }
 
+  // Existing kiosk + globalShortcut layers (defense in depth).
+  isCleaningMode = true;
+  if (process.platform === 'darwin') {
+    mainWindow.setSimpleFullScreen(true);
   } else {
-    // EXIT CLEANING MODE
-    mainWindow.setAlwaysOnTop(false);
-    if (process.platform === 'darwin') {
-      mainWindow.setSimpleFullScreen(false);
-    } else {
-      mainWindow.setKiosk(false);
+    mainWindow.setKiosk(true);
+  }
+  mainWindow.setAlwaysOnTop(true, 'screen-saver');
+  mainWindow.focus();
+
+  BLOCKED_KEYS.forEach(key => {
+    try {
+      globalShortcut.register(key, () => false);
+    } catch (e) {
+      console.error(`Failed to register ${key}`, e);
     }
-    
-    globalShortcut.unregisterAll();
+  });
+
+  return { ok: true };
+});
+
+ipcMain.on('exit-cleaning-mode', () => {
+  if (!mainWindow) return;
+  isCleaningMode = false;
+
+  tap.stop();
+  globalShortcut.unregisterAll();
+
+  mainWindow.setAlwaysOnTop(false);
+  if (process.platform === 'darwin') {
+    mainWindow.setSimpleFullScreen(false);
+  } else {
+    mainWindow.setKiosk(false);
   }
 });
 
+ipcMain.handle('check-accessibility',  () => tap.isAccessibilityTrusted());
+ipcMain.handle('prompt-accessibility', () => tap.promptAccessibility());
+
 app.whenReady().then(() => {
   createWindow();
-
   app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
-    }
+    if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
 
 app.on('will-quit', () => {
   globalShortcut.unregisterAll();
+  tap.stop();   // safety net
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  if (process.platform !== 'darwin') app.quit();
 });
