@@ -10,7 +10,9 @@
     "type-check": "tsc",
     "preview": "vite preview",
     "electron:dev": "concurrently -k \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
-    "electron:build": "npm run build && electron-builder"
+    "electron:build": "npm run build && electron-builder",
+    "native:build": "npm --prefix electron/native/eventtap run build",
+    "native:build-current": "npm --prefix electron/native/eventtap run build-current-arch"
   },
   "dependencies": {
     "@google/genai": "^1.37.0",
@@ -19,12 +21,17 @@
     "react-dom": "^19.2.3"
   },
   "devDependencies": {
+    "@electron/notarize": "^2.5.0",
+    "@electron/rebuild": "^3.7.0",
     "@types/react": "^19.2.3",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^4.2.1",
     "concurrently": "^8.2.2",
     "electron": "^30.0.1",
     "electron-builder": "^24.13.3",
+    "node-gyp": "^10.2.0",
+    "node-gyp-build": "^4.8.0",
+    "prebuildify": "^6.0.1",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
     "wait-on": "^7.2.0"
