@@ -6,7 +6,7 @@
   "main": "index.js",
   "os": ["darwin"],
   "scripts": {
-    "build": "prebuildify --napi --strip --arch arm64+x64",
-    "build-current-arch": "prebuildify --napi --strip"
+    "build": "prebuildify --napi --strip --arch arm64+x64 --target 22.0.0",
+    "build-current-arch": "prebuildify --napi --strip --target 22.0.0"
   }
 }
