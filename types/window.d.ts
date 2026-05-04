@@ -1,9 +1,16 @@
 export {};
 
+export type EnterCleaningModeResult =
+  | { ok: true }
+  | { ok: false; error: 'accessibility-denied' | 'tap-failed' };
+
 declare global {
   interface Window {
     electron?: {
-      setCleaningMode: (isActive: boolean) => void;
+      enterCleaningMode:   () => Promise<EnterCleaningModeResult>;
+      exitCleaningMode:    () => void;
+      checkAccessibility:  () => Promise<boolean>;
+      promptAccessibility: () => Promise<boolean>;
     };
   }
 }
