@@ -4,6 +4,7 @@ import { GoogleGenAI } from "@google/genai";
 import { t, Language, languages } from '../utils/translations';
 import { Theme } from '../App';
 import { appVersion } from '../utils/changelog';
+import { AccessibilityModal } from './AccessibilityModal';
 
 interface HomeProps {
   onLock: (tips?: string) => void;
@@ -27,6 +28,8 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
   const [sources, setSources] = useState<Array<{uri: string, title: string}>>([]);
   const [error, setError] = useState('');
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+  const [accessibilityAvailable, setAccessibilityAvailable] = useState<boolean | null>(null);
+  const [isAccessibilityModalOpen, setIsAccessibilityModalOpen] = useState(false);
 
   const text = t[lang];
   const isDark = theme === 'dark';
@@ -35,6 +38,54 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
   useEffect(() => {
     localStorage.setItem('cleanmode-model', deviceModel);
   }, [deviceModel]);
+
+  // Check Accessibility permission once on mount.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      if (window.electron?.checkAccessibility) {
+        try {
+          const ok = await window.electron.checkAccessibility();
+          if (!cancelled) setAccessibilityAvailable(ok);
+        } catch {
+          if (!cancelled) setAccessibilityAvailable(null);
+        }
+      } else {
+        // Browser/non-Electron — banner not applicable.
+        if (!cancelled) setAccessibilityAvailable(true);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  const handleStart = async () => {
+    const result = await window.electron?.enterCleaningMode?.() ?? { ok: true as const };
+    if (result.ok) {
+      onLock(tips);
+      return;
+    }
+    if (result.error === 'accessibility-denied') {
+      setIsAccessibilityModalOpen(true);
+      return;
+    }
+    setError(text.fetchError);
+  };
+
+  const handleGrant = async () => {
+    if (window.electron?.promptAccessibility) {
+      const granted = await window.electron.promptAccessibility();
+      setAccessibilityAvailable(granted);
+    }
+  };
+
+  const handleTryAgain = async () => {
+    const result = await window.electron?.enterCleaningMode?.() ?? { ok: true as const };
+    if (result.ok) {
+      setIsAccessibilityModalOpen(false);
+      setAccessibilityAvailable(true);
+      onLock(tips);
+    }
+  };
 
   const generateTips = async () => {
     if (!deviceModel.trim()) return;
@@ -154,20 +205,42 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
                 {/* Main Button */}
                 <div className="relative group w-full">
                     {/* Shadow/Glow effect only in dark mode or if blue in light mode */}
-                    <div className={`absolute -inset-1 rounded-xl blur opacity-30 group-hover:opacity-60 transition duration-500 
+                    <div className={`absolute -inset-1 rounded-xl blur opacity-30 group-hover:opacity-60 transition duration-500
                         ${isDark ? 'bg-gradient-to-r from-blue-600 to-indigo-600' : 'bg-blue-400'}`}></div>
-                    
+
                     <button
-                        onClick={() => onLock(tips)}
+                        onClick={handleStart}
                         className={`relative w-full px-6 py-4 rounded-xl font-medium flex items-center justify-center gap-3 transition-all active:scale-95 shadow-xl border
-                        ${isDark 
-                            ? 'bg-neutral-900 border-neutral-800 text-white hover:bg-neutral-800' 
+                        ${isDark
+                            ? 'bg-neutral-900 border-neutral-800 text-white hover:bg-neutral-800'
                             : 'bg-blue-600 border-blue-600 text-white hover:bg-blue-700 shadow-blue-600/20'}`}
                     >
                         <Shield className={`w-5 h-5 ${isDark ? 'text-blue-400' : 'text-white'}`} />
                         <span>{text.startBtn}</span>
                     </button>
                 </div>
+
+                {accessibilityAvailable === false && (
+                  <div className={`p-3 rounded-xl border flex gap-3 items-start
+                    ${isDark ? 'bg-amber-500/10 border-amber-500/20' : 'bg-amber-50 border-amber-200'}`}>
+                    <AlertTriangle className={`w-4 h-4 mt-0.5 flex-shrink-0 ${isDark ? 'text-amber-400' : 'text-amber-600'}`} />
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-xs font-medium ${isDark ? 'text-amber-300' : 'text-amber-800'}`}>
+                        {text.accessibilityBannerTitle}
+                      </p>
+                      <p className={`text-xs mt-0.5 ${isDark ? 'text-amber-400/80' : 'text-amber-700'}`}>
+                        {text.accessibilityBannerBody}
+                      </p>
+                    </div>
+                    <button
+                      onClick={handleGrant}
+                      className={`text-xs font-semibold px-2 py-1 rounded transition-colors
+                        ${isDark ? 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-300' : 'bg-amber-100 hover:bg-amber-200 text-amber-800'}`}
+                    >
+                      {text.accessibilityGrant}
+                    </button>
+                  </div>
+                )}
             </div>
         </div>
 
@@ -359,6 +432,15 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
             </div>
          </div>
       </div>
+
+      <AccessibilityModal
+        isOpen={isAccessibilityModalOpen}
+        onClose={() => setIsAccessibilityModalOpen(false)}
+        onOpenSettings={handleGrant}
+        onTryAgain={handleTryAgain}
+        theme={theme}
+        lang={lang}
+      />
 
     </div>
   );
