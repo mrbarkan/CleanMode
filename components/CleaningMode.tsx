@@ -33,9 +33,8 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
 
   // Moved handleUnlockSequence out of useEffect to be accessible in render
   const handleUnlockSequence = useCallback(() => {
-    // Disable Electron Kiosk Mode
     if (window.electron) {
-        window.electron.setCleaningMode(false);
+        window.electron.exitCleaningMode();
     }
     onUnlock();
   }, [onUnlock]);
@@ -53,12 +52,6 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
   }, []);
 
   useEffect(() => {
-    // 1. Trigger Native Electron Kiosk Mode (if available)
-    if (window.electron) {
-        window.electron.setCleaningMode(true);
-    }
-
-    // 2. Browser Fallback: Keyboard Lock API
     const lockKeyboard = async () => {
       try {
         // @ts-ignore
@@ -147,7 +140,7 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
 
       // Cleanup: Ensure Electron Kiosk is off if component unmounts unexpectedly
       if (window.electron) {
-        window.electron.setCleaningMode(false);
+        window.electron.exitCleaningMode();
       }
     };
   }, [addRipple, handleUnlockSequence]);
