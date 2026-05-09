@@ -30,3 +30,4 @@ release/
 *.dmg
 *.zip
 .env
+build/config.gypi

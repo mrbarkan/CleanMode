@@ -137,11 +137,6 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
         // @ts-ignore
         navigator.keyboard.unlock();
       }
-
-      // Cleanup: Ensure Electron Kiosk is off if component unmounts unexpectedly
-      if (window.electron) {
-        window.electron.exitCleaningMode();
-      }
     };
   }, [addRipple, handleUnlockSequence]);
 
