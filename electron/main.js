@@ -62,10 +62,16 @@ const BLOCKED_KEYS = [
 ipcMain.handle('enter-cleaning-mode', async () => {
   if (!mainWindow) return { ok: false, error: 'tap-failed' };
 
-  // Permission gate.
-  if (!tap.isAccessibilityTrusted()) {
-    tap.promptAccessibility();
-    return { ok: false, error: 'accessibility-denied' };
+  // Permission gate: Accessibility lets the tap be created; Input Monitoring lets
+  // events actually flow through it. Both are required.
+  const permissions = {
+    accessibility:   tap.isAccessibilityTrusted(),
+    inputMonitoring: tap.isInputMonitoringTrusted(),
+  };
+  if (!permissions.accessibility || !permissions.inputMonitoring) {
+    if (!permissions.accessibility)        tap.promptAccessibility();
+    else if (!permissions.inputMonitoring) tap.promptInputMonitoring();
+    return { ok: false, error: 'permissions-denied', permissions };
   }
 
   // Native tap (the primary blocker for Fn-mapped events).
@@ -109,8 +115,12 @@ ipcMain.on('exit-cleaning-mode', () => {
   }
 });
 
-ipcMain.handle('check-accessibility',  () => tap.isAccessibilityTrusted());
-ipcMain.handle('prompt-accessibility', () => tap.promptAccessibility());
+ipcMain.handle('check-permissions', () => ({
+  accessibility:   tap.isAccessibilityTrusted(),
+  inputMonitoring: tap.isInputMonitoringTrusted(),
+}));
+ipcMain.handle('prompt-accessibility',    () => tap.promptAccessibility());
+ipcMain.handle('prompt-input-monitoring', () => tap.promptInputMonitoring());
 
 app.whenReady().then(() => {
   createWindow();

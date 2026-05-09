@@ -4,7 +4,8 @@ import { GoogleGenAI } from "@google/genai";
 import { t, Language, languages } from '../utils/translations';
 import { Theme } from '../App';
 import { appVersion } from '../utils/changelog';
-import { AccessibilityModal } from './AccessibilityModal';
+import { PermissionsModal } from './PermissionsModal';
+import type { Permissions } from '../types/window';
 
 interface HomeProps {
   onLock: (tips?: string) => void;
@@ -28,8 +29,8 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
   const [sources, setSources] = useState<Array<{uri: string, title: string}>>([]);
   const [error, setError] = useState('');
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
-  const [accessibilityAvailable, setAccessibilityAvailable] = useState<boolean | null>(null);
-  const [isAccessibilityModalOpen, setIsAccessibilityModalOpen] = useState(false);
+  const [permissions, setPermissions] = useState<Permissions | null>(null);
+  const [isPermissionsModalOpen, setIsPermissionsModalOpen] = useState(false);
 
   const text = t[lang];
   const isDark = theme === 'dark';
@@ -39,24 +40,28 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
     localStorage.setItem('cleanmode-model', deviceModel);
   }, [deviceModel]);
 
-  // Check Accessibility permission once on mount.
+  // Check both macOS permissions once on mount.
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      if (window.electron?.checkAccessibility) {
+      if (window.electron?.checkPermissions) {
         try {
-          const ok = await window.electron.checkAccessibility();
-          if (!cancelled) setAccessibilityAvailable(ok);
+          const p = await window.electron.checkPermissions();
+          if (!cancelled) setPermissions(p);
         } catch {
-          if (!cancelled) setAccessibilityAvailable(null);
+          if (!cancelled) setPermissions(null);
         }
       } else {
         // Browser/non-Electron — banner not applicable.
-        if (!cancelled) setAccessibilityAvailable(true);
+        if (!cancelled) setPermissions({ accessibility: true, inputMonitoring: true });
       }
     })();
     return () => { cancelled = true; };
   }, []);
+
+  const allPermissionsGranted = permissions !== null
+    && permissions.accessibility
+    && permissions.inputMonitoring;
 
   const handleStart = async () => {
     const result = await window.electron?.enterCleaningMode?.() ?? { ok: true as const };
@@ -64,26 +69,40 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
       onLock(tips);
       return;
     }
-    if (result.error === 'accessibility-denied') {
-      setIsAccessibilityModalOpen(true);
+    if (result.error === 'permissions-denied') {
+      setPermissions(result.permissions);
+      setIsPermissionsModalOpen(true);
       return;
     }
     setError(text.fetchError);
   };
 
-  const handleGrant = async () => {
+  const handleOpenAccessibility = async () => {
     if (window.electron?.promptAccessibility) {
-      const granted = await window.electron.promptAccessibility();
-      setAccessibilityAvailable(granted);
+      await window.electron.promptAccessibility();
+    }
+    if (window.electron?.checkPermissions) {
+      setPermissions(await window.electron.checkPermissions());
+    }
+  };
+
+  const handleOpenInputMonitoring = async () => {
+    if (window.electron?.promptInputMonitoring) {
+      await window.electron.promptInputMonitoring();
+    }
+    if (window.electron?.checkPermissions) {
+      setPermissions(await window.electron.checkPermissions());
     }
   };
 
   const handleTryAgain = async () => {
     const result = await window.electron?.enterCleaningMode?.() ?? { ok: true as const };
     if (result.ok) {
-      setIsAccessibilityModalOpen(false);
-      setAccessibilityAvailable(true);
+      setIsPermissionsModalOpen(false);
+      setPermissions({ accessibility: true, inputMonitoring: true });
       onLock(tips);
+    } else if (result.error === 'permissions-denied') {
+      setPermissions(result.permissions);
     }
   };
 
@@ -220,24 +239,24 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
                     </button>
                 </div>
 
-                {accessibilityAvailable === false && (
+                {permissions !== null && !allPermissionsGranted && (
                   <div className={`p-3 rounded-xl border flex gap-3 items-start
                     ${isDark ? 'bg-amber-500/10 border-amber-500/20' : 'bg-amber-50 border-amber-200'}`}>
                     <AlertTriangle className={`w-4 h-4 mt-0.5 flex-shrink-0 ${isDark ? 'text-amber-400' : 'text-amber-600'}`} />
                     <div className="flex-1 min-w-0">
                       <p className={`text-xs font-medium ${isDark ? 'text-amber-300' : 'text-amber-800'}`}>
-                        {text.accessibilityBannerTitle}
+                        {text.permissionsBannerTitle}
                       </p>
                       <p className={`text-xs mt-0.5 ${isDark ? 'text-amber-400/80' : 'text-amber-700'}`}>
-                        {text.accessibilityBannerBody}
+                        {text.permissionsBannerBody}
                       </p>
                     </div>
                     <button
-                      onClick={handleGrant}
+                      onClick={() => setIsPermissionsModalOpen(true)}
                       className={`text-xs font-semibold px-2 py-1 rounded transition-colors
                         ${isDark ? 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-300' : 'bg-amber-100 hover:bg-amber-200 text-amber-800'}`}
                     >
-                      {text.accessibilityGrant}
+                      {text.permissionsGrant}
                     </button>
                   </div>
                 )}
@@ -433,10 +452,12 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
          </div>
       </div>
 
-      <AccessibilityModal
-        isOpen={isAccessibilityModalOpen}
-        onClose={() => setIsAccessibilityModalOpen(false)}
-        onOpenSettings={handleGrant}
+      <PermissionsModal
+        isOpen={isPermissionsModalOpen}
+        permissions={permissions ?? { accessibility: false, inputMonitoring: false }}
+        onClose={() => setIsPermissionsModalOpen(false)}
+        onOpenAccessibility={handleOpenAccessibility}
+        onOpenInputMonitoring={handleOpenInputMonitoring}
         onTryAgain={handleTryAgain}
         theme={theme}
         lang={lang}

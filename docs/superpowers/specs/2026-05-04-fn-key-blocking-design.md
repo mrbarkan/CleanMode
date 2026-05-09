@@ -12,7 +12,14 @@ Existing blocking layers — Electron `globalShortcut`, `webContents.on('before-
 
 ## Solution overview
 
-Add a native macOS event tap (`CGEventTap` at `kCGSessionEventTap`, active mode) that intercepts both standard keyboard events and `NSSystemDefined` events and drops everything except the Cmd (Meta) keys. The tap requires Accessibility permission, which the user grants in System Settings → Privacy & Security → Accessibility.
+Add a native macOS event tap (`CGEventTap` at `kCGSessionEventTap`, active mode) that intercepts both standard keyboard events and `NSSystemDefined` events and drops everything except the Cmd (Meta) keys. The tap requires **two** macOS permissions, both granted in System Settings → Privacy & Security:
+
+1. **Accessibility** — required for `CGEventTapCreate` to succeed.
+2. **Input Monitoring** — required for events to actually flow through the tap callback. Without it, the tap is created and "enabled" but the OS routes no events through it.
+
+Both permissions are gated separately by macOS. The UI must surface both. The first version of this spec missed the Input Monitoring requirement; it was discovered during dev-mode smoke testing (events created but callback never fired despite Accessibility being granted).
+
+Additionally, on Electron the tap must run on a **dedicated pthread with its own CFRunLoop**, not on the main thread — Chromium's MessagePump on macOS does not reliably pump arbitrary `CFRunLoop` sources installed on the main thread, so the tap callback never fires even with both permissions. The dedicated thread also needs a no-op keep-alive timer; otherwise `CFRunLoopRunInMode` returns `kCFRunLoopRunFinished` immediately.
 
 The existing blocking layers remain in place as defense in depth.
 
