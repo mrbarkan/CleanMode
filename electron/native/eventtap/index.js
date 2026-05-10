@@ -14,9 +14,15 @@ if (process.platform !== 'darwin') {
   return;
 }
 
-// Darwin: load the prebuilt binary via node-gyp-build.
-// node-gyp-build picks the right slice from prebuilds/<platform>-<arch>/.
-const native = require('node-gyp-build')(__dirname);
+// Load the prebuilt binary for the current architecture.
+const path = require('path');
+const binaryPath = path.join(
+  __dirname,
+  'prebuilds',
+  `${process.platform}-${process.arch}`,
+  'cleanmode-eventtap.node'
+);
+const native = require(binaryPath);
 
 module.exports = {
   start: native.start,
