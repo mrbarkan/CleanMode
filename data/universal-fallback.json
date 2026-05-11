@@ -1,0 +1,27 @@
+{
+  "id": "universal-fallback",
+  "displayName": "General guidance",
+  "aliases": [],
+  "surfaces": {
+    "keyboardTrackpad": {
+      "en": "• Power off the device and disconnect from power\n• Use a soft, lint-free cloth lightly dampened with water\n• Wipe surfaces gently — never spray liquid directly on the device\n• For stubborn marks, dampen the cloth (not the device) with 70% isopropyl alcohol\n• Allow to air-dry completely before reconnecting power\n• Do not use bleach, ammonia-based cleaners, or abrasive materials",
+      "es": "• Apaga el dispositivo y desconéctalo de la corriente\n• Usa un paño suave y sin pelusas ligeramente humedecido con agua\n• Limpia las superficies suavemente — nunca rocíes líquido directamente sobre el dispositivo\n• Para manchas difíciles, humedece el paño (no el dispositivo) con alcohol isopropílico al 70%\n• Deja secar al aire completamente antes de reconectar\n• No uses lejía, limpiadores con amoníaco ni materiales abrasivos",
+      "fr": "• Éteignez l'appareil et débranchez-le\n• Utilisez un chiffon doux non pelucheux légèrement humidifié à l'eau\n• Essuyez les surfaces délicatement — ne vaporisez jamais de liquide directement sur l'appareil\n• Pour les taches tenaces, humidifiez le chiffon (pas l'appareil) avec de l'alcool isopropylique à 70%\n• Laissez sécher à l'air avant de rebrancher\n• N'utilisez pas d'eau de Javel, de nettoyants à base d'ammoniaque ni de matériaux abrasifs",
+      "de": "• Gerät ausschalten und vom Strom trennen\n• Weiches, fusselfreies Tuch leicht mit Wasser anfeuchten\n• Oberflächen sanft abwischen — niemals Flüssigkeit direkt auf das Gerät sprühen\n• Bei hartnäckigen Flecken Tuch (nicht das Gerät) mit 70% Isopropylalkohol anfeuchten\n• Vor dem erneuten Anschließen vollständig an der Luft trocknen lassen\n• Keine Bleichmittel, ammoniakhaltige Reiniger oder scheuernde Materialien verwenden",
+      "zh": "• 关闭设备并断开电源\n• 使用稍微沾水的柔软无绒布\n• 轻轻擦拭表面 — 切勿直接向设备喷洒液体\n• 对于顽固污渍,用 70% 异丙醇沾湿布(而非设备)\n• 重新连接前让其完全风干\n• 请勿使用漂白剂、氨基清洁剂或研磨材料",
+      "ja": "• デバイスの電源を切り、電源を外す\n• 水で軽く湿らせた柔らかい糸くずの出ない布を使用\n• 表面を優しく拭く — デバイスに直接液体を吹き付けないでください\n• 頑固な汚れには、デバイスではなく布に70%イソプロピルアルコールを含ませる\n• 再接続する前に完全に空気乾燥させる\n• 漂白剤、アンモニア系クリーナー、研磨剤は使用しないでください",
+      "pt": "• Desligue o dispositivo e desconecte da energia\n• Use um pano macio e sem fiapos levemente umedecido com água\n• Limpe as superfícies com cuidado — nunca pulverize líquido diretamente no dispositivo\n• Para marcas difíceis, umedeça o pano (não o dispositivo) com álcool isopropílico 70%\n• Deixe secar ao ar completamente antes de reconectar\n• Não use alvejante, produtos com amônia ou materiais abrasivos"
+    },
+    "screenShell": {
+      "en": "• Use a microfiber cloth slightly dampened with water\n• Wipe in straight strokes — avoid circular motions and pressure\n• For shells and outer surfaces, the same cloth works\n• For stubborn marks on glass, dampen the cloth with 70% isopropyl alcohol — never directly on the device\n• Avoid getting moisture in any openings",
+      "es": "• Usa un paño de microfibra ligeramente humedecido con agua\n• Limpia con movimientos rectos — evita movimientos circulares y la presión\n• El mismo paño sirve para carcasas y superficies exteriores\n• Para marcas difíciles en cristal, humedece el paño con alcohol isopropílico al 70% — nunca directamente sobre el dispositivo\n• Evita que entre humedad en cualquier abertura",
+      "fr": "• Utilisez un chiffon en microfibre légèrement humidifié à l'eau\n• Essuyez en mouvements droits — évitez les mouvements circulaires et la pression\n• Le même chiffon convient pour les coques et surfaces extérieures\n• Pour les taches tenaces sur le verre, humidifiez le chiffon avec de l'alcool isopropylique à 70% — jamais directement sur l'appareil\n• Évitez de mettre de l'humidité dans les ouvertures",
+      "de": "• Mikrofasertuch leicht mit Wasser anfeuchten\n• In geraden Strichen wischen — kreisende Bewegungen und Druck vermeiden\n• Dasselbe Tuch eignet sich für Gehäuse und Außenflächen\n• Bei hartnäckigen Flecken auf Glas Tuch mit 70% Isopropylalkohol anfeuchten — niemals direkt auf das Gerät\n• Keine Feuchtigkeit in Öffnungen eindringen lassen",
+      "zh": "• 使用稍微沾水的超细纤维布\n• 沿直线擦拭 — 避免圆形动作和压力\n• 同一块布适用于外壳和外表面\n• 对于玻璃上的顽固污渍,用 70% 异丙醇沾湿布 — 切勿直接接触设备\n• 避免水分进入任何开口",
+      "ja": "• 水で軽く湿らせたマイクロファイバークロスを使用\n• 直線的に拭く — 円形の動きや圧力は避ける\n• ケースや外側の表面にも同じ布が使えます\n• ガラスの頑固な汚れには、デバイスではなく布に70%イソプロピルアルコールを含ませる\n• 開口部に水分が入らないように注意",
+      "pt": "• Use um pano de microfibra levemente umedecido com água\n• Limpe com movimentos retos — evite movimentos circulares e pressão\n• O mesmo pano serve para carcaças e superfícies externas\n• Para marcas difíceis no vidro, umedeça o pano com álcool isopropílico 70% — nunca diretamente no dispositivo\n• Evite que a umidade entre em qualquer abertura"
+    }
+  },
+  "sensitivities": [],
+  "source": "fallback"
+}
