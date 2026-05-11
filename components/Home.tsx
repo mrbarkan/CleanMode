@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Shield, Sparkles, Command, Keyboard, Loader2, Laptop, Globe, Info, AlertTriangle, ExternalLink } from 'lucide-react';
-import { GoogleGenAI } from "@google/genai";
 import { t, Language, languages } from '../utils/translations';
 import { Theme } from '../App';
 import { appVersion } from '../utils/changelog';
 import { PermissionsModal } from './PermissionsModal';
+import { SourceBadge } from './SourceBadge';
+import { lookupGuide } from '../utils/lookupGuide';
+import { localized, type CleaningEntry } from '../utils/cleaningGuide';
 import type { Permissions } from '../types/window';
 
 interface HomeProps {
@@ -25,8 +27,7 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  const [tips, setTips] = useState<string>('');
-  const [sources, setSources] = useState<Array<{uri: string, title: string}>>([]);
+  const [entry, setEntry] = useState<CleaningEntry | null>(null);
   const [error, setError] = useState('');
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const [permissions, setPermissions] = useState<Permissions | null>(null);
@@ -66,7 +67,7 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
   const handleStart = async () => {
     const result = await window.electron?.enterCleaningMode?.() ?? { ok: true as const };
     if (result.ok) {
-      onLock(tips);
+      onLock(entryAsTips());
       return;
     }
     if (result.error === 'permissions-denied') {
@@ -100,63 +101,20 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
     if (result.ok) {
       setIsPermissionsModalOpen(false);
       setPermissions({ accessibility: true, inputMonitoring: true });
-      onLock(tips);
+      onLock(entryAsTips());
     } else if (result.error === 'permissions-denied') {
       setPermissions(result.permissions);
     }
   };
 
-  const generateTips = async () => {
+  const handleSearch = async () => {
     if (!deviceModel.trim()) return;
-
-    // Check if API Key is available
-    if (!process.env.API_KEY || process.env.API_KEY.includes("undefined")) {
-        setError("API Key missing. Please check your .env file and rebuild.");
-        return;
-    }
-    
     setIsLoading(true);
     setError('');
-    setTips('');
-    setSources([]);
-
+    setEntry(null);
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
-      const languageName = languages.find(l => l.code === lang)?.name || 'English';
-      
-      const prompt = `User Input: "${deviceModel}".
-      Task: Provide specific, manufacturer-recommended cleaning instructions for this exact device using Google Search.
-      
-      Logic:
-      1. Is the input clearly a laptop, computer, keyboard, mouse, or screen? 
-      2. If NO: Return a polite refusal in ${languageName}.
-      3. If YES: Provide instructions in ${languageName}. Structure:
-         - **Keyboard, Trackpad, & Internal Surface**
-         - **Screen & Outer Shell**
-         
-      Mention if the device has specific sensitivities (e.g. Nano-texture glass, Alcantara fabric).`;
-
-      const response = await ai.models.generateContent({
-        model: 'gemini-3-flash-preview',
-        contents: prompt,
-        config: {
-          systemInstruction: "You are a specialized electronics cleaning assistant.",
-          tools: [{googleSearch: {}}],
-        },
-      });
-      
-      if (response.text) {
-        setTips(response.text);
-        
-        // Extract Grounding Sources
-        const chunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks;
-        if (chunks) {
-            const foundSources = chunks
-                .map((chunk: any) => chunk.web)
-                .filter((web: any) => web && web.uri && web.title);
-            setSources(foundSources);
-        }
-      }
+      const guide = await lookupGuide(deviceModel, lang);
+      setEntry(guide);
     } catch (err) {
       console.error(err);
       setError(text.fetchError);
@@ -165,25 +123,11 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
     }
   };
 
-  // Helper to render text with clickable links
-  const renderContent = (content: string) => {
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    const parts = content.split(urlRegex);
-    return parts.map((part, index) => 
-      part.match(urlRegex) ? (
-        <a 
-          key={index} 
-          href={part} 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="text-blue-500 hover:underline break-all"
-        >
-          {part}
-        </a>
-      ) : (
-        part
-      )
-    );
+  const entryAsTips = (): string => {
+    if (!entry) return '';
+    const kb = localized(entry.surfaces.keyboardTrackpad, lang);
+    const sc = localized(entry.surfaces.screenShell, lang);
+    return `${kb}\n\n${sc}`;
   };
 
   return (
@@ -376,11 +320,11 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
                             placeholder={text.guidePlaceholder}
                             className={`w-full bg-transparent text-sm focus:outline-none 
                             ${isDark ? 'text-white placeholder-neutral-600' : 'text-neutral-900 placeholder-neutral-400'}`}
-                            onKeyDown={(e) => e.key === 'Enter' && generateTips()}
+                            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                         />
                     </div>
-                    <button 
-                        onClick={generateTips}
+                    <button
+                        onClick={handleSearch}
                         disabled={isLoading || !deviceModel.trim()}
                         className={`px-6 py-3 rounded-xl transition-all flex items-center justify-center font-medium
                         ${isLoading || !deviceModel.trim() 
@@ -399,44 +343,47 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
                 )}
                 
                 {/* Results Area */}
-                {tips ? (
+                {entry ? (
                     <div className={`rounded-2xl p-8 border animate-in fade-in slide-in-from-bottom-4 shadow-xl mb-12
                         ${isDark ? 'bg-neutral-900/80 border-neutral-800 text-neutral-300' : 'bg-white/80 border-neutral-200 text-neutral-700'}`}>
-                        <h4 className={`font-medium mb-6 text-sm uppercase tracking-wider flex items-center gap-2 pb-4 border-b
-                            ${isDark ? 'text-blue-400 border-neutral-800' : 'text-blue-600 border-neutral-100'}`}>
-                            <Laptop className="w-4 h-4" />
-                            {text.tipsFor} {deviceModel}
-                        </h4>
-                        
-                        {/* Render Main Text */}
-                        <div className="prose prose-sm max-w-none mb-6">
+                        <div className={`flex items-center justify-between gap-3 mb-6 pb-4 border-b
+                            ${isDark ? 'border-neutral-800' : 'border-neutral-100'}`}>
+                            <h4 className={`font-medium text-sm uppercase tracking-wider flex items-center gap-2
+                                ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
+                                <Laptop className="w-4 h-4" />
+                                {text.tipsFor} {entry.source === 'fallback' ? deviceModel : entry.displayName}
+                            </h4>
+                            <SourceBadge source={entry.source} theme={theme} lang={lang} />
+                        </div>
+
+                        <div className="prose prose-sm max-w-none space-y-6">
                             <div className={`whitespace-pre-wrap leading-7 ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
-                                {renderContent(tips)}
+                                {localized(entry.surfaces.keyboardTrackpad, lang)}
+                            </div>
+                            <div className={`whitespace-pre-wrap leading-7 ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
+                                {localized(entry.surfaces.screenShell, lang)}
                             </div>
                         </div>
 
-                        {/* Render Grounding Sources */}
-                        {sources.length > 0 && (
-                            <div className={`mt-8 pt-4 border-t ${isDark ? 'border-neutral-800' : 'border-neutral-100'}`}>
-                                <h5 className={`text-xs font-semibold uppercase tracking-wider mb-3 flex items-center gap-2 ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
-                                    <Globe className="w-3 h-3" />
-                                    Sources
-                                </h5>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                    {sources.map((source, idx) => (
-                                        <a 
-                                            key={idx} 
-                                            href={source.uri} 
-                                            target="_blank" 
-                                            rel="noopener noreferrer"
-                                            className={`flex items-center gap-2 text-xs p-2 rounded-lg transition-colors truncate
-                                                ${isDark ? 'bg-neutral-800/50 hover:bg-neutral-800 text-blue-400' : 'bg-neutral-50 hover:bg-neutral-100 text-blue-600'}`}
-                                        >
-                                            <ExternalLink className="w-3 h-3 flex-shrink-0" />
-                                            <span className="truncate">{source.title}</span>
-                                        </a>
-                                    ))}
-                                </div>
+                        {entry.sensitivities.length > 0 && (
+                            <div className={`mt-6 pt-4 border-t ${isDark ? 'border-neutral-800' : 'border-neutral-100'}`}>
+                                <p className={`text-xs font-medium uppercase tracking-wider ${isDark ? 'text-amber-400' : 'text-amber-600'}`}>
+                                    ⚠ {entry.sensitivities.map(s => localized(s, lang)).join(' • ')}
+                                </p>
+                            </div>
+                        )}
+
+                        {entry.source === 'catalog' && entry.sourceUrl && (
+                            <div className={`mt-6 pt-4 border-t ${isDark ? 'border-neutral-800' : 'border-neutral-100'}`}>
+                                <a
+                                    href={entry.sourceUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={`inline-flex items-center gap-2 text-xs ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}
+                                >
+                                    <ExternalLink className="w-3 h-3" />
+                                    {text.tipsViewSource}
+                                </a>
                             </div>
                         )}
                     </div>
