@@ -1,5 +1,120 @@
 {
   "version": 1,
   "updatedAt": "2026-05-11",
-  "entries": []
+  "entries": [
+    {
+      "id": "macbook-pro-14-m4",
+      "displayName": "MacBook Pro 14\" (M4, 2024)",
+      "aliases": [
+        "mbp 14 m4",
+        "mbp14 m4",
+        "macbook pro 14 m4",
+        "macbook pro 14 inch m4",
+        "macbook pro m4 14",
+        "mbp 14 2024"
+      ],
+      "surfaces": {
+        "keyboardTrackpad": {
+          "en": "• Shut down the MacBook Pro and unplug all cables\n• Use a soft, lint-free cloth — slightly damp with water only\n• Wipe the keyboard, palm rest, and trackpad in straight strokes\n• For stubborn marks, dampen the cloth with 70% isopropyl alcohol — never spray liquid directly\n• Do not let moisture enter any opening, including between keys\n• Allow to air-dry fully before reconnecting power"
+        },
+        "screenShell": {
+          "en": "• Use a polishing cloth or clean microfiber, slightly damp with water\n• Wipe screen in straight strokes — never use household glass cleaners, ammonia, or abrasives\n• For the aluminum shell, same cloth — water only, then a dry cloth to finish\n• If the device has nano-texture glass, use ONLY the Apple polishing cloth that shipped with it — water only, never alcohol\n• Avoid getting moisture in vents or the speaker grille"
+        }
+      },
+      "sensitivities": [
+        { "en": "nano-texture glass option — Apple polishing cloth + water only" }
+      ],
+      "sourceUrl": "https://support.apple.com/en-us/102213",
+      "source": "catalog"
+    },
+    {
+      "id": "macbook-air-m3",
+      "displayName": "MacBook Air 13\" (M3, 2024)",
+      "aliases": [
+        "mba 13 m3",
+        "mba13 m3",
+        "macbook air 13 m3",
+        "macbook air m3",
+        "macbook air 2024"
+      ],
+      "surfaces": {
+        "keyboardTrackpad": {
+          "en": "• Shut down the MacBook Air and unplug the power adapter\n• Use a soft, lint-free cloth lightly dampened with water\n• Wipe the keyboard and trackpad in straight strokes\n• For stubborn marks, dampen the cloth with 70% isopropyl alcohol — never directly on the device\n• Do not let liquid enter between the keys or any opening\n• Let surfaces air-dry completely before powering on"
+        },
+        "screenShell": {
+          "en": "• Use a soft microfiber cloth, very lightly dampened with water\n• Wipe the Liquid Retina display in straight strokes\n• Never use ammonia-based or abrasive cleaners\n• The aluminum shell can be wiped with the same damp cloth, finished with a dry cloth\n• Keep liquid away from the camera, speakers, and ports"
+        }
+      },
+      "sensitivities": [],
+      "sourceUrl": "https://support.apple.com/en-us/102213",
+      "source": "catalog"
+    },
+    {
+      "id": "imac-24-m4",
+      "displayName": "iMac 24\" (M4, 2024)",
+      "aliases": [
+        "imac 24",
+        "imac m4",
+        "imac 24 m4",
+        "imac 2024",
+        "all in one"
+      ],
+      "surfaces": {
+        "keyboardTrackpad": {
+          "en": "• Unplug the Magic Keyboard or Magic Trackpad if wired; otherwise just turn them off\n• Wipe with a soft, lint-free cloth slightly damp with water\n• For stubborn marks, dampen the cloth with 70% isopropyl alcohol\n• Never spray liquid directly on the peripheral\n• Allow to air-dry before turning back on"
+        },
+        "screenShell": {
+          "en": "• Power off the iMac and unplug it\n• Use a polishing cloth or clean microfiber, slightly damp with water\n• Wipe in straight strokes — never use ammonia, bleach, or abrasive cleaners\n• If the iMac has nano-texture glass, use ONLY the Apple polishing cloth that shipped with it, with water only\n• The chin / back can be wiped with the same damp cloth, finished dry"
+        }
+      },
+      "sensitivities": [
+        { "en": "nano-texture glass option — Apple polishing cloth + water only" }
+      ],
+      "sourceUrl": "https://support.apple.com/en-us/102213",
+      "source": "catalog"
+    },
+    {
+      "id": "magic-keyboard-touch-id",
+      "displayName": "Magic Keyboard with Touch ID",
+      "aliases": [
+        "magic keyboard touch id",
+        "magic keyboard with touch id",
+        "apple keyboard touch id",
+        "magic keyboard"
+      ],
+      "surfaces": {
+        "keyboardTrackpad": {
+          "en": "• Disconnect or turn off the keyboard\n• Wipe the keys with a soft, lint-free cloth slightly damp with water\n• For stubborn marks, dampen the cloth with 70% isopropyl alcohol — never directly on the keys\n• Use a dry cloth on the Touch ID sensor — avoid moisture on the sensor surface\n• Allow to dry completely before reconnecting"
+        },
+        "screenShell": {
+          "en": "• The aluminum body can be wiped with the same lightly damp cloth used on the keys\n• Avoid liquid near the Touch ID sensor or USB-C port\n• Finish with a dry cloth"
+        }
+      },
+      "sensitivities": [
+        { "en": "Touch ID sensor — keep moisture and alcohol off the sensor surface" }
+      ],
+      "sourceUrl": "https://support.apple.com/en-us/102213",
+      "source": "catalog"
+    },
+    {
+      "id": "magic-trackpad",
+      "displayName": "Magic Trackpad",
+      "aliases": [
+        "magic trackpad",
+        "apple trackpad",
+        "trackpad"
+      ],
+      "surfaces": {
+        "keyboardTrackpad": {
+          "en": "• Disconnect or turn off the trackpad\n• Wipe the glass surface with a soft, lint-free cloth slightly damp with water\n• For stubborn marks, dampen the cloth with 70% isopropyl alcohol — never spray directly\n• Avoid getting liquid into the USB-C port or seams\n• Allow to dry completely before reconnecting"
+        },
+        "screenShell": {
+          "en": "• The aluminum underside can be wiped with the same lightly damp cloth\n• Finish with a dry cloth"
+        }
+      },
+      "sensitivities": [],
+      "sourceUrl": "https://support.apple.com/en-us/102213",
+      "source": "catalog"
+    }
+  ]
 }
