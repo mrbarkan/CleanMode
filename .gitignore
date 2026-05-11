@@ -31,3 +31,6 @@ release/
 *.zip
 .env
 build/config.gypi
+
+# CleanMode catalog drafts (output of seed-catalog script)
+data/_catalog-draft.json
