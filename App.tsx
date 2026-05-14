@@ -71,11 +71,12 @@ const App: React.FC = () => {
       )}
       
       <Toaster message="Device Unlocked" isVisible={showToast} />
-      <AboutModal 
-        isOpen={isAboutOpen} 
-        onClose={() => setIsAboutOpen(false)} 
+      <AboutModal
+        isOpen={isAboutOpen}
+        onClose={() => setIsAboutOpen(false)}
         theme={theme}
         setTheme={setTheme}
+        lang={language}
       />
     </div>
   );
