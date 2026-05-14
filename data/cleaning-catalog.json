@@ -1,63 +1,60 @@
 {
-  "version": 1,
+  "version": 2,
   "updatedAt": "2026-05-14",
   "entries": [
     {
-      "id": "macbook-pro-14-m4",
-      "displayName": "MacBook Pro 14\" (M4, 2024)",
+      "id": "macbook-pro",
+      "displayName": "MacBook Pro",
       "category": "laptop",
       "aliases": [
-        "mbp 14 m4",
-        "mbp14 m4",
-        "macbook pro 14 m4",
-        "macbook pro 14 inch m4",
-        "macbook pro m4 14",
-        "mbp 14 2024"
+        "mbp", "macbook pro", "mbp 13", "mbp 14", "mbp 15", "mbp 16",
+        "macbook pro 13", "macbook pro 14", "macbook pro 15", "macbook pro 16",
+        "macbook pro m1", "macbook pro m2", "macbook pro m3", "macbook pro m4",
+        "macbook pro intel", "macbook pro retina"
       ],
       "surfaces": {
         "keyboardTrackpad": {
-          "en": "• Shut down the MacBook Pro and unplug all cables\n• Use a soft, lint-free cloth — slightly damp with water only\n• Wipe the keyboard, palm rest, and trackpad in straight strokes\n• For stubborn marks, dampen the cloth with 70% isopropyl alcohol — never spray liquid directly\n• Do not let moisture enter any opening, including between keys\n• Allow to air-dry fully before reconnecting power",
-          "es": "• Apaga el MacBook Pro y desconecta todos los cables\n• Usa un paño suave y sin pelusas — ligeramente humedecido solo con agua\n• Limpia el teclado, el reposamanos y el trackpad con movimientos rectos\n• Para manchas difíciles, humedece el paño con alcohol isopropílico al 70% — nunca rocíes líquido directamente\n• No permitas que entre humedad en ninguna abertura, incluido entre las teclas\n• Deja secar completamente al aire antes de reconectar la corriente",
-          "fr": "• Éteignez le MacBook Pro et débranchez tous les câbles\n• Utilisez un chiffon doux non pelucheux — légèrement humidifié à l'eau uniquement\n• Essuyez le clavier, le repose-poignets et le trackpad en mouvements droits\n• Pour les taches tenaces, humidifiez le chiffon avec de l'alcool isopropylique à 70% — ne vaporisez jamais de liquide directement\n• Ne laissez pas d'humidité pénétrer dans les ouvertures, y compris entre les touches\n• Laissez sécher à l'air avant de rebrancher",
-          "de": "• MacBook Pro ausschalten und alle Kabel abziehen\n• Weiches, fusselfreies Tuch verwenden — nur leicht mit Wasser angefeuchtet\n• Tastatur, Handballenauflage und Trackpad in geraden Strichen abwischen\n• Bei hartnäckigen Flecken Tuch mit 70% Isopropylalkohol anfeuchten — niemals Flüssigkeit direkt aufsprühen\n• Keine Feuchtigkeit in Öffnungen eindringen lassen, auch nicht zwischen Tasten\n• Vor dem erneuten Anschließen vollständig an der Luft trocknen lassen",
-          "zh": "• 关闭 MacBook Pro 并拔下所有线缆\n• 使用柔软无绒布 — 仅用水稍微沾湿\n• 沿直线擦拭键盘、掌托和触控板\n• 对于顽固污渍,用 70% 异丙醇沾湿布 — 切勿直接喷洒液体\n• 不要让水分进入任何开口,包括按键之间\n• 重新连接电源前让其完全风干",
-          "ja": "• MacBook Pro の電源を切り、すべてのケーブルを外す\n• 水で軽く湿らせた柔らかい糸くずの出ない布を使用\n• キーボード、パームレスト、トラックパッドを直線的に拭く\n• 頑固な汚れには、デバイスではなく布に70%イソプロピルアルコールを含ませる — 直接液体を吹き付けない\n• キーの間を含め、開口部に水分が入らないように\n• 電源を再接続する前に完全に空気乾燥させる",
-          "pt": "• Desligue o MacBook Pro e desconecte todos os cabos\n• Use um pano macio e sem fiapos — levemente úmido apenas com água\n• Limpe o teclado, o descanso de pulso e o trackpad com movimentos retos\n• Para marcas difíceis, umedeça o pano com álcool isopropílico 70% — nunca pulverize líquido diretamente\n• Não deixe a umidade entrar em nenhuma abertura, incluindo entre as teclas\n• Deixe secar completamente ao ar antes de reconectar a energia"
+          "en": "• Shut down and unplug all cables\n• Use a soft, lint-free cloth — slightly damp with water only\n• Wipe the keyboard, palm rest, and trackpad in straight strokes\n• For stubborn marks, dampen the cloth with 70% isopropyl alcohol — never spray liquid directly\n• Do not let moisture enter any opening, including between keys\n• Allow to air-dry fully before reconnecting power",
+          "es": "• Apaga y desconecta todos los cables\n• Usa un paño suave y sin pelusas — ligeramente humedecido solo con agua\n• Limpia el teclado, el reposamanos y el trackpad con movimientos rectos\n• Para manchas difíciles, humedece el paño con alcohol isopropílico al 70% — nunca rocíes líquido directamente\n• No permitas que entre humedad en ninguna abertura, incluido entre las teclas\n• Deja secar completamente al aire antes de reconectar",
+          "fr": "• Éteignez et débranchez tous les câbles\n• Utilisez un chiffon doux non pelucheux — légèrement humidifié à l'eau uniquement\n• Essuyez le clavier, le repose-poignets et le trackpad en mouvements droits\n• Pour les taches tenaces, humidifiez le chiffon avec de l'alcool isopropylique à 70% — ne vaporisez jamais de liquide directement\n• Ne laissez pas d'humidité pénétrer dans les ouvertures, y compris entre les touches\n• Laissez sécher à l'air avant de rebrancher",
+          "de": "• Ausschalten und alle Kabel abziehen\n• Weiches, fusselfreies Tuch verwenden — nur leicht mit Wasser angefeuchtet\n• Tastatur, Handballenauflage und Trackpad in geraden Strichen abwischen\n• Bei hartnäckigen Flecken Tuch mit 70% Isopropylalkohol anfeuchten — niemals Flüssigkeit direkt aufsprühen\n• Keine Feuchtigkeit in Öffnungen eindringen lassen, auch nicht zwischen Tasten\n• Vor dem erneuten Anschließen vollständig an der Luft trocknen lassen",
+          "zh": "• 关机并拔下所有线缆\n• 使用柔软无绒布 — 仅用水稍微沾湿\n• 沿直线擦拭键盘、掌托和触控板\n• 对于顽固污渍,用 70% 异丙醇沾湿布 — 切勿直接喷洒液体\n• 不要让水分进入任何开口,包括按键之间\n• 重新连接电源前让其完全风干",
+          "ja": "• 電源を切り、すべてのケーブルを外す\n• 水で軽く湿らせた柔らかい糸くずの出ない布を使用\n• キーボード、パームレスト、トラックパッドを直線的に拭く\n• 頑固な汚れには、布に70%イソプロピルアルコールを含ませる — 直接液体を吹き付けない\n• キーの間を含め、開口部に水分が入らないように\n• 電源を再接続する前に完全に空気乾燥させる",
+          "pt": "• Desligue e desconecte todos os cabos\n• Use um pano macio e sem fiapos — levemente úmido apenas com água\n• Limpe o teclado, o descanso de pulso e o trackpad com movimentos retos\n• Para marcas difíceis, umedeça o pano com álcool isopropílico 70% — nunca pulverize líquido diretamente\n• Não deixe a umidade entrar em nenhuma abertura, incluindo entre as teclas\n• Deixe secar completamente ao ar antes de reconectar a energia"
         },
         "screenShell": {
-          "en": "• Use a polishing cloth or clean microfiber, slightly damp with water\n• Wipe screen in straight strokes — never use household glass cleaners, ammonia, or abrasives\n• For the aluminum shell, same cloth — water only, then a dry cloth to finish\n• If the device has nano-texture glass, use ONLY the Apple polishing cloth that shipped with it — water only, never alcohol\n• Avoid getting moisture in vents or the speaker grille",
-          "es": "• Usa un paño de pulido o microfibra limpia, ligeramente humedecido con agua\n• Limpia la pantalla con movimientos rectos — nunca uses limpiacristales caseros, amoníaco ni abrasivos\n• Para la carcasa de aluminio, el mismo paño — solo agua, luego un paño seco para terminar\n• Si el dispositivo tiene cristal nano-texturizado, usa SOLO el paño de pulido de Apple que vino con él — solo agua, nunca alcohol\n• Evita que entre humedad en los respiraderos o la rejilla del altavoz",
-          "fr": "• Utilisez un chiffon de polissage ou une microfibre propre, légèrement humidifié à l'eau\n• Essuyez l'écran en mouvements droits — n'utilisez jamais de nettoyants ménagers, d'ammoniaque ou d'abrasifs\n• Pour la coque en aluminium, le même chiffon — eau uniquement, puis chiffon sec pour finir\n• Si l'appareil a un verre nano-texturé, utilisez UNIQUEMENT le chiffon de polissage Apple fourni — eau seulement, jamais d'alcool\n• Évitez l'humidité dans les évents ou la grille du haut-parleur",
+          "en": "• Use a polishing cloth or clean microfiber, slightly damp with water\n• Wipe screen in straight strokes — never use household glass cleaners, ammonia, or abrasives\n• For the aluminum shell, same cloth — water only, then a dry cloth to finish\n• If your model has nano-texture glass, use ONLY the Apple polishing cloth that shipped with it — water only, never alcohol\n• Avoid getting moisture in vents or the speaker grille",
+          "es": "• Usa un paño de pulido o microfibra limpia, ligeramente humedecido con agua\n• Limpia la pantalla con movimientos rectos — nunca uses limpiacristales caseros, amoníaco ni abrasivos\n• Para la carcasa de aluminio, el mismo paño — solo agua, luego un paño seco para terminar\n• Si tu modelo tiene cristal nano-texturizado, usa SOLO el paño de pulido Apple que vino con él — solo agua, nunca alcohol\n• Evita que entre humedad en los respiraderos o la rejilla del altavoz",
+          "fr": "• Utilisez un chiffon de polissage ou une microfibre propre, légèrement humidifié à l'eau\n• Essuyez l'écran en mouvements droits — n'utilisez jamais de nettoyants ménagers, d'ammoniaque ou d'abrasifs\n• Pour la coque en aluminium, le même chiffon — eau uniquement, puis chiffon sec pour finir\n• Si votre modèle a un verre nano-texturé, utilisez UNIQUEMENT le chiffon de polissage Apple fourni — eau seulement, jamais d'alcool\n• Évitez l'humidité dans les évents ou la grille du haut-parleur",
           "de": "• Poliertuch oder sauberes Mikrofasertuch verwenden, leicht mit Wasser angefeuchtet\n• Bildschirm in geraden Strichen abwischen — niemals Haushaltsglasreiniger, Ammoniak oder Scheuermittel verwenden\n• Für das Aluminiumgehäuse dasselbe Tuch — nur Wasser, dann mit trockenem Tuch nachwischen\n• Bei nano-texturiertem Glas NUR das mitgelieferte Apple-Poliertuch verwenden — nur Wasser, niemals Alkohol\n• Keine Feuchtigkeit in Lüftungsschlitze oder Lautsprechergitter gelangen lassen",
-          "zh": "• 使用抛光布或干净的超细纤维布,用水稍微沾湿\n• 沿直线擦拭屏幕 — 切勿使用家用玻璃清洁剂、氨水或研磨剂\n• 铝制外壳使用同一块布 — 仅用水,然后用干布擦干\n• 如果设备配备纳米纹理玻璃,只能使用随附的 Apple 抛光布 — 仅用水,绝不使用酒精\n• 避免水分进入通风口或扬声器格栅",
-          "ja": "• ポリッシングクロスまたは清潔なマイクロファイバーを使用、水で軽く湿らせる\n• 画面を直線的に拭く — 家庭用ガラスクリーナー、アンモニア、研磨剤は絶対に使用しない\n• アルミニウムの筐体には同じ布 — 水のみ、その後乾いた布で仕上げる\n• ナノテクスチャーガラスの場合は、付属の Apple ポリッシングクロスのみ使用 — 水のみ、アルコールは絶対に使用しない\n• 通気口やスピーカーグリルに水分が入らないように",
-          "pt": "• Use um pano de polimento ou microfibra limpa, levemente úmido com água\n• Limpe a tela com movimentos retos — nunca use limpa-vidros domésticos, amônia ou abrasivos\n• Para a carcaça de alumínio, use o mesmo pano — apenas água, depois um pano seco para finalizar\n• Se o dispositivo tem vidro nano-texturizado, use APENAS o pano de polimento Apple que veio com ele — apenas água, nunca álcool\n• Evite umidade nas saídas de ar ou na grade do alto-falante"
+          "zh": "• 使用抛光布或干净的超细纤维布,用水稍微沾湿\n• 沿直线擦拭屏幕 — 切勿使用家用玻璃清洁剂、氨水或研磨剂\n• 铝制外壳使用同一块布 — 仅用水,然后用干布擦干\n• 如果您的型号配备纳米纹理玻璃,只能使用随附的 Apple 抛光布 — 仅用水,绝不使用酒精\n• 避免水分进入通风口或扬声器格栅",
+          "ja": "• ポリッシングクロスまたは清潔なマイクロファイバーを使用、水で軽く湿らせる\n• 画面を直線的に拭く — 家庭用ガラスクリーナー、アンモニア、研磨剤は絶対に使用しない\n• アルミニウムの筐体には同じ布 — 水のみ、その後乾いた布で仕上げる\n• お使いのモデルにナノテクスチャーガラスがある場合は、付属の Apple ポリッシングクロスのみ使用 — 水のみ、アルコールは絶対に使用しない\n• 通気口やスピーカーグリルに水分が入らないように",
+          "pt": "• Use um pano de polimento ou microfibra limpa, levemente úmido com água\n• Limpe a tela com movimentos retos — nunca use limpa-vidros domésticos, amônia ou abrasivos\n• Para a carcaça de alumínio, use o mesmo pano — apenas água, depois um pano seco para finalizar\n• Se o seu modelo tem vidro nano-texturizado, use APENAS o pano de polimento Apple que veio com ele — apenas água, nunca álcool\n• Evite umidade nas saídas de ar ou na grade do alto-falante"
         }
       },
       "sensitivities": [
         {
-          "en": "nano-texture glass option — Apple polishing cloth + water only",
-          "es": "opción de cristal nano-texturizado — paño de pulido Apple + solo agua",
-          "fr": "option verre nano-texturé — chiffon de polissage Apple + eau uniquement",
-          "de": "Nano-Textur-Glas-Option — Apple-Poliertuch + nur Wasser",
-          "zh": "纳米纹理玻璃选项 — Apple 抛光布 + 仅用水",
-          "ja": "ナノテクスチャーガラスオプション — Apple ポリッシングクロス + 水のみ",
-          "pt": "opção de vidro nano-texturizado — pano de polimento Apple + apenas água"
+          "en": "nano-texture glass option (recent models) — Apple polishing cloth + water only",
+          "es": "opción de cristal nano-texturizado (modelos recientes) — paño de pulido Apple + solo agua",
+          "fr": "option verre nano-texturé (modèles récents) — chiffon de polissage Apple + eau uniquement",
+          "de": "Nano-Textur-Glas-Option (neuere Modelle) — Apple-Poliertuch + nur Wasser",
+          "zh": "纳米纹理玻璃选项(近期型号)— Apple 抛光布 + 仅用水",
+          "ja": "ナノテクスチャーガラスオプション(最近のモデル)— Apple ポリッシングクロス + 水のみ",
+          "pt": "opção de vidro nano-texturizado (modelos recentes) — pano de polimento Apple + apenas água"
         }
       ],
       "sourceUrl": "https://support.apple.com/en-us/102213",
       "source": "catalog"
     },
     {
-      "id": "macbook-air-m3",
-      "displayName": "MacBook Air 13\" (M3, 2024)",
+      "id": "macbook-air",
+      "displayName": "MacBook Air",
       "category": "laptop",
       "aliases": [
-        "mba 13 m3",
-        "mba13 m3",
-        "macbook air 13 m3",
-        "macbook air m3",
-        "macbook air 2024"
+        "mba", "macbook air", "air", "mba 11", "mba 13", "mba 15",
+        "macbook air 11", "macbook air 13", "macbook air 15",
+        "macbook air m1", "macbook air m2", "macbook air m3", "macbook air m4",
+        "macbook air intel", "macbook air retina"
       ],
       "surfaces": {
         "keyboardTrackpad": {
@@ -68,6 +65,38 @@
           "zh": "• 关闭 MacBook Air 并拔下电源适配器\n• 使用稍微沾水的柔软无绒布\n• 沿直线擦拭键盘和触控板\n• 对于顽固污渍,用 70% 异丙醇沾湿布 — 切勿直接喷在设备上\n• 不要让液体进入按键之间或任何开口\n• 开机前让表面完全风干",
           "ja": "• MacBook Air の電源を切り、電源アダプタを外す\n• 水で軽く湿らせた柔らかい糸くずの出ない布を使用\n• キーボードとトラックパッドを直線的に拭く\n• 頑固な汚れには、デバイスではなく布に70%イソプロピルアルコールを含ませる\n• キーの間や開口部に液体が入らないように\n• 電源を入れる前に表面を完全に空気乾燥させる",
           "pt": "• Desligue o MacBook Air e desconecte o adaptador de energia\n• Use um pano macio e sem fiapos levemente umedecido com água\n• Limpe o teclado e o trackpad com movimentos retos\n• Para marcas difíceis, umedeça o pano com álcool isopropílico 70% — nunca diretamente no dispositivo\n• Não deixe líquido entrar entre as teclas ou em qualquer abertura\n• Deixe as superfícies secarem completamente ao ar antes de ligar"
+        },
+        "screenShell": {
+          "en": "• Use a soft microfiber cloth, very lightly dampened with water\n• Wipe the Retina display in straight strokes\n• Never use ammonia-based or abrasive cleaners\n• The aluminum shell can be wiped with the same damp cloth, finished with a dry cloth\n• Keep liquid away from the camera, speakers, and ports",
+          "es": "• Usa un paño de microfibra suave, muy ligeramente humedecido con agua\n• Limpia la pantalla Retina con movimientos rectos\n• Nunca uses limpiadores con amoníaco ni abrasivos\n• La carcasa de aluminio se puede limpiar con el mismo paño húmedo, terminando con un paño seco\n• Mantén el líquido alejado de la cámara, altavoces y puertos",
+          "fr": "• Utilisez un chiffon en microfibre doux, très légèrement humidifié à l'eau\n• Essuyez l'écran Retina en mouvements droits\n• N'utilisez jamais de nettoyants à base d'ammoniaque ou abrasifs\n• La coque en aluminium peut être essuyée avec le même chiffon humide, puis terminée avec un chiffon sec\n• Tenez le liquide à l'écart de la caméra, des haut-parleurs et des ports",
+          "de": "• Weiches Mikrofasertuch sehr leicht mit Wasser anfeuchten\n• Retina Display in geraden Strichen abwischen\n• Niemals ammoniakhaltige oder scheuernde Reiniger verwenden\n• Das Aluminiumgehäuse kann mit demselben feuchten Tuch abgewischt und mit einem trockenen Tuch nachgewischt werden\n• Flüssigkeit von Kamera, Lautsprechern und Anschlüssen fernhalten",
+          "zh": "• 使用柔软的超细纤维布,用水稍微沾湿\n• 沿直线擦拭 Retina 显示屏\n• 切勿使用含氨清洁剂或研磨剂\n• 铝制外壳可以用同一块湿布擦拭,然后用干布擦干\n• 让液体远离摄像头、扬声器和端口",
+          "ja": "• 柔らかいマイクロファイバークロスをごく軽く水で湿らせる\n• Retina ディスプレイを直線的に拭く\n• アンモニア系または研磨剤入りのクリーナーは絶対に使用しない\n• アルミニウムの筐体は同じ湿った布で拭き、乾いた布で仕上げる\n• カメラ、スピーカー、ポートから液体を遠ざける",
+          "pt": "• Use um pano de microfibra macio, levemente umedecido com água\n• Limpe a tela Retina com movimentos retos\n• Nunca use limpadores à base de amônia ou abrasivos\n• A carcaça de alumínio pode ser limpa com o mesmo pano úmido, finalizando com um pano seco\n• Mantenha líquido longe da câmera, alto-falantes e portas"
+        }
+      },
+      "sensitivities": [],
+      "sourceUrl": "https://support.apple.com/en-us/102213",
+      "source": "catalog"
+    },
+    {
+      "id": "macbook-neo",
+      "displayName": "MacBook Neo",
+      "category": "laptop",
+      "aliases": [
+        "macbook neo", "mb neo", "mbn", "neo", "macbook neo 13",
+        "macbook neo a18", "macbook neo a18 pro", "macbook a18", "macbook 2026"
+      ],
+      "surfaces": {
+        "keyboardTrackpad": {
+          "en": "• Shut down the MacBook Neo and unplug any connected cables\n• Use a soft, lint-free cloth lightly dampened with water\n• Wipe the keyboard and trackpad in straight strokes\n• For stubborn marks, dampen the cloth with 70% isopropyl alcohol — never directly on the device\n• Do not let liquid enter between the keys or any opening\n• Let surfaces air-dry completely before powering on",
+          "es": "• Apaga el MacBook Neo y desconecta cualquier cable conectado\n• Usa un paño suave y sin pelusas ligeramente humedecido con agua\n• Limpia el teclado y el trackpad con movimientos rectos\n• Para manchas difíciles, humedece el paño con alcohol isopropílico al 70% — nunca directamente en el dispositivo\n• No permitas que entre líquido entre las teclas o cualquier abertura\n• Deja que las superficies se sequen completamente al aire antes de encender",
+          "fr": "• Éteignez le MacBook Neo et débranchez les câbles connectés\n• Utilisez un chiffon doux non pelucheux légèrement humidifié à l'eau\n• Essuyez le clavier et le trackpad en mouvements droits\n• Pour les taches tenaces, humidifiez le chiffon avec de l'alcool isopropylique à 70% — jamais directement sur l'appareil\n• Ne laissez pas de liquide pénétrer entre les touches ou toute ouverture\n• Laissez les surfaces sécher complètement à l'air avant d'allumer",
+          "de": "• MacBook Neo ausschalten und angeschlossene Kabel abziehen\n• Weiches, fusselfreies Tuch leicht mit Wasser anfeuchten\n• Tastatur und Trackpad in geraden Strichen abwischen\n• Bei hartnäckigen Flecken Tuch mit 70% Isopropylalkohol anfeuchten — niemals direkt auf das Gerät\n• Keine Flüssigkeit zwischen Tasten oder Öffnungen eindringen lassen\n• Oberflächen vor dem Einschalten vollständig an der Luft trocknen lassen",
+          "zh": "• 关闭 MacBook Neo 并拔下所有连接的线缆\n• 使用稍微沾水的柔软无绒布\n• 沿直线擦拭键盘和触控板\n• 对于顽固污渍,用 70% 异丙醇沾湿布 — 切勿直接喷在设备上\n• 不要让液体进入按键之间或任何开口\n• 开机前让表面完全风干",
+          "ja": "• MacBook Neo の電源を切り、接続されているケーブルを外す\n• 水で軽く湿らせた柔らかい糸くずの出ない布を使用\n• キーボードとトラックパッドを直線的に拭く\n• 頑固な汚れには、デバイスではなく布に70%イソプロピルアルコールを含ませる\n• キーの間や開口部に液体が入らないように\n• 電源を入れる前に表面を完全に空気乾燥させる",
+          "pt": "• Desligue o MacBook Neo e desconecte os cabos conectados\n• Use um pano macio e sem fiapos levemente umedecido com água\n• Limpe o teclado e o trackpad com movimentos retos\n• Para marcas difíceis, umedeça o pano com álcool isopropílico 70% — nunca diretamente no dispositivo\n• Não deixe líquido entrar entre as teclas ou em qualquer abertura\n• Deixe as superfícies secarem completamente ao ar antes de ligar"
         },
         "screenShell": {
           "en": "• Use a soft microfiber cloth, very lightly dampened with water\n• Wipe the Liquid Retina display in straight strokes\n• Never use ammonia-based or abrasive cleaners\n• The aluminum shell can be wiped with the same damp cloth, finished with a dry cloth\n• Keep liquid away from the camera, speakers, and ports",
@@ -84,15 +113,96 @@
       "source": "catalog"
     },
     {
-      "id": "imac-24-m4",
-      "displayName": "iMac 24\" (M4, 2024)",
+      "id": "macbook-12-retina",
+      "displayName": "MacBook (12-inch Retina)",
+      "category": "laptop",
+      "aliases": [
+        "macbook", "macbook 12", "macbook retina", "macbook 12 retina",
+        "macbook 2015", "macbook 2016", "macbook 2017", "macbook 12-inch",
+        "12 inch macbook", "12-inch macbook"
+      ],
+      "surfaces": {
+        "keyboardTrackpad": {
+          "en": "• Shut down and unplug the power adapter\n• Use a soft, lint-free cloth lightly dampened with water\n• Wipe the keyboard and Force Touch trackpad in straight strokes\n• For stubborn marks, dampen the cloth with 70% isopropyl alcohol — never spray directly\n• Be especially gentle around the butterfly-mechanism keys — debris underneath can require service\n• Allow to air-dry completely before powering on",
+          "es": "• Apaga y desconecta el adaptador de corriente\n• Usa un paño suave y sin pelusas ligeramente humedecido con agua\n• Limpia el teclado y el trackpad Force Touch con movimientos rectos\n• Para manchas difíciles, humedece el paño con alcohol isopropílico al 70% — nunca rocíes directamente\n• Sé especialmente suave alrededor de las teclas de mecanismo mariposa — los restos debajo pueden requerir reparación\n• Deja secar completamente al aire antes de encender",
+          "fr": "• Éteignez et débranchez l'adaptateur secteur\n• Utilisez un chiffon doux non pelucheux légèrement humidifié à l'eau\n• Essuyez le clavier et le trackpad Force Touch en mouvements droits\n• Pour les taches tenaces, humidifiez le chiffon avec de l'alcool isopropylique à 70% — ne vaporisez jamais directement\n• Soyez particulièrement doux autour des touches à mécanisme papillon — les débris dessous peuvent nécessiter une réparation\n• Laissez sécher complètement à l'air avant d'allumer",
+          "de": "• Ausschalten und Netzteil abziehen\n• Weiches, fusselfreies Tuch leicht mit Wasser anfeuchten\n• Tastatur und Force-Touch-Trackpad in geraden Strichen abwischen\n• Bei hartnäckigen Flecken Tuch mit 70% Isopropylalkohol anfeuchten — niemals direkt aufsprühen\n• Besonders vorsichtig bei den Tasten mit Schmetterlingsmechanismus — Schmutz darunter kann einen Service erfordern\n• Vor dem Einschalten vollständig an der Luft trocknen lassen",
+          "zh": "• 关机并拔下电源适配器\n• 使用稍微沾水的柔软无绒布\n• 沿直线擦拭键盘和 Force Touch 触控板\n• 对于顽固污渍,用 70% 异丙醇沾湿布 — 切勿直接喷洒\n• 蝶式机构按键周围要特别轻柔 — 下方的碎屑可能需要送修\n• 开机前让其完全风干",
+          "ja": "• 電源を切り、電源アダプタを外す\n• 水で軽く湿らせた柔らかい糸くずの出ない布を使用\n• キーボードと Force Touch トラックパッドを直線的に拭く\n• 頑固な汚れには、布に70%イソプロピルアルコールを含ませる — 直接吹き付けない\n• バタフライ機構のキーの周りは特に優しく — 下に入った汚れは修理が必要になることがあります\n• 電源を入れる前に完全に空気乾燥させる",
+          "pt": "• Desligue e desconecte o adaptador de energia\n• Use um pano macio e sem fiapos levemente umedecido com água\n• Limpe o teclado e o trackpad Force Touch com movimentos retos\n• Para marcas difíceis, umedeça o pano com álcool isopropílico 70% — nunca pulverize diretamente\n• Seja especialmente delicado ao redor das teclas com mecanismo borboleta — detritos por baixo podem exigir reparo\n• Deixe secar completamente ao ar antes de ligar"
+        },
+        "screenShell": {
+          "en": "• Use a soft microfiber cloth, very lightly dampened with water\n• Wipe the Retina display in straight strokes\n• Never use ammonia-based or abrasive cleaners\n• The aluminum unibody can be wiped with the same damp cloth, finished with a dry cloth\n• Keep liquid away from the single USB-C port and the speaker grilles",
+          "es": "• Usa un paño de microfibra suave, muy ligeramente humedecido con agua\n• Limpia la pantalla Retina con movimientos rectos\n• Nunca uses limpiadores con amoníaco ni abrasivos\n• El cuerpo unibody de aluminio se puede limpiar con el mismo paño húmedo, terminando con un paño seco\n• Mantén el líquido alejado del puerto USB-C único y de las rejillas del altavoz",
+          "fr": "• Utilisez un chiffon en microfibre doux, très légèrement humidifié à l'eau\n• Essuyez l'écran Retina en mouvements droits\n• N'utilisez jamais de nettoyants à base d'ammoniaque ou abrasifs\n• Le corps unibody en aluminium peut être essuyé avec le même chiffon humide, puis terminé avec un chiffon sec\n• Tenez le liquide à l'écart du port USB-C unique et des grilles des haut-parleurs",
+          "de": "• Weiches Mikrofasertuch sehr leicht mit Wasser anfeuchten\n• Retina Display in geraden Strichen abwischen\n• Niemals ammoniakhaltige oder scheuernde Reiniger verwenden\n• Das Aluminium-Unibody kann mit demselben feuchten Tuch abgewischt und mit einem trockenen Tuch nachgewischt werden\n• Flüssigkeit vom einzigen USB-C-Anschluss und den Lautsprechergittern fernhalten",
+          "zh": "• 使用柔软的超细纤维布,用水稍微沾湿\n• 沿直线擦拭 Retina 显示屏\n• 切勿使用含氨清洁剂或研磨剂\n• 一体式铝合金机身可以用同一块湿布擦拭,然后用干布擦干\n• 让液体远离唯一的 USB-C 端口和扬声器格栅",
+          "ja": "• 柔らかいマイクロファイバークロスをごく軽く水で湿らせる\n• Retina ディスプレイを直線的に拭く\n• アンモニア系または研磨剤入りのクリーナーは絶対に使用しない\n• アルミニウムのユニボディは同じ湿った布で拭き、乾いた布で仕上げる\n• 単一の USB-C ポートとスピーカーグリルから液体を遠ざける",
+          "pt": "• Use um pano de microfibra macio, levemente umedecido com água\n• Limpe a tela Retina com movimentos retos\n• Nunca use limpadores à base de amônia ou abrasivos\n• O corpo unibody de alumínio pode ser limpo com o mesmo pano úmido, finalizando com um pano seco\n• Mantenha líquido longe da única porta USB-C e das grades dos alto-falantes"
+        }
+      },
+      "sensitivities": [
+        {
+          "en": "butterfly keyboard (2015–2019) — extra care to keep debris out from under keys",
+          "es": "teclado mariposa (2015–2019) — cuidado adicional para mantener los restos fuera de las teclas",
+          "fr": "clavier papillon (2015–2019) — attention supplémentaire pour éviter les débris sous les touches",
+          "de": "Schmetterlingstastatur (2015–2019) — besondere Sorgfalt, um Schmutz unter den Tasten zu vermeiden",
+          "zh": "蝶式键盘(2015–2019)— 特别注意防止碎屑进入按键下方",
+          "ja": "バタフライキーボード(2015–2019)— キーの下にゴミが入らないよう特に注意",
+          "pt": "teclado borboleta (2015–2019) — cuidado extra para manter detritos fora das teclas"
+        }
+      ],
+      "sourceUrl": "https://support.apple.com/en-us/102213",
+      "source": "catalog"
+    },
+    {
+      "id": "ibook",
+      "displayName": "iBook",
+      "category": "laptop",
+      "aliases": [
+        "ibook", "ibook g3", "ibook g4", "ibook clamshell", "ibook 2001",
+        "ibook 2003", "powerpc laptop", "vintage ibook"
+      ],
+      "surfaces": {
+        "keyboardTrackpad": {
+          "en": "• Vintage iBooks: shut down, remove battery if it lifts out, unplug power\n• The polycarbonate body is more forgiving than aluminum but yellows over time — clean gently to slow that\n• Use a soft cloth lightly dampened with water for the keyboard and mechanical trackpad button\n• Avoid alcohol on the painted clamshell finishes (Blueberry, Tangerine, Indigo) — it can lift color\n• Q-tips lightly damp with water work well between keys; let everything dry fully before reassembly",
+          "es": "• iBooks antiguos: apaga, retira la batería si se puede, desconecta la corriente\n• El cuerpo de policarbonato es más indulgente que el aluminio pero se amarillea con el tiempo — limpia con suavidad para retrasarlo\n• Usa un paño suave ligeramente humedecido con agua para el teclado y el botón mecánico del trackpad\n• Evita el alcohol en los acabados pintados del clamshell (Blueberry, Tangerine, Indigo) — puede levantar el color\n• Los hisopos ligeramente humedecidos con agua funcionan bien entre las teclas; deja que todo se seque completamente antes de reensamblar",
+          "fr": "• iBooks vintage : éteignez, retirez la batterie si elle est amovible, débranchez l'alimentation\n• Le corps en polycarbonate est plus tolérant que l'aluminium mais jaunit avec le temps — nettoyez doucement pour ralentir cela\n• Utilisez un chiffon doux légèrement humidifié à l'eau pour le clavier et le bouton mécanique du trackpad\n• Évitez l'alcool sur les finitions peintes du clamshell (Blueberry, Tangerine, Indigo) — il peut décoller la couleur\n• Des cotons-tiges légèrement humidifiés à l'eau fonctionnent bien entre les touches ; laissez tout sécher complètement avant le remontage",
+          "de": "• Vintage-iBooks: ausschalten, Akku entfernen falls möglich, vom Strom trennen\n• Das Polycarbonatgehäuse ist nachsichtiger als Aluminium, vergilbt aber mit der Zeit — sanft reinigen, um das zu verlangsamen\n• Weiches Tuch leicht mit Wasser anfeuchten für Tastatur und mechanische Trackpad-Taste\n• Alkohol auf lackierten Clamshell-Oberflächen (Blueberry, Tangerine, Indigo) vermeiden — er kann Farbe ablösen\n• Leicht mit Wasser angefeuchtete Wattestäbchen funktionieren gut zwischen Tasten; alles vollständig trocknen lassen vor dem Zusammenbau",
+          "zh": "• 老款 iBook:关机,如可拆卸则取出电池,拔下电源\n• 聚碳酸酯机身比铝合金更耐用,但会随时间发黄 — 轻柔清洁可减缓这一过程\n• 使用稍微沾水的软布清洁键盘和机械触控板按钮\n• 避免在彩色 clamshell 涂层(蓝莓、橘色、靛蓝)上使用酒精 — 可能掉色\n• 用蘸水的棉签在按键之间清洁效果好;重新组装前让所有部件完全干燥",
+          "ja": "• ヴィンテージの iBook:電源を切り、取り外せる場合はバッテリーを外し、電源を抜く\n• ポリカーボネートの筐体はアルミニウムより寛容ですが、時間とともに黄ばみます — 優しく拭くことで遅らせる\n• 水で軽く湿らせた柔らかい布でキーボードと機械式トラックパッドボタンを拭く\n• 塗装されたクラムシェル仕上げ(ブルーベリー、タンジェリン、インディゴ)にアルコールを使わない — 色が剥がれることがあります\n• 水で軽く湿らせた綿棒はキーの間の清掃に有効;再組み立て前にすべて完全に乾かす",
+          "pt": "• iBooks antigos: desligue, remova a bateria se for removível, desconecte a energia\n• O corpo de policarbonato é mais tolerante que o alumínio, mas amarela com o tempo — limpe com suavidade para retardar isso\n• Use um pano macio levemente úmido com água para o teclado e o botão mecânico do trackpad\n• Evite álcool nos acabamentos pintados do clamshell (Blueberry, Tangerine, Indigo) — pode descascar a cor\n• Cotonetes levemente úmidos com água funcionam bem entre as teclas; deixe tudo secar completamente antes de remontar"
+        },
+        "screenShell": {
+          "en": "• Use a soft cloth lightly dampened with water on the (non-coated) display — alcohol is fine here in moderation\n• For the polycarbonate shell, a damp cloth followed by a dry one is plenty\n• Painted clamshell models (Blueberry, Tangerine, Indigo, Graphite, Snow) — water only; no alcohol on the colored finish\n• Avoid abrasives entirely — scratches on polycarbonate are forever",
+          "es": "• Usa un paño suave ligeramente humedecido con agua en la pantalla (sin recubrimiento) — el alcohol está bien aquí con moderación\n• Para la carcasa de policarbonato, un paño húmedo seguido de uno seco es suficiente\n• Modelos clamshell pintados (Blueberry, Tangerine, Indigo, Graphite, Snow) — solo agua; nada de alcohol en el acabado de color\n• Evita los abrasivos por completo — los arañazos en el policarbonato son para siempre",
+          "fr": "• Utilisez un chiffon doux légèrement humidifié à l'eau sur l'écran (non revêtu) — l'alcool est correct ici avec modération\n• Pour la coque en polycarbonate, un chiffon humide suivi d'un chiffon sec suffit\n• Modèles clamshell peints (Blueberry, Tangerine, Indigo, Graphite, Snow) — eau uniquement ; pas d'alcool sur la finition colorée\n• Évitez complètement les abrasifs — les rayures sur le polycarbonate sont définitives",
+          "de": "• Weiches Tuch leicht mit Wasser anfeuchten für das (unbeschichtete) Display — Alkohol ist hier in Maßen okay\n• Für das Polycarbonatgehäuse reicht ein feuchtes Tuch gefolgt von einem trockenen\n• Lackierte Clamshell-Modelle (Blueberry, Tangerine, Indigo, Graphite, Snow) — nur Wasser; kein Alkohol auf der farbigen Oberfläche\n• Scheuermittel ganz vermeiden — Kratzer auf Polycarbonat bleiben für immer",
+          "zh": "• 在(无涂层)屏幕上使用稍微沾水的软布 — 酒精在此可适度使用\n• 聚碳酸酯外壳用湿布擦后再用干布擦干即可\n• 彩色 clamshell 型号(蓝莓、橘色、靛蓝、石墨、白雪)— 仅用水;彩色涂层上不要用酒精\n• 完全避免使用研磨剂 — 聚碳酸酯上的划痕是永久的",
+          "ja": "• 水で軽く湿らせた柔らかい布で(コーティングなしの)ディスプレイを拭く — 適度であればここではアルコールも問題ありません\n• ポリカーボネートの筐体は、湿った布で拭いた後に乾いた布で十分\n• 塗装されたクラムシェルモデル(ブルーベリー、タンジェリン、インディゴ、グラファイト、スノー)— 水のみ;色の付いた仕上げにアルコールは使わない\n• 研磨剤は完全に避ける — ポリカーボネートの傷は永久に残ります",
+          "pt": "• Use um pano macio levemente úmido com água na tela (sem revestimento) — álcool está OK aqui com moderação\n• Para a carcaça de policarbonato, um pano úmido seguido de um seco é suficiente\n• Modelos clamshell pintados (Blueberry, Tangerine, Indigo, Graphite, Snow) — apenas água; nada de álcool no acabamento colorido\n• Evite abrasivos completamente — arranhões em policarbonato são para sempre"
+        }
+      },
+      "sensitivities": [
+        {
+          "en": "painted clamshell finishes — water only, never alcohol",
+          "es": "acabados clamshell pintados — solo agua, nunca alcohol",
+          "fr": "finitions clamshell peintes — eau uniquement, jamais d'alcool",
+          "de": "lackierte Clamshell-Oberflächen — nur Wasser, kein Alkohol",
+          "zh": "彩色 clamshell 涂层 — 仅用水,不用酒精",
+          "ja": "塗装されたクラムシェル仕上げ — 水のみ、アルコール禁止",
+          "pt": "acabamentos clamshell pintados — apenas água, nunca álcool"
+        }
+      ],
+      "source": "catalog"
+    },
+    {
+      "id": "imac",
+      "displayName": "iMac",
       "category": "desktop",
       "aliases": [
-        "imac 24",
-        "imac m4",
-        "imac 24 m4",
-        "imac 2024",
-        "all in one"
+        "imac", "imac 21", "imac 24", "imac 27", "imac m1", "imac m3", "imac m4",
+        "imac retina", "imac 4k", "imac 5k", "imac pro", "all in one"
       ],
       "surfaces": {
         "keyboardTrackpad": {
@@ -105,13 +215,13 @@
           "pt": "• Desconecte o Magic Keyboard ou Magic Trackpad se estiverem com fio; caso contrário, apenas desligue-os\n• Limpe com um pano macio e sem fiapos levemente úmido com água\n• Para marcas difíceis, umedeça o pano com álcool isopropílico 70%\n• Nunca pulverize líquido diretamente no periférico\n• Deixe secar ao ar antes de ligar novamente"
         },
         "screenShell": {
-          "en": "• Power off the iMac and unplug it\n• Use a polishing cloth or clean microfiber, slightly damp with water\n• Wipe in straight strokes — never use ammonia, bleach, or abrasive cleaners\n• If the iMac has nano-texture glass, use ONLY the Apple polishing cloth that shipped with it, with water only\n• The chin / back can be wiped with the same damp cloth, finished dry",
-          "es": "• Apaga el iMac y desconéctalo\n• Usa un paño de pulido o microfibra limpia, ligeramente humedecido con agua\n• Limpia con movimientos rectos — nunca uses amoníaco, lejía ni limpiadores abrasivos\n• Si el iMac tiene cristal nano-texturizado, usa SOLO el paño de pulido Apple que vino con él, solo con agua\n• La barbilla / parte trasera se puede limpiar con el mismo paño húmedo, terminando seco",
-          "fr": "• Éteignez l'iMac et débranchez-le\n• Utilisez un chiffon de polissage ou une microfibre propre, légèrement humidifié à l'eau\n• Essuyez en mouvements droits — n'utilisez jamais d'ammoniaque, d'eau de Javel ou de nettoyants abrasifs\n• Si l'iMac a un verre nano-texturé, utilisez UNIQUEMENT le chiffon de polissage Apple fourni, avec de l'eau uniquement\n• Le menton / l'arrière peuvent être essuyés avec le même chiffon humide, puis séchés",
+          "en": "• Power off the iMac and unplug it\n• Use a polishing cloth or clean microfiber, slightly damp with water\n• Wipe in straight strokes — never use ammonia, bleach, or abrasive cleaners\n• If your iMac has nano-texture glass, use ONLY the Apple polishing cloth that shipped with it, with water only\n• The chin / back can be wiped with the same damp cloth, finished dry",
+          "es": "• Apaga el iMac y desconéctalo\n• Usa un paño de pulido o microfibra limpia, ligeramente humedecido con agua\n• Limpia con movimientos rectos — nunca uses amoníaco, lejía ni limpiadores abrasivos\n• Si tu iMac tiene cristal nano-texturizado, usa SOLO el paño de pulido Apple que vino con él, solo con agua\n• La barbilla / parte trasera se puede limpiar con el mismo paño húmedo, terminando seco",
+          "fr": "• Éteignez l'iMac et débranchez-le\n• Utilisez un chiffon de polissage ou une microfibre propre, légèrement humidifié à l'eau\n• Essuyez en mouvements droits — n'utilisez jamais d'ammoniaque, d'eau de Javel ou de nettoyants abrasifs\n• Si votre iMac a un verre nano-texturé, utilisez UNIQUEMENT le chiffon de polissage Apple fourni, avec de l'eau uniquement\n• Le menton / l'arrière peuvent être essuyés avec le même chiffon humide, puis séchés",
           "de": "• iMac ausschalten und vom Strom trennen\n• Poliertuch oder sauberes Mikrofasertuch verwenden, leicht mit Wasser angefeuchtet\n• In geraden Strichen abwischen — niemals Ammoniak, Bleichmittel oder scheuernde Reiniger verwenden\n• Bei nano-texturiertem Glas NUR das mitgelieferte Apple-Poliertuch verwenden, nur mit Wasser\n• Das Kinn / die Rückseite kann mit demselben feuchten Tuch abgewischt und trocken nachgewischt werden",
-          "zh": "• 关闭 iMac 并拔下电源\n• 使用抛光布或干净的超细纤维布,用水稍微沾湿\n• 沿直线擦拭 — 切勿使用氨水、漂白剂或研磨清洁剂\n• 如果 iMac 配备纳米纹理玻璃,只能使用随附的 Apple 抛光布,仅用水\n• 下巴/背面可以用同一块湿布擦拭,然后擦干",
-          "ja": "• iMac の電源を切り、電源を外す\n• ポリッシングクロスまたは清潔なマイクロファイバーを使用、水で軽く湿らせる\n• 直線的に拭く — アンモニア、漂白剤、研磨剤入りクリーナーは絶対に使用しない\n• iMac にナノテクスチャーガラスがある場合は、付属の Apple ポリッシングクロスのみ使用、水のみ\n• チン/背面は同じ湿った布で拭き、乾燥させて仕上げる",
-          "pt": "• Desligue o iMac e desconecte-o da tomada\n• Use um pano de polimento ou microfibra limpa, levemente úmido com água\n• Limpe com movimentos retos — nunca use amônia, alvejante ou limpadores abrasivos\n• Se o iMac tiver vidro nano-texturizado, use APENAS o pano de polimento Apple que veio com ele, apenas com água\n• O queixo / parte traseira podem ser limpos com o mesmo pano úmido, finalizando seco"
+          "zh": "• 关闭 iMac 并拔下电源\n• 使用抛光布或干净的超细纤维布,用水稍微沾湿\n• 沿直线擦拭 — 切勿使用氨水、漂白剂或研磨清洁剂\n• 如果您的 iMac 配备纳米纹理玻璃,只能使用随附的 Apple 抛光布,仅用水\n• 下巴/背面可以用同一块湿布擦拭,然后擦干",
+          "ja": "• iMac の電源を切り、電源を外す\n• ポリッシングクロスまたは清潔なマイクロファイバーを使用、水で軽く湿らせる\n• 直線的に拭く — アンモニア、漂白剤、研磨剤入りクリーナーは絶対に使用しない\n• お使いの iMac にナノテクスチャーガラスがある場合は、付属の Apple ポリッシングクロスのみ使用、水のみ\n• チン/背面は同じ湿った布で拭き、乾燥させて仕上げる",
+          "pt": "• Desligue o iMac e desconecte-o da tomada\n• Use um pano de polimento ou microfibra limpa, levemente úmido com água\n• Limpe com movimentos retos — nunca use amônia, alvejante ou limpadores abrasivos\n• Se o seu iMac tiver vidro nano-texturizado, use APENAS o pano de polimento Apple que veio com ele, apenas com água\n• O queixo / parte traseira podem ser limpos com o mesmo pano úmido, finalizando seco"
         }
       },
       "sensitivities": [
@@ -129,44 +239,42 @@
       "source": "catalog"
     },
     {
-      "id": "magic-keyboard-touch-id",
-      "displayName": "Magic Keyboard with Touch ID",
+      "id": "magic-keyboard",
+      "displayName": "Magic Keyboard",
       "category": "peripheral",
       "aliases": [
-        "magic keyboard touch id",
-        "magic keyboard with touch id",
-        "apple keyboard touch id",
-        "magic keyboard"
+        "magic keyboard", "magic keyboard touch id", "magic keyboard with touch id",
+        "magic keyboard numeric", "apple keyboard", "apple magic keyboard"
       ],
       "surfaces": {
         "keyboardTrackpad": {
-          "en": "• Disconnect or turn off the keyboard\n• Wipe the keys with a soft, lint-free cloth slightly damp with water\n• For stubborn marks, dampen the cloth with 70% isopropyl alcohol — never directly on the keys\n• Use a dry cloth on the Touch ID sensor — avoid moisture on the sensor surface\n• Allow to dry completely before reconnecting",
-          "es": "• Desconecta o apaga el teclado\n• Limpia las teclas con un paño suave y sin pelusas ligeramente humedecido con agua\n• Para manchas difíciles, humedece el paño con alcohol isopropílico al 70% — nunca directamente en las teclas\n• Usa un paño seco en el sensor Touch ID — evita la humedad en la superficie del sensor\n• Deja secar completamente antes de reconectar",
-          "fr": "• Déconnectez ou éteignez le clavier\n• Essuyez les touches avec un chiffon doux non pelucheux légèrement humidifié à l'eau\n• Pour les taches tenaces, humidifiez le chiffon avec de l'alcool isopropylique à 70% — jamais directement sur les touches\n• Utilisez un chiffon sec sur le capteur Touch ID — évitez l'humidité à la surface du capteur\n• Laissez sécher complètement avant de reconnecter",
-          "de": "• Tastatur trennen oder ausschalten\n• Tasten mit weichem, fusselfreiem Tuch abwischen, leicht mit Wasser angefeuchtet\n• Bei hartnäckigen Flecken Tuch mit 70% Isopropylalkohol anfeuchten — niemals direkt auf die Tasten\n• Trockenes Tuch auf dem Touch-ID-Sensor verwenden — Feuchtigkeit auf der Sensoroberfläche vermeiden\n• Vor dem erneuten Anschließen vollständig trocknen lassen",
-          "zh": "• 断开或关闭键盘\n• 使用稍微沾水的柔软无绒布擦拭按键\n• 对于顽固污渍,用 70% 异丙醇沾湿布 — 切勿直接接触按键\n• Touch ID 传感器使用干布 — 避免传感器表面有水分\n• 重新连接前让其完全干燥",
-          "ja": "• キーボードを切断するか電源を切る\n• 水で軽く湿らせた柔らかい糸くずの出ない布でキーを拭く\n• 頑固な汚れには、キーではなく布に70%イソプロピルアルコールを含ませる\n• Touch ID センサーには乾いた布を使用 — センサー表面に湿気を残さない\n• 再接続する前に完全に乾燥させる",
-          "pt": "• Desconecte ou desligue o teclado\n• Limpe as teclas com um pano macio e sem fiapos levemente úmido com água\n• Para marcas difíceis, umedeça o pano com álcool isopropílico 70% — nunca diretamente nas teclas\n• Use um pano seco no sensor Touch ID — evite umidade na superfície do sensor\n• Deixe secar completamente antes de reconectar"
+          "en": "• Disconnect or turn off the keyboard\n• Wipe the keys with a soft, lint-free cloth slightly damp with water\n• For stubborn marks, dampen the cloth with 70% isopropyl alcohol — never directly on the keys\n• If your keyboard has a Touch ID sensor, use a dry cloth on it — avoid moisture on the sensor surface\n• Allow to dry completely before reconnecting",
+          "es": "• Desconecta o apaga el teclado\n• Limpia las teclas con un paño suave y sin pelusas ligeramente humedecido con agua\n• Para manchas difíciles, humedece el paño con alcohol isopropílico al 70% — nunca directamente en las teclas\n• Si tu teclado tiene un sensor Touch ID, usa un paño seco — evita la humedad en la superficie del sensor\n• Deja secar completamente antes de reconectar",
+          "fr": "• Déconnectez ou éteignez le clavier\n• Essuyez les touches avec un chiffon doux non pelucheux légèrement humidifié à l'eau\n• Pour les taches tenaces, humidifiez le chiffon avec de l'alcool isopropylique à 70% — jamais directement sur les touches\n• Si votre clavier a un capteur Touch ID, utilisez un chiffon sec dessus — évitez l'humidité à la surface du capteur\n• Laissez sécher complètement avant de reconnecter",
+          "de": "• Tastatur trennen oder ausschalten\n• Tasten mit weichem, fusselfreiem Tuch abwischen, leicht mit Wasser angefeuchtet\n• Bei hartnäckigen Flecken Tuch mit 70% Isopropylalkohol anfeuchten — niemals direkt auf die Tasten\n• Wenn Ihre Tastatur einen Touch-ID-Sensor hat, verwenden Sie ein trockenes Tuch darauf — Feuchtigkeit auf der Sensoroberfläche vermeiden\n• Vor dem erneuten Anschließen vollständig trocknen lassen",
+          "zh": "• 断开或关闭键盘\n• 使用稍微沾水的柔软无绒布擦拭按键\n• 对于顽固污渍,用 70% 异丙醇沾湿布 — 切勿直接接触按键\n• 如果键盘配备 Touch ID 传感器,使用干布 — 避免传感器表面有水分\n• 重新连接前让其完全干燥",
+          "ja": "• キーボードを切断するか電源を切る\n• 水で軽く湿らせた柔らかい糸くずの出ない布でキーを拭く\n• 頑固な汚れには、キーではなく布に70%イソプロピルアルコールを含ませる\n• キーボードに Touch ID センサーがある場合は乾いた布を使用 — センサー表面に湿気を残さない\n• 再接続する前に完全に乾燥させる",
+          "pt": "• Desconecte ou desligue o teclado\n• Limpe as teclas com um pano macio e sem fiapos levemente úmido com água\n• Para marcas difíceis, umedeça o pano com álcool isopropílico 70% — nunca diretamente nas teclas\n• Se o seu teclado tem um sensor Touch ID, use um pano seco nele — evite umidade na superfície do sensor\n• Deixe secar completamente antes de reconectar"
         },
         "screenShell": {
-          "en": "• The aluminum body can be wiped with the same lightly damp cloth used on the keys\n• Avoid liquid near the Touch ID sensor or USB-C port\n• Finish with a dry cloth",
-          "es": "• El cuerpo de aluminio se puede limpiar con el mismo paño ligeramente húmedo usado en las teclas\n• Evita el líquido cerca del sensor Touch ID o el puerto USB-C\n• Termina con un paño seco",
-          "fr": "• Le corps en aluminium peut être essuyé avec le même chiffon légèrement humide utilisé sur les touches\n• Évitez le liquide près du capteur Touch ID ou du port USB-C\n• Terminez avec un chiffon sec",
-          "de": "• Das Aluminiumgehäuse kann mit demselben leicht feuchten Tuch wie die Tasten abgewischt werden\n• Flüssigkeit in der Nähe des Touch-ID-Sensors oder USB-C-Anschlusses vermeiden\n• Mit trockenem Tuch nachwischen",
-          "zh": "• 铝制机身可以用擦拭按键的同一块稍湿的布擦拭\n• 避免液体靠近 Touch ID 传感器或 USB-C 端口\n• 用干布擦干",
-          "ja": "• アルミニウムの本体は、キーに使用したのと同じ軽く湿った布で拭ける\n• Touch ID センサーや USB-C ポート付近の液体を避ける\n• 乾いた布で仕上げる",
-          "pt": "• O corpo de alumínio pode ser limpo com o mesmo pano levemente úmido usado nas teclas\n• Evite líquido perto do sensor Touch ID ou da porta USB-C\n• Finalize com um pano seco"
+          "en": "• The aluminum body can be wiped with the same lightly damp cloth used on the keys\n• Avoid liquid near the Touch ID sensor (if present), USB-C port, or seams\n• Finish with a dry cloth",
+          "es": "• El cuerpo de aluminio se puede limpiar con el mismo paño ligeramente húmedo usado en las teclas\n• Evita el líquido cerca del sensor Touch ID (si lo tiene), el puerto USB-C o las juntas\n• Termina con un paño seco",
+          "fr": "• Le corps en aluminium peut être essuyé avec le même chiffon légèrement humide utilisé sur les touches\n• Évitez le liquide près du capteur Touch ID (s'il existe), du port USB-C ou des joints\n• Terminez avec un chiffon sec",
+          "de": "• Das Aluminiumgehäuse kann mit demselben leicht feuchten Tuch wie die Tasten abgewischt werden\n• Flüssigkeit in der Nähe des Touch-ID-Sensors (falls vorhanden), USB-C-Anschlusses oder Fugen vermeiden\n• Mit trockenem Tuch nachwischen",
+          "zh": "• 铝制机身可以用擦拭按键的同一块稍湿的布擦拭\n• 避免液体靠近 Touch ID 传感器(如有)、USB-C 端口或缝隙\n• 用干布擦干",
+          "ja": "• アルミニウムの本体は、キーに使用したのと同じ軽く湿った布で拭ける\n• Touch ID センサー(ある場合)、USB-C ポート、継ぎ目付近の液体を避ける\n• 乾いた布で仕上げる",
+          "pt": "• O corpo de alumínio pode ser limpo com o mesmo pano levemente úmido usado nas teclas\n• Evite líquido perto do sensor Touch ID (se houver), da porta USB-C ou das juntas\n• Finalize com um pano seco"
         }
       },
       "sensitivities": [
         {
-          "en": "Touch ID sensor — keep moisture and alcohol off the sensor surface",
-          "es": "sensor Touch ID — mantén la humedad y el alcohol alejados de la superficie del sensor",
-          "fr": "capteur Touch ID — tenez l'humidité et l'alcool éloignés de la surface du capteur",
-          "de": "Touch-ID-Sensor — Feuchtigkeit und Alkohol von der Sensoroberfläche fernhalten",
-          "zh": "Touch ID 传感器 — 让水分和酒精远离传感器表面",
-          "ja": "Touch ID センサー — センサー表面に湿気とアルコールを残さない",
-          "pt": "sensor Touch ID — mantenha umidade e álcool longe da superfície do sensor"
+          "en": "Touch ID sensor (some models) — keep moisture and alcohol off the sensor surface",
+          "es": "sensor Touch ID (algunos modelos) — mantén la humedad y el alcohol alejados de la superficie del sensor",
+          "fr": "capteur Touch ID (certains modèles) — tenez l'humidité et l'alcool éloignés de la surface du capteur",
+          "de": "Touch-ID-Sensor (einige Modelle) — Feuchtigkeit und Alkohol von der Sensoroberfläche fernhalten",
+          "zh": "Touch ID 传感器(部分型号)— 让水分和酒精远离传感器表面",
+          "ja": "Touch ID センサー(一部モデル)— センサー表面に湿気とアルコールを残さない",
+          "pt": "sensor Touch ID (alguns modelos) — mantenha umidade e álcool longe da superfície do sensor"
         }
       ],
       "sourceUrl": "https://support.apple.com/en-us/102213",
@@ -177,9 +285,7 @@
       "displayName": "Magic Trackpad",
       "category": "peripheral",
       "aliases": [
-        "magic trackpad",
-        "apple trackpad",
-        "trackpad"
+        "magic trackpad", "apple trackpad", "trackpad", "magic trackpad 2", "magic trackpad usb-c"
       ],
       "surfaces": {
         "keyboardTrackpad": {
@@ -199,6 +305,37 @@
           "zh": "• 铝制底部可以用同一块稍湿的布擦拭\n• 用干布擦干",
           "ja": "• アルミニウムの底面は同じ軽く湿った布で拭ける\n• 乾いた布で仕上げる",
           "pt": "• A parte inferior de alumínio pode ser limpa com o mesmo pano levemente úmido\n• Finalize com um pano seco"
+        }
+      },
+      "sensitivities": [],
+      "sourceUrl": "https://support.apple.com/en-us/102213",
+      "source": "catalog"
+    },
+    {
+      "id": "magic-mouse",
+      "displayName": "Magic Mouse",
+      "category": "peripheral",
+      "aliases": [
+        "magic mouse", "apple mouse", "magic mouse 2", "magic mouse usb-c"
+      ],
+      "surfaces": {
+        "keyboardTrackpad": {
+          "en": "• Disconnect or turn off the mouse\n• Wipe the top surface with a soft, lint-free cloth slightly damp with water\n• For stubborn marks, dampen the cloth with 70% isopropyl alcohol — never spray directly\n• Be careful around the touch-sensitive top — don't soak it\n• Allow to dry completely before reconnecting",
+          "es": "• Desconecta o apaga el ratón\n• Limpia la superficie superior con un paño suave y sin pelusas ligeramente humedecido con agua\n• Para manchas difíciles, humedece el paño con alcohol isopropílico al 70% — nunca rocíes directamente\n• Ten cuidado con la superficie superior táctil — no la empapes\n• Deja secar completamente antes de reconectar",
+          "fr": "• Déconnectez ou éteignez la souris\n• Essuyez la surface supérieure avec un chiffon doux non pelucheux légèrement humidifié à l'eau\n• Pour les taches tenaces, humidifiez le chiffon avec de l'alcool isopropylique à 70% — ne vaporisez jamais directement\n• Attention à la surface supérieure tactile — ne l'imbibez pas\n• Laissez sécher complètement avant de reconnecter",
+          "de": "• Maus trennen oder ausschalten\n• Oberfläche mit weichem, fusselfreiem Tuch leicht angefeuchtet abwischen\n• Bei hartnäckigen Flecken Tuch mit 70% Isopropylalkohol anfeuchten — niemals direkt aufsprühen\n• Vorsicht bei der berührungsempfindlichen Oberseite — nicht durchnässen\n• Vor dem erneuten Anschließen vollständig trocknen lassen",
+          "zh": "• 断开或关闭鼠标\n• 使用稍微沾水的柔软无绒布擦拭顶部\n• 对于顽固污渍,用 70% 异丙醇沾湿布 — 切勿直接喷洒\n• 注意触摸感应顶面 — 不要将其浸湿\n• 重新连接前让其完全干燥",
+          "ja": "• マウスを切断するか電源を切る\n• 水で軽く湿らせた柔らかい糸くずの出ない布で上面を拭く\n• 頑固な汚れには、布に70%イソプロピルアルコールを含ませる — 直接吹き付けない\n• タッチセンサーの上面は浸さないように注意\n• 再接続する前に完全に乾燥させる",
+          "pt": "• Desconecte ou desligue o mouse\n• Limpe a superfície superior com um pano macio e sem fiapos levemente úmido com água\n• Para marcas difíceis, umedeça o pano com álcool isopropílico 70% — nunca pulverize diretamente\n• Cuidado com a superfície superior sensível ao toque — não a encharque\n• Deixe secar completamente antes de reconectar"
+        },
+        "screenShell": {
+          "en": "• The aluminum base can be wiped with the same lightly damp cloth\n• Clean optical sensor lens on the underside with a dry cloth only\n• Finish with a dry cloth",
+          "es": "• La base de aluminio se puede limpiar con el mismo paño ligeramente húmedo\n• Limpia la lente del sensor óptico en la parte inferior solo con un paño seco\n• Termina con un paño seco",
+          "fr": "• La base en aluminium peut être essuyée avec le même chiffon légèrement humide\n• Nettoyez la lentille du capteur optique en dessous avec un chiffon sec uniquement\n• Terminez avec un chiffon sec",
+          "de": "• Die Aluminium-Unterseite kann mit demselben leicht feuchten Tuch abgewischt werden\n• Die optische Sensorlinse auf der Unterseite nur mit trockenem Tuch reinigen\n• Mit trockenem Tuch nachwischen",
+          "zh": "• 铝制底座可以用同一块稍湿的布擦拭\n• 底部的光学传感器镜头仅用干布清洁\n• 用干布擦干",
+          "ja": "• アルミニウムの底面は同じ軽く湿った布で拭ける\n• 底面の光学センサーレンズは乾いた布のみで拭く\n• 乾いた布で仕上げる",
+          "pt": "• A base de alumínio pode ser limpa com o mesmo pano levemente úmido\n• Limpe a lente do sensor óptico na parte inferior apenas com um pano seco\n• Finalize com um pano seco"
         }
       },
       "sensitivities": [],
