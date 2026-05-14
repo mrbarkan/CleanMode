@@ -1,10 +1,69 @@
-const { app, BrowserWindow, ipcMain, globalShortcut } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain, globalShortcut, shell } = require('electron');
 const path = require('path');
 const tap = require('./native/eventtap');
 const isDev = !app.isPackaged;
 
+// Set app name early so menus, Dock label, and "Hide / Quit" all say CleanMode.
+app.setName('CleanMode');
+
 let mainWindow;
 let isCleaningMode = false;
+
+function buildAppMenu() {
+  const template = [
+    {
+      label: 'CleanMode',
+      submenu: [
+        { role: 'about', label: 'About CleanMode' },
+        { type: 'separator' },
+        { role: 'services' },
+        { type: 'separator' },
+        { role: 'hide', label: 'Hide CleanMode' },
+        { role: 'hideOthers' },
+        { role: 'unhide' },
+        { type: 'separator' },
+        { role: 'quit', label: 'Quit CleanMode' },
+      ],
+    },
+    {
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'selectAll' },
+      ],
+    },
+    {
+      label: 'View',
+      submenu: [
+        { role: 'togglefullscreen' },
+        ...(isDev ? [{ type: 'separator' }, { role: 'toggleDevTools' }] : []),
+      ],
+    },
+    {
+      label: 'Window',
+      submenu: [
+        { role: 'minimize' },
+        { role: 'close' },
+      ],
+    },
+    {
+      role: 'help',
+      submenu: [
+        {
+          label: 'Apple Cleaning Guide (apple.com)',
+          click: () => shell.openExternal('https://support.apple.com/en-us/102213'),
+        },
+      ],
+    },
+  ];
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+}
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -12,6 +71,7 @@ function createWindow() {
     height: 800,
     minWidth: 900,
     minHeight: 600,
+    title: 'CleanMode',
     titleBarStyle: 'hiddenInset',
     webPreferences: {
       nodeIntegration: false,
@@ -123,7 +183,19 @@ ipcMain.handle('prompt-accessibility',    () => tap.promptAccessibility());
 ipcMain.handle('prompt-input-monitoring', () => tap.promptInputMonitoring());
 
 app.whenReady().then(() => {
+  // Native About panel shown by the macOS standard "About CleanMode" menu item.
+  // The in-app Info button still opens the React modal; this panel is for users
+  // who go through the menu bar.
+  app.setAboutPanelOptions({
+    applicationName: 'CleanMode',
+    applicationVersion: app.getVersion(),
+    copyright: `© ${new Date().getFullYear()} MrBarkan`,
+    credits: '100% on-device. No network calls, no API keys, no tracking.',
+  });
+
+  buildAppMenu();
   createWindow();
+
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
