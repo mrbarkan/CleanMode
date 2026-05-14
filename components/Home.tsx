@@ -4,6 +4,8 @@ import { t, Language, languages } from '../utils/translations';
 import { Theme } from '../App';
 import { appVersion } from '../utils/changelog';
 import { PermissionsModal } from './PermissionsModal';
+import { CareTips } from './CareTips';
+import { DevicePicker } from './DevicePicker';
 import { lookupGuide } from '../utils/lookupGuide';
 import { localized, type CleaningEntry } from '../utils/cleaningGuide';
 import type { Permissions } from '../types/window';
@@ -127,6 +129,22 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
     const kb = localized(entry.surfaces.keyboardTrackpad, lang);
     const sc = localized(entry.surfaces.screenShell, lang);
     return `${kb}\n\n${sc}`;
+  };
+
+  const handlePickDevice = async (displayName: string) => {
+    setDeviceModel(displayName);
+    setIsLoading(true);
+    setError('');
+    setEntry(null);
+    try {
+      const guide = await lookupGuide(displayName, lang);
+      setEntry(guide);
+    } catch (err) {
+      console.error(err);
+      setError(text.fetchError);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -384,11 +402,9 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
                         )}
                     </div>
                 ) : (
-                    <div className={`border-2 border-dashed rounded-2xl p-12 text-center flex flex-col items-center justify-center gap-4 min-h-[200px]
-                        ${isDark ? 'border-neutral-800' : 'border-neutral-200'}`}>
-                         <div className={`p-4 rounded-full ${isDark ? 'bg-neutral-900' : 'bg-neutral-100'}`}>
-                            <Sparkles className={`w-6 h-6 ${isDark ? 'text-neutral-700' : 'text-neutral-300'}`} />
-                         </div>
+                    <div className="space-y-8 mb-12">
+                        <DevicePicker theme={theme} lang={lang} onPick={handlePickDevice} />
+                        <CareTips theme={theme} lang={lang} />
                     </div>
                 )}
             </div>

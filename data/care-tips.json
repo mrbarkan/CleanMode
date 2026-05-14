@@ -1,0 +1,136 @@
+{
+  "tips": [
+    {
+      "id": "water-first",
+      "icon": "Droplets",
+      "title": {
+        "en": "Less alcohol, more water",
+        "es": "Menos alcohol, más agua",
+        "fr": "Moins d'alcool, plus d'eau",
+        "de": "Weniger Alkohol, mehr Wasser",
+        "zh": "少用酒精,多用水",
+        "ja": "アルコールは控えめに、水を多めに",
+        "pt": "Menos álcool, mais água"
+      },
+      "body": {
+        "en": "Use water + microfiber for routine cleaning. Reserve 70% isopropyl alcohol for stubborn marks — overusing it wears down the screen's oleophobic coating.",
+        "es": "Usa agua + microfibra para la limpieza rutinaria. Reserva el alcohol isopropílico al 70% para manchas difíciles — abusar de él desgasta el recubrimiento oleofóbico de la pantalla.",
+        "fr": "Utilisez de l'eau + microfibre pour le nettoyage de routine. Réservez l'alcool isopropylique à 70% aux taches tenaces — en abuser use le revêtement oléophobe de l'écran.",
+        "de": "Wasser + Mikrofaser für die Routinepflege. 70% Isopropylalkohol nur für hartnäckige Flecken — übermäßiger Gebrauch nutzt die oleophobe Beschichtung des Bildschirms ab.",
+        "zh": "日常清洁使用水 + 超细纤维布。70% 异丙醇仅用于顽固污渍 — 过度使用会磨损屏幕的疏油涂层。",
+        "ja": "日常の清掃には水とマイクロファイバーを使用。70%イソプロピルアルコールは頑固な汚れにだけ — 使いすぎると画面の撥油コーティングが劣化します。",
+        "pt": "Use água + microfibra para limpeza de rotina. Reserve o álcool isopropílico 70% para marcas difíceis — usá-lo demais desgasta o revestimento oleofóbico da tela."
+      }
+    },
+    {
+      "id": "crumb-free",
+      "icon": "Keyboard",
+      "title": {
+        "en": "Keep keyboards crumb-free",
+        "es": "Mantén el teclado sin migas",
+        "fr": "Gardez le clavier sans miettes",
+        "de": "Tastatur krümelfrei halten",
+        "zh": "保持键盘无碎屑",
+        "ja": "キーボードはくずを残さない",
+        "pt": "Mantenha o teclado sem migalhas"
+      },
+      "body": {
+        "en": "When a laptop closes, debris on the keys presses into the display. A weekly shake-out or soft brush extends screen life more than any cleaning fluid.",
+        "es": "Cuando se cierra el portátil, los restos sobre las teclas se presionan contra la pantalla. Una sacudida semanal o un cepillo suave prolonga la vida de la pantalla más que cualquier limpiador.",
+        "fr": "Quand un portable se ferme, les débris sur les touches s'impriment sur l'écran. Un secouage hebdomadaire ou une brosse douce prolonge la vie de l'écran plus que n'importe quel produit nettoyant.",
+        "de": "Beim Schließen eines Laptops drücken Krümel auf den Tasten gegen das Display. Wöchentliches Ausschütteln oder eine weiche Bürste verlängern die Bildschirmlebensdauer mehr als jedes Reinigungsmittel.",
+        "zh": "笔记本合上时,按键上的碎屑会压到屏幕上。每周轻轻抖一下或用软刷清理,比任何清洁剂都更能延长屏幕寿命。",
+        "ja": "ノートを閉じると、キーの上のくずが画面に押し付けられます。週に一度の振り落としや柔らかいブラシは、どんな洗浄液よりも画面の寿命を延ばします。",
+        "pt": "Quando um laptop fecha, detritos nas teclas pressionam contra a tela. Uma sacudida semanal ou escova macia prolonga mais a vida da tela do que qualquer fluido de limpeza."
+      }
+    },
+    {
+      "id": "microfiber-only",
+      "icon": "Sparkles",
+      "title": {
+        "en": "Microfiber, never paper",
+        "es": "Microfibra, nunca papel",
+        "fr": "Microfibre, jamais de papier",
+        "de": "Mikrofaser, niemals Papier",
+        "zh": "用超细纤维,不用纸",
+        "ja": "マイクロファイバーを使用、紙は不可",
+        "pt": "Microfibra, nunca papel"
+      },
+      "body": {
+        "en": "Paper towels and tissues are abrasive enough to scratch screen and shell coatings over time. Stick to dedicated microfiber or a polishing cloth.",
+        "es": "Las toallas de papel y los pañuelos son lo bastante abrasivos para rayar los recubrimientos de pantalla y carcasa con el tiempo. Usa solo microfibra o un paño de pulido.",
+        "fr": "Les essuie-tout et mouchoirs sont assez abrasifs pour rayer les revêtements d'écran et de coque à la longue. Tenez-vous-en à la microfibre dédiée ou un chiffon de polissage.",
+        "de": "Papiertücher und Taschentücher sind kratzig genug, um Bildschirm- und Gehäusebeschichtungen mit der Zeit zu zerkratzen. Bleiben Sie bei dedizierten Mikrofaser- oder Poliertüchern.",
+        "zh": "纸巾和面巾纸的粗糙度足以随时间划伤屏幕和外壳涂层。请使用专用的超细纤维布或抛光布。",
+        "ja": "ペーパータオルやティッシュは、長期的に画面や筐体のコーティングを傷つけるほど粗いです。専用のマイクロファイバーか、ポリッシングクロスのみを使用してください。",
+        "pt": "Toalhas de papel e lenços são abrasivos o suficiente para arranhar os revestimentos da tela e da carcaça com o tempo. Use apenas microfibra dedicada ou um pano de polimento."
+      }
+    },
+    {
+      "id": "straight-strokes",
+      "icon": "MoveHorizontal",
+      "title": {
+        "en": "Straight strokes, light pressure",
+        "es": "Movimientos rectos, presión ligera",
+        "fr": "Mouvements droits, légère pression",
+        "de": "Gerade Striche, leichter Druck",
+        "zh": "直线擦拭,轻压",
+        "ja": "直線的に、軽い力で",
+        "pt": "Movimentos retos, pressão leve"
+      },
+      "body": {
+        "en": "Circular motions concentrate pressure in small zones and can leave swirl marks on coatings. Wipe in straight, gentle strokes from edge to edge.",
+        "es": "Los movimientos circulares concentran la presión en zonas pequeñas y pueden dejar marcas en remolino sobre los recubrimientos. Limpia con movimientos rectos y suaves de borde a borde.",
+        "fr": "Les mouvements circulaires concentrent la pression sur de petites zones et peuvent laisser des marques en tourbillon sur les revêtements. Essuyez avec des mouvements droits et doux d'un bord à l'autre.",
+        "de": "Kreisende Bewegungen konzentrieren den Druck auf kleine Zonen und können Schlierenspuren auf Beschichtungen hinterlassen. In geraden, sanften Strichen von Kante zu Kante wischen.",
+        "zh": "圆形动作会将压力集中在小区域,可能在涂层上留下旋涡痕迹。请从一边到另一边以直线、轻柔的方式擦拭。",
+        "ja": "円形の動きは小さな範囲に圧力を集中させ、コーティングに渦巻き模様を残すことがあります。端から端へ、直線的に優しく拭いてください。",
+        "pt": "Movimentos circulares concentram a pressão em pequenas zonas e podem deixar marcas em espiral nos revestimentos. Limpe com movimentos retos e suaves, de borda a borda."
+      }
+    },
+    {
+      "id": "power-off",
+      "icon": "Power",
+      "title": {
+        "en": "Power off first",
+        "es": "Apaga primero",
+        "fr": "Éteignez d'abord",
+        "de": "Zuerst ausschalten",
+        "zh": "先关机",
+        "ja": "まず電源を切る",
+        "pt": "Desligue primeiro"
+      },
+      "body": {
+        "en": "Liquid and powered electronics don't mix. Always shut down and unplug before cleaning — even for a quick wipe. It also lets you see smudges more clearly against a dark screen.",
+        "es": "El líquido y la electrónica encendida no se llevan bien. Apaga y desconecta antes de limpiar — incluso para un repaso rápido. Además, las manchas se ven mejor sobre una pantalla apagada.",
+        "fr": "Le liquide et l'électronique sous tension ne font pas bon ménage. Éteignez et débranchez avant le nettoyage — même pour un coup rapide. En prime, les traces se voient mieux sur un écran éteint.",
+        "de": "Flüssigkeit und eingeschaltete Elektronik passen nicht zusammen. Vor dem Reinigen immer ausschalten und ausstecken — selbst für ein schnelles Wischen. Außerdem sieht man Schlieren auf einem dunklen Bildschirm besser.",
+        "zh": "液体和通电的电子设备不兼容。清洁前请先关机并拔下电源 — 即使只是快速擦拭。这样还能在暗屏上更清楚地看到污渍。",
+        "ja": "液体と通電中の電子機器は相性が悪いです。短い拭き取りでも、清掃前に必ず電源を切ってプラグを抜いてください。暗い画面のほうが汚れも見えやすくなります。",
+        "pt": "Líquido e eletrônicos ligados não combinam. Sempre desligue e desconecte antes de limpar — mesmo para uma passada rápida. Também ajuda a ver manchas com mais clareza em uma tela escura."
+      }
+    },
+    {
+      "id": "no-spray",
+      "icon": "Ban",
+      "title": {
+        "en": "Wet the cloth, not the device",
+        "es": "Humedece el paño, no el dispositivo",
+        "fr": "Mouillez le chiffon, pas l'appareil",
+        "de": "Tuch befeuchten, nicht das Gerät",
+        "zh": "把布弄湿,而不是设备",
+        "ja": "布を湿らせる、デバイスではなく",
+        "pt": "Molhe o pano, não o dispositivo"
+      },
+      "body": {
+        "en": "Sprays drift into speakers, mics, and seams. Always apply the cleaning liquid to the cloth first, then wipe — and keep the cloth just damp, never dripping.",
+        "es": "Los aerosoles entran en altavoces, micrófonos y juntas. Aplica siempre el líquido al paño primero y luego limpia — y mantén el paño solo húmedo, nunca chorreando.",
+        "fr": "Les sprays s'infiltrent dans les haut-parleurs, micros et joints. Appliquez toujours le liquide sur le chiffon d'abord, puis essuyez — et gardez le chiffon juste humide, jamais ruisselant.",
+        "de": "Sprays dringen in Lautsprecher, Mikrofone und Fugen ein. Reinigungsflüssigkeit immer zuerst auf das Tuch geben, dann wischen — und das Tuch nur feucht halten, niemals tropfnass.",
+        "zh": "喷雾会渗入扬声器、麦克风和缝隙。请始终先将清洁液喷到布上,再擦拭 — 布保持稍湿即可,绝不滴水。",
+        "ja": "スプレーはスピーカーやマイク、継ぎ目に入り込みます。必ず先に布に液体を付けてから拭く — 布はしっとり程度に、決して滴り落ちないように。",
+        "pt": "Sprays se infiltram em alto-falantes, microfones e frestas. Aplique sempre o líquido no pano primeiro, depois limpe — e mantenha o pano apenas úmido, nunca pingando."
+      }
+    }
+  ]
+}

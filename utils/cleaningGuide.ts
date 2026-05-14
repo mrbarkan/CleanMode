@@ -2,10 +2,13 @@ import type { Language } from './translations';
 
 export type Localized = Record<Language, string>;
 
+export type DeviceCategory = 'laptop' | 'desktop' | 'peripheral';
+
 export type CleaningEntry = {
   id: string;
   displayName: string;
   aliases: string[];
+  category?: DeviceCategory;
   surfaces: {
     keyboardTrackpad: Partial<Localized>;
     screenShell: Partial<Localized>;

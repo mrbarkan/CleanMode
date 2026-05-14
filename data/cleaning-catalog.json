@@ -5,6 +5,7 @@
     {
       "id": "macbook-pro-14-m4",
       "displayName": "MacBook Pro 14\" (M4, 2024)",
+      "category": "laptop",
       "aliases": [
         "mbp 14 m4",
         "mbp14 m4",
@@ -50,6 +51,7 @@
     {
       "id": "macbook-air-m3",
       "displayName": "MacBook Air 13\" (M3, 2024)",
+      "category": "laptop",
       "aliases": [
         "mba 13 m3",
         "mba13 m3",
@@ -84,6 +86,7 @@
     {
       "id": "imac-24-m4",
       "displayName": "iMac 24\" (M4, 2024)",
+      "category": "desktop",
       "aliases": [
         "imac 24",
         "imac m4",
@@ -128,6 +131,7 @@
     {
       "id": "magic-keyboard-touch-id",
       "displayName": "Magic Keyboard with Touch ID",
+      "category": "peripheral",
       "aliases": [
         "magic keyboard touch id",
         "magic keyboard with touch id",
@@ -171,6 +175,7 @@
     {
       "id": "magic-trackpad",
       "displayName": "Magic Trackpad",
+      "category": "peripheral",
       "aliases": [
         "magic trackpad",
         "apple trackpad",
