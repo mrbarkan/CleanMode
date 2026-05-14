@@ -40,20 +40,12 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, theme, 
         <p className={`text-sm mb-6 ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>v{appVersion} • Developed by MrBarkan</p>
 
         {/* Privacy Badge */}
-        <div className={`mb-6 p-4 rounded-xl border flex gap-3 items-start
+        <div className={`mb-6 px-4 py-3 rounded-xl border flex gap-3 items-center
           ${isDark ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-emerald-50 border-emerald-200'}`}>
-          <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0
-            ${isDark ? 'bg-emerald-500/15 text-emerald-400' : 'bg-emerald-100 text-emerald-700'}`}>
-            <ShieldCheck className="w-5 h-5" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className={`text-sm font-semibold mb-0.5 ${isDark ? 'text-emerald-300' : 'text-emerald-800'}`}>
-              {text.aboutPrivacyTitle}
-            </p>
-            <p className={`text-xs leading-relaxed ${isDark ? 'text-emerald-400/80' : 'text-emerald-700'}`}>
-              {text.aboutPrivacyBody}
-            </p>
-          </div>
+          <ShieldCheck className={`w-5 h-5 flex-shrink-0 ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`} />
+          <p className={`text-sm leading-snug ${isDark ? 'text-emerald-300' : 'text-emerald-800'}`}>
+            {text.aboutPrivacyBody}
+          </p>
         </div>
 
         {/* Appearance Section */}

@@ -303,18 +303,22 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
          {/* Background pattern */}
          <div className={`absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_10%,transparent_100%)]`} />
          
-         <div ref={rightPanelRef} className="flex-1 overflow-y-auto no-scrollbar flex flex-col items-center justify-start p-6 lg:p-12 pt-16">
+         <div ref={rightPanelRef} className={`flex-1 overflow-y-auto no-scrollbar flex flex-col items-center justify-start p-6 lg:p-12 transition-all duration-300
+            ${entry ? 'pt-8' : 'pt-16'}`}>
             
-            <div className="w-full max-w-2xl mt-8 lg:mt-16 space-y-8 relative z-10">
-                
-                <div className="text-center space-y-2">
-                    <h2 className={`text-3xl md:text-4xl font-bold ${isDark ? 'text-white' : 'text-neutral-900'}`}>
-                        {text.guideTitle}
-                    </h2>
-                    <p className={`text-sm ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>
-                        {text.guideSubtitle}
-                    </p>
-                </div>
+            <div className={`w-full max-w-2xl space-y-8 relative z-10 transition-all duration-300
+                ${entry ? 'mt-2' : 'mt-8 lg:mt-16'}`}>
+
+                {!entry && (
+                    <div className="text-center space-y-2">
+                        <h2 className={`text-3xl md:text-4xl font-bold ${isDark ? 'text-white' : 'text-neutral-900'}`}>
+                            {text.guideTitle}
+                        </h2>
+                        <p className={`text-sm ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>
+                            {text.guideSubtitle}
+                        </p>
+                    </div>
+                )}
 
                 {isLoading && (
                     <div className="flex justify-center py-8">
