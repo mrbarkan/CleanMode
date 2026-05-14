@@ -49,6 +49,8 @@ export const t = {
     categoryLaptops: "Laptops",
     categoryDesktops: "Desktops & Displays",
     categoryPeripherals: "Peripherals",
+    searchButton: "Search",
+    backToHome: "Back",
   },
   es: {
     title: "CleanMode",
@@ -88,6 +90,8 @@ export const t = {
     categoryLaptops: "Portátiles",
     categoryDesktops: "Equipos de sobremesa y pantallas",
     categoryPeripherals: "Periféricos",
+    searchButton: "Buscar",
+    backToHome: "Volver",
   },
   fr: {
     title: "CleanMode",
@@ -127,6 +131,8 @@ export const t = {
     categoryLaptops: "Ordinateurs portables",
     categoryDesktops: "Ordinateurs de bureau et écrans",
     categoryPeripherals: "Périphériques",
+    searchButton: "Rechercher",
+    backToHome: "Retour",
   },
   de: {
     title: "CleanMode",
@@ -166,6 +172,8 @@ export const t = {
     categoryLaptops: "Notebooks",
     categoryDesktops: "Desktops & Displays",
     categoryPeripherals: "Peripheriegeräte",
+    searchButton: "Suchen",
+    backToHome: "Zurück",
   },
   zh: {
     title: "CleanMode",
@@ -205,6 +213,8 @@ export const t = {
     categoryLaptops: "笔记本电脑",
     categoryDesktops: "台式机与显示器",
     categoryPeripherals: "外设",
+    searchButton: "搜索",
+    backToHome: "返回",
   },
   ja: {
     title: "CleanMode",
@@ -244,6 +254,8 @@ export const t = {
     categoryLaptops: "ノートブック",
     categoryDesktops: "デスクトップとディスプレイ",
     categoryPeripherals: "周辺機器",
+    searchButton: "検索",
+    backToHome: "戻る",
   },
   pt: {
     title: "CleanMode",
@@ -283,5 +295,7 @@ export const t = {
     categoryLaptops: "Portáteis",
     categoryDesktops: "Computadores e Monitores",
     categoryPeripherals: "Periféricos",
+    searchButton: "Pesquisar",
+    backToHome: "Voltar",
   },
 };

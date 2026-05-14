@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Shield, Sparkles, Command, Keyboard, Loader2, Laptop, Globe, Info, AlertTriangle, ExternalLink } from 'lucide-react';
+import { Shield, Sparkles, Command, Keyboard, Loader2, Laptop, Globe, Info, AlertTriangle, ExternalLink, ArrowLeft } from 'lucide-react';
 import { t, Language, languages } from '../utils/translations';
 import { Theme } from '../App';
 import { appVersion } from '../utils/changelog';
@@ -145,6 +145,12 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleClearResult = () => {
+    setEntry(null);
+    setDeviceModel('');
+    setError('');
   };
 
   return (
@@ -343,7 +349,7 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
                             ? (isDark ? 'bg-neutral-800 text-neutral-600 cursor-not-allowed' : 'bg-neutral-100 text-neutral-400 cursor-not-allowed')
                             : 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20'}`}
                     >
-                        {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Search & Generate"}
+                        {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : text.searchButton}
                     </button>
                 </div>
 
@@ -356,7 +362,16 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
                 
                 {/* Results Area */}
                 {entry ? (
-                    <div className={`rounded-2xl p-8 border animate-in fade-in slide-in-from-bottom-4 shadow-xl mb-12
+                  <div className="mb-12">
+                    <button
+                      onClick={handleClearResult}
+                      className={`mb-3 inline-flex items-center gap-1.5 text-xs font-medium transition-colors
+                        ${isDark ? 'text-neutral-400 hover:text-white' : 'text-neutral-500 hover:text-neutral-900'}`}
+                    >
+                      <ArrowLeft className="w-3.5 h-3.5" />
+                      {text.backToHome}
+                    </button>
+                    <div className={`rounded-2xl p-8 border animate-in fade-in slide-in-from-bottom-4 shadow-xl
                         ${isDark ? 'bg-neutral-900/80 border-neutral-800 text-neutral-300' : 'bg-white/80 border-neutral-200 text-neutral-700'}`}>
                         <h4 className={`font-medium mb-6 text-sm uppercase tracking-wider flex items-center gap-2 pb-4 border-b
                             ${isDark ? 'text-blue-400 border-neutral-800' : 'text-blue-600 border-neutral-100'}`}>
@@ -401,6 +416,7 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
                             </div>
                         )}
                     </div>
+                  </div>
                 ) : (
                     <div className="space-y-8 mb-12">
                         <DevicePicker theme={theme} lang={lang} onPick={handlePickDevice} />
