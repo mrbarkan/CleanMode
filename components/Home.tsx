@@ -4,7 +4,6 @@ import { t, Language, languages } from '../utils/translations';
 import { Theme } from '../App';
 import { appVersion } from '../utils/changelog';
 import { PermissionsModal } from './PermissionsModal';
-import { SourceBadge } from './SourceBadge';
 import { lookupGuide } from '../utils/lookupGuide';
 import { localized, type CleaningEntry } from '../utils/cleaningGuide';
 import type { Permissions } from '../types/window';
@@ -295,16 +294,11 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
             <div className="w-full max-w-2xl mt-8 lg:mt-16 space-y-8 relative z-10">
                 
                 <div className="text-center space-y-2">
-                    <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border
-                        ${isDark ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' : 'bg-blue-50 border-blue-100 text-blue-600'}`}>
-                        <Sparkles className="w-3 h-3" />
-                        AI Powered Research
-                    </div>
                     <h2 className={`text-3xl md:text-4xl font-bold ${isDark ? 'text-white' : 'text-neutral-900'}`}>
                         {text.guideTitle}
                     </h2>
                     <p className={`text-sm ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>
-                        Enter your device model to search for manufacturer-specific cleaning protocols.
+                        {text.guideSubtitle}
                     </p>
                 </div>
 
@@ -346,15 +340,17 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
                 {entry ? (
                     <div className={`rounded-2xl p-8 border animate-in fade-in slide-in-from-bottom-4 shadow-xl mb-12
                         ${isDark ? 'bg-neutral-900/80 border-neutral-800 text-neutral-300' : 'bg-white/80 border-neutral-200 text-neutral-700'}`}>
-                        <div className={`flex items-center justify-between gap-3 mb-6 pb-4 border-b
-                            ${isDark ? 'border-neutral-800' : 'border-neutral-100'}`}>
-                            <h4 className={`font-medium text-sm uppercase tracking-wider flex items-center gap-2
-                                ${isDark ? 'text-blue-400' : 'text-blue-600'}`}>
-                                <Laptop className="w-4 h-4" />
-                                {text.tipsFor} {entry.source === 'fallback' ? deviceModel : entry.displayName}
-                            </h4>
-                            <SourceBadge source={entry.source} theme={theme} lang={lang} />
-                        </div>
+                        <h4 className={`font-medium mb-6 text-sm uppercase tracking-wider flex items-center gap-2 pb-4 border-b
+                            ${isDark ? 'text-blue-400 border-neutral-800' : 'text-blue-600 border-neutral-100'}`}>
+                            <Laptop className="w-4 h-4" />
+                            {text.tipsFor} {entry.source === 'fallback' ? deviceModel : entry.displayName}
+                        </h4>
+
+                        {entry.source === 'fallback' && (
+                            <p className={`text-xs italic mb-4 ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>
+                                {text.tipsGenericNotice}
+                            </p>
+                        )}
 
                         <div className="prose prose-sm max-w-none space-y-6">
                             <div className={`whitespace-pre-wrap leading-7 ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>

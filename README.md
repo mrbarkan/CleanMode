@@ -17,13 +17,6 @@ A macOS app that safely blocks keyboard, trackpad, and system shortcuts while yo
 3. Run the app:
    `npm run electron:dev`
 
-## Optional: maintaining the cleaning catalog
+## Cleaning catalog
 
-The catalog at `data/cleaning-catalog.json` is hand-authored. To draft new entries with AI assistance:
-
-1. Set `API_KEY=<your-gemini-key>` in a local `.env.local` (gitignored).
-2. Add device names to `data/catalog-seeds.json`.
-3. Run `npm run seed:catalog` — drafts go to `data/_catalog-draft.json` for review.
-4. Run `npm run translate:catalog` to fill in non-English languages.
-
-Neither script is invoked at runtime. The shipping app contains no API keys and makes no network calls.
+`data/cleaning-catalog.json` is a hand-authored catalog of Apple device cleaning instructions in 7 languages. To add or update entries, edit the JSON directly and rebuild. The app makes no network calls and uses no API keys.

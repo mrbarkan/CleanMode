@@ -12,10 +12,7 @@
     "electron:dev": "concurrently -k \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
     "electron:build": "npm run build && electron-builder",
     "native:build": "npm --prefix electron/native/eventtap run build",
-    "native:build-current": "npm --prefix electron/native/eventtap run build-current-arch",
-    "seed:catalog": "tsx scripts/seed-catalog.ts",
-    "translate:catalog": "tsx scripts/translate-catalog.ts",
-    "review:ai-queries": "tsx scripts/review-ai-queries.ts"
+    "native:build-current": "npm --prefix electron/native/eventtap run build-current-arch"
   },
   "dependencies": {
     "lucide-react": "^0.562.0",
@@ -24,19 +21,15 @@
   },
   "devDependencies": {
     "@electron/notarize": "^2.5.0",
-    "@google/genai": "^1.37.0",
-    "@types/node": "^22.0.0",
     "@types/react": "^19.2.3",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^4.2.1",
     "concurrently": "^8.2.2",
-    "dotenv": "^16.4.5",
     "electron": "^30.0.1",
     "electron-builder": "^24.13.3",
     "node-gyp": "^10.2.0",
     "node-gyp-build": "^4.8.0",
     "prebuildify": "^6.0.1",
-    "tsx": "^4.16.0",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
     "wait-on": "^7.2.0"
