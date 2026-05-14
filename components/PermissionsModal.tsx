@@ -1,8 +1,9 @@
 import React from 'react';
-import { ShieldAlert, ShieldCheck, ExternalLink, RotateCcw, X } from 'lucide-react';
+import { AlertTriangle, Check, ExternalLink, X, ArrowRight } from 'lucide-react';
 import { Theme } from '../App';
 import { t, Language } from '../utils/translations';
 import { Permissions } from '../types/window';
+import { T } from '../utils/clocheTokens';
 
 interface PermissionsModalProps {
   isOpen: boolean;
@@ -28,97 +29,155 @@ export const PermissionsModal: React.FC<PermissionsModalProps> = ({
   if (!isOpen) return null;
 
   const isDark = theme === 'dark';
+  const c = (l: keyof typeof T, d: keyof typeof T): string => (isDark ? T[d] : T[l]) as string;
   const text = t[lang];
 
-  const PermissionRow: React.FC<{
-    label: string;
-    granted: boolean;
-    onOpen: () => void;
-  }> = ({ label, granted, onOpen }) => (
-    <div className={`flex items-center justify-between gap-3 px-3 py-2 rounded-lg border
-      ${isDark ? 'border-neutral-800 bg-neutral-950' : 'border-neutral-200 bg-neutral-50'}`}>
-      <div className="flex items-center gap-2 min-w-0">
-        {granted ? (
-          <ShieldCheck className={`w-4 h-4 flex-shrink-0 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`} />
-        ) : (
-          <ShieldAlert className={`w-4 h-4 flex-shrink-0 ${isDark ? 'text-amber-400' : 'text-amber-600'}`} />
-        )}
-        <span className={`text-sm truncate ${isDark ? 'text-neutral-200' : 'text-neutral-800'}`}>
-          {label}
-        </span>
-      </div>
-      {!granted && (
-        <button
-          onClick={onOpen}
-          className={`flex items-center gap-1 text-xs font-medium px-2 py-1 rounded border transition-colors flex-shrink-0
-            ${isDark
-              ? 'bg-neutral-800 border-neutral-700 hover:bg-neutral-700 text-white'
-              : 'bg-white border-neutral-300 hover:bg-neutral-50 text-neutral-900'}`}
-        >
-          <ExternalLink className="w-3 h-3" />
-          {text.permissionsOpen}
-        </button>
-      )}
-    </div>
-  );
+  const rows: { label: string; granted: boolean; onOpen: () => void }[] = [
+    { label: text.permissionsAccessibility, granted: permissions.accessibility, onOpen: onOpenAccessibility },
+    { label: text.permissionsInputMonitoring, granted: permissions.inputMonitoring, onOpen: onOpenInputMonitoring },
+  ];
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm"
       onClick={onClose}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 100,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: 24,
+        background: 'rgba(20,16,12,0.40)',
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+      }}
     >
       <div
-        className={`w-full max-w-md rounded-2xl border shadow-2xl p-6
-          ${isDark ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-neutral-200 text-neutral-900'}`}
         onClick={(e) => e.stopPropagation()}
+        style={{
+          width: '100%', maxWidth: 460,
+          padding: 32, borderRadius: 26,
+          background: c('parchment', 'dSurface'),
+          border: `1px solid ${c('line', 'dLine')}`,
+          boxShadow: '0 40px 80px -20px rgba(0,0,0,0.4)',
+          fontFamily: T.sans, color: c('ink', 'dInk'),
+        }}
       >
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center
-              ${isDark ? 'bg-amber-500/15 text-amber-400' : 'bg-amber-50 text-amber-600'}`}>
-              <ShieldAlert className="w-5 h-5" />
+        <div style={{
+          display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
+          gap: 12, marginBottom: 8,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div style={{
+              width: 40, height: 40, borderRadius: 12,
+              background: T.champagne, color: T.brass,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexShrink: 0,
+            }}>
+              <AlertTriangle size={18} />
             </div>
-            <h2 className="text-lg font-semibold">{text.permissionsModalTitle}</h2>
+            <div style={{
+              fontFamily: T.serif, fontSize: 26, lineHeight: 1.1,
+              fontWeight: 400, letterSpacing: '-0.015em',
+              color: c('ink', 'dInk'),
+            }}>
+              {text.permissionsModalTitle}
+            </div>
           </div>
           <button
             onClick={onClose}
-            className={`p-1 rounded-lg transition-colors
-              ${isDark ? 'hover:bg-neutral-800 text-neutral-400' : 'hover:bg-neutral-100 text-neutral-500'}`}
             aria-label="Close"
+            style={{
+              width: 28, height: 28, borderRadius: 8,
+              background: 'transparent',
+              border: `1px solid ${c('line', 'dLine')}`,
+              color: c('mute', 'dMute'),
+              cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexShrink: 0,
+            }}
           >
-            <X className="w-4 h-4" />
+            <X size={12} />
           </button>
         </div>
 
-        <p className={`text-sm leading-relaxed mb-4
-          ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
+        <p style={{
+          fontSize: 13.5, lineHeight: 1.55,
+          color: c('mute', 'dMute'),
+          marginTop: 14, marginBottom: 22,
+        }}>
           {text.permissionsModalIntro}
         </p>
 
-        <div className="space-y-2 mb-4">
-          <PermissionRow
-            label={text.permissionsAccessibility}
-            granted={permissions.accessibility}
-            onOpen={onOpenAccessibility}
-          />
-          <PermissionRow
-            label={text.permissionsInputMonitoring}
-            granted={permissions.inputMonitoring}
-            onOpen={onOpenInputMonitoring}
-          />
+        {rows.map((row, i) => (
+          <div key={i} style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '14px 18px', borderRadius: 14,
+            background: c('paper', 'dRaised'),
+            border: `1px solid ${c('line', 'dLine')}`,
+            marginBottom: 10,
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, minWidth: 0 }}>
+              <div style={{
+                width: 28, height: 28, borderRadius: 999,
+                background: row.granted ? T.emerald + '22' : T.champagne,
+                color: row.granted ? T.emerald : T.brassDeep,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                flexShrink: 0,
+              }}>
+                {row.granted ? <Check size={13} /> : <AlertTriangle size={13} />}
+              </div>
+              <span style={{ fontSize: 14, fontWeight: 500 }}>{row.label}</span>
+            </div>
+            {row.granted ? (
+              <span style={{ fontSize: 12, color: T.emerald, fontWeight: 500 }}>Granted</span>
+            ) : (
+              <button
+                onClick={row.onOpen}
+                style={{
+                  padding: '7px 12px', borderRadius: 10,
+                  background: 'transparent',
+                  border: `1px solid ${c('line', 'dLine')}`,
+                  color: c('ink', 'dInk'),
+                  fontFamily: T.sans, fontSize: 12, cursor: 'pointer',
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                }}
+              >
+                <ExternalLink size={12} /> {text.permissionsOpen}
+              </button>
+            )}
+          </div>
+        ))}
+
+        <div style={{
+          fontSize: 12, color: c('mute', 'dMute'),
+          marginTop: 16, lineHeight: 1.55,
+        }}>
+          {text.permissionsAfterGranting}
         </div>
 
-        <p className={`text-xs mb-6 ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>
-          {text.permissionsAfterGranting}
-        </p>
-
-        <div className="flex justify-end">
+        <div style={{ marginTop: 22, display: 'flex', justifyContent: 'flex-end', gap: 10 }}>
+          <button
+            onClick={onClose}
+            style={{
+              padding: '10px 18px', borderRadius: 12,
+              background: 'transparent',
+              border: `1px solid ${c('line', 'dLine')}`,
+              color: c('mute', 'dMute'),
+              fontFamily: T.sans, fontSize: 13, cursor: 'pointer',
+            }}
+          >
+            Not now
+          </button>
           <button
             onClick={onTryAgain}
-            className="px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20 transition-colors"
+            style={{
+              padding: '10px 18px', borderRadius: 12,
+              background: T.brass, color: T.parchment,
+              border: 'none', fontFamily: T.sans, fontSize: 13, fontWeight: 500,
+              cursor: 'pointer',
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              boxShadow: `0 8px 18px -6px ${T.brass}99`,
+            }}
           >
-            <RotateCcw className="w-4 h-4" />
-            {text.permissionsTryAgain}
+            {text.permissionsTryAgain} <ArrowRight size={13} />
           </button>
         </div>
       </div>

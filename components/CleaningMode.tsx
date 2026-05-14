@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { Lock, Command, Unlock, Sparkles } from 'lucide-react';
 import { t, Language } from '../utils/translations';
 import { Theme } from '../App';
+import { T } from '../utils/clocheTokens';
+import { ClocheDome } from './ClocheDome';
 
 interface CleaningModeProps {
   onUnlock: () => void;
@@ -19,36 +20,42 @@ interface Ripple {
 
 export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang, theme }) => {
   const [ripples, setRipples] = useState<Ripple[]>([]);
+  const [unlockStep, setUnlockStep] = useState(0);
+  const [now, setNow] = useState(0);
+
   const rippleIdCounter = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  
-  const text = t[lang];
-  const isDark = theme === 'dark';
-
-  // Unlock Logic State
-  const [unlockStep, setUnlockStep] = useState(0); // 0, 1, 2, 3
   const pressedKeys = useRef<Set<string>>(new Set());
   const comboActive = useRef(false);
   const resetTimer = useRef<number | null>(null);
 
-  // Moved handleUnlockSequence out of useEffect to be accessible in render
+  const text = t[lang];
+  const isDark = theme === 'dark';
+  const c = (l: keyof typeof T, d: keyof typeof T): string => (isDark ? T[d] : T[l]) as string;
+
   const handleUnlockSequence = useCallback(() => {
     if (window.electron) {
-        window.electron.exitCleaningMode();
+      window.electron.exitCleaningMode();
     }
     onUnlock();
   }, [onUnlock]);
 
-  // Add a ripple effect at coordinates
   const addRipple = useCallback((x: number, y: number, isKey = false) => {
     const id = rippleIdCounter.current++;
-    const size = isKey ? 100 + Math.random() * 50 : 50 + Math.random() * 50;
-    
+    const size = isKey ? 100 + Math.random() * 80 : 70 + Math.random() * 60;
     setRipples((prev) => [...prev, { id, x, y, size }]);
-
     setTimeout(() => {
       setRipples((prev) => prev.filter((r) => r.id !== id));
-    }, 800);
+    }, 1100);
+  }, []);
+
+  useEffect(() => {
+    const start = Date.now();
+    const id = window.setInterval(
+      () => setNow(Math.floor((Date.now() - start) / 1000)),
+      1000,
+    );
+    return () => window.clearInterval(id);
   }, []);
 
   useEffect(() => {
@@ -57,81 +64,74 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
         // @ts-ignore
         if (navigator.keyboard && navigator.keyboard.lock) {
           // @ts-ignore
-          await navigator.keyboard.lock(); 
-          console.log("Keyboard locked (System keys captured)");
+          await navigator.keyboard.lock();
         }
       } catch (err) {
-        console.warn("Keyboard lock failed or not supported:", err);
+        console.warn('Keyboard lock failed or not supported:', err);
       }
     };
-
     lockKeyboard();
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Block everything
       e.preventDefault();
       e.stopPropagation();
-
       pressedKeys.current.add(e.code);
 
       const isLeftCmd = pressedKeys.current.has('MetaLeft');
       const isRightCmd = pressedKeys.current.has('MetaRight');
 
       if (isLeftCmd && isRightCmd) {
-          if (!comboActive.current) {
-              comboActive.current = true;
-              
-              setUnlockStep(prev => {
-                  const next = prev + 1;
-                  if (next >= 3) {
-                      setTimeout(handleUnlockSequence, 150);
-                      return 3;
-                  }
-                  return next;
-              });
-
-              if (resetTimer.current) clearTimeout(resetTimer.current);
-              resetTimer.current = window.setTimeout(() => {
-                  setUnlockStep(0);
-              }, 2000); 
-          }
+        if (!comboActive.current) {
+          comboActive.current = true;
+          setUnlockStep(prev => {
+            const next = prev + 1;
+            if (next >= 3) {
+              setTimeout(handleUnlockSequence, 250);
+              return 3;
+            }
+            return next;
+          });
+          if (resetTimer.current) clearTimeout(resetTimer.current);
+          resetTimer.current = window.setTimeout(() => setUnlockStep(0), 2200);
+        }
       }
 
       if (containerRef.current) {
-         const width = containerRef.current.clientWidth;
-         const height = containerRef.current.clientHeight;
-         const x = (width / 2) + (Math.random() * 400 - 200);
-         const y = (height / 2) + (Math.random() * 200 - 100);
-         addRipple(x, y, true);
+        const rect = containerRef.current.getBoundingClientRect();
+        const x = rect.width / 2 + (Math.random() * 400 - 200);
+        const y = rect.height / 2 + (Math.random() * 200 - 100);
+        addRipple(x, y, true);
       }
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
-        e.preventDefault();
-        pressedKeys.current.delete(e.code);
-        if (!pressedKeys.current.has('MetaLeft') || !pressedKeys.current.has('MetaRight')) {
-            comboActive.current = false;
-        }
+      e.preventDefault();
+      pressedKeys.current.delete(e.code);
+      if (!pressedKeys.current.has('MetaLeft') || !pressedKeys.current.has('MetaRight')) {
+        comboActive.current = false;
+      }
     };
 
     const handleMouseDown = (e: MouseEvent) => {
-        e.preventDefault();
-        addRipple(e.clientX, e.clientY);
+      e.preventDefault();
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      addRipple(e.clientX - rect.left, e.clientY - rect.top);
     };
+
+    const blockContext = (e: MouseEvent) => e.preventDefault();
 
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
     window.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('contextmenu', (e) => e.preventDefault());
+    window.addEventListener('contextmenu', blockContext);
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
       window.removeEventListener('mousedown', handleMouseDown);
-      window.removeEventListener('contextmenu', (e) => e.preventDefault());
+      window.removeEventListener('contextmenu', blockContext);
       if (resetTimer.current) clearTimeout(resetTimer.current);
-      
-      // Cleanup: Unlock keyboard API
       // @ts-ignore
       if (navigator.keyboard && navigator.keyboard.unlock) {
         // @ts-ignore
@@ -140,122 +140,206 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
     };
   }, [addRipple, handleUnlockSequence]);
 
+  const mm = String(Math.floor(now / 60)).padStart(2, '0');
+  const ss = String(now % 60).padStart(2, '0');
+
+  const tipLines = (tips ?? '').split('\n').filter(Boolean).slice(0, 5);
+
   return (
-    <div 
-        ref={containerRef}
-        className={`fixed inset-0 z-50 cursor-none flex flex-col items-center justify-center select-none overflow-hidden transition-colors duration-500
-        ${isDark ? 'bg-black text-white' : 'bg-white text-neutral-900'}`}
+    <div
+      ref={containerRef}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 50,
+        overflow: 'hidden', cursor: 'none',
+        fontFamily: T.sans,
+        background: isDark ? T.dBg : T.bone,
+        color: c('ink', 'dInk'),
+        userSelect: 'none',
+      }}
     >
-      {/* Instruction Overlay - Subtle */}
-      <div className="absolute top-12 left-0 right-0 text-center pointer-events-none opacity-50 z-20">
-        <div className={`flex items-center justify-center gap-2 mb-2 ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
-            <Lock className="w-4 h-4" />
-            <span className="text-sm font-medium tracking-widest uppercase">{text.cleaningModeActive}</span>
-        </div>
+      {/* paper grain */}
+      <svg width="100%" height="100%" style={{ position: 'absolute', inset: 0, opacity: 0.06, mixBlendMode: 'overlay', pointerEvents: 'none' }}>
+        <filter id="cloche-grain">
+          <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves={2} />
+          <feColorMatrix values="0 0 0 0 0.8  0 0 0 0 0.7  0 0 0 0 0.5  0 0 0 0.6 0" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#cloche-grain)" />
+      </svg>
+
+      {/* top status pill */}
+      <div style={{
+        position: 'absolute', top: 22, left: '50%', transform: 'translateX(-50%)',
+        display: 'flex', alignItems: 'center', gap: 12,
+        padding: '7px 14px', borderRadius: 999,
+        background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.6)',
+        border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : T.line}`,
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        fontSize: 12, color: c('mute', 'dMute'),
+        zIndex: 20,
+      }}>
+        <span style={{
+          width: 7, height: 7, borderRadius: 999,
+          background: T.brass, boxShadow: `0 0 10px ${T.brass}`,
+          animation: 'cloche-pulse 1.8s ease-in-out infinite',
+        }} />
+        <span style={{ color: c('ink', 'dInk'), fontWeight: 500 }}>
+          {text.cleaningModeActive}
+        </span>
+        <span style={{ width: 1, height: 11, background: isDark ? T.dLine : T.line }} />
+        <span style={{ fontVariantNumeric: 'tabular-nums' }}>{mm}:{ss}</span>
       </div>
 
-      {/* Tips Overlay - Visible if tips exist */}
-      {tips && (
-        <div className="absolute top-24 left-1/2 -translate-x-1/2 w-full max-w-md px-6 pointer-events-none z-20 opacity-90">
-            <div className={`backdrop-blur-md border rounded-2xl p-6 shadow-2xl max-h-[40vh] overflow-hidden
-                ${isDark ? 'bg-neutral-900/80 border-white/10' : 'bg-white/80 border-neutral-200 shadow-neutral-200/50'}`}>
-                <div className="flex items-center gap-2 mb-3 text-blue-500">
-                    <Sparkles className="w-4 h-4" />
-                    <span className="text-xs font-bold uppercase tracking-wider">{text.guideTitle}</span>
-                </div>
-                <div className={`text-sm whitespace-pre-wrap leading-relaxed line-clamp-[10] ${isDark ? 'text-neutral-300' : 'text-neutral-700'}`}>
-                    {tips}
-                </div>
-            </div>
-        </div>
+      {/* tips card */}
+      {tipLines.length > 0 && (
+        <aside style={{
+          position: 'absolute', top: 74, left: 28, width: 300,
+          padding: 20, borderRadius: 14,
+          background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.55)',
+          border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : T.line}`,
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          zIndex: 20,
+        }}>
+          <div style={{ fontSize: 11.5, color: c('mute', 'dMute'), marginBottom: 6 }}>
+            {text.guideTitle}
+          </div>
+          <div style={{
+            fontSize: 15, lineHeight: 1.3, fontWeight: 500,
+            color: c('ink', 'dInk'), marginBottom: 14,
+          }}>
+            {text.wipeScreen}
+          </div>
+          <ul style={{
+            listStyle: 'none', margin: 0, padding: 0,
+            display: 'flex', flexDirection: 'column', gap: 7,
+            fontSize: 12, lineHeight: 1.5, color: c('mute', 'dMute'),
+          }}>
+            {tipLines.map((line, i) => (
+              <li key={i} style={{ display: 'flex', gap: 10 }}>
+                <span style={{ color: c('muteSoft', 'dMute'), flexShrink: 0, minWidth: 14 }}>
+                  {i + 1}.
+                </span>
+                <span>{line}</span>
+              </li>
+            ))}
+          </ul>
+        </aside>
       )}
 
-      {/* Central Unlock Indicator */}
-      <div className="pointer-events-none flex flex-col items-center gap-8 z-10 mt-32">
-        
-        {/* Animated Lock Icon & Progress Steps */}
-        <div className="flex flex-col items-center gap-6">
-             <div className={`w-24 h-24 rounded-3xl flex items-center justify-center transition-all duration-300 
-                ${isDark 
-                    ? (unlockStep === 3 ? 'bg-neutral-800' : 'bg-neutral-900')
-                    : (unlockStep === 3 ? 'bg-neutral-100' : 'bg-neutral-50')
-                }`}>
-                {unlockStep === 3 ? (
-                    <Unlock className="w-10 h-10 text-green-500 animate-pulse" />
-                ) : (
-                    <Lock className={`w-10 h-10 transition-colors duration-300 ${unlockStep > 0 ? 'text-blue-500' : (isDark ? 'text-neutral-600' : 'text-neutral-300')}`} />
-                )}
-             </div>
-             
-             {/* 3 Steps Indicator */}
-             <div className="flex gap-3">
-                {[0, 1, 2].map((i) => (
-                    <div 
-                        key={i}
-                        className={`h-2 rounded-full transition-all duration-300 ${
-                            i < unlockStep 
-                                ? 'w-8 bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]' 
-                                : `w-2 ${isDark ? 'bg-neutral-800' : 'bg-neutral-200'}`
-                        }`}
-                    />
-                ))}
-             </div>
+      {/* center stage */}
+      <div style={{
+        position: 'absolute', top: '50%', left: '50%',
+        transform: 'translate(-50%, -50%)',
+        display: 'flex', flexDirection: 'column', alignItems: 'center',
+        zIndex: 10, pointerEvents: 'none',
+      }}>
+        <div style={{
+          position: 'absolute', top: -50, left: '50%', transform: 'translateX(-50%)',
+          width: 460, height: 460, borderRadius: '50%',
+          background: isDark
+            ? 'radial-gradient(circle, rgba(255,210,170,0.10) 0%, rgba(255,210,170,0) 65%)'
+            : 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 65%)',
+          pointerEvents: 'none',
+        }} />
+
+        <div style={{
+          position: 'relative',
+          transition: 'transform 0.6s ease',
+          transform: unlockStep === 3 ? 'translateY(-24px)' : 'translateY(0)',
+        }}>
+          <ClocheDome size={260} variant={isDark ? 'marble' : 'brass'} />
         </div>
 
-        <div className="space-y-1 text-center opacity-40 transition-opacity duration-500 hover:opacity-100">
-            <p className={`text-2xl font-semibold ${isDark ? 'text-neutral-300' : 'text-neutral-900'}`}>{text.wipeScreen}</p>
-            <div className={`flex flex-col items-center justify-center gap-2 text-sm mt-2 ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
-                <div className="flex items-center gap-2">
-                    <span>{text.pressBoth}</span>
-                    <kbd className={`px-2 py-1 rounded border flex items-center gap-1
-                        ${isDark ? 'bg-neutral-800 border-neutral-700 text-neutral-300' : 'bg-white border-neutral-300 text-neutral-600'}`}>
-                        <Command className="w-3 h-3" /> Cmd
-                    </kbd>
-                    <span>{text.keys}</span>
-                </div>
-                <span>{text.unlockInst}</span>
-            </div>
-             <p className={`text-[10px] mt-4 max-w-xs mx-auto ${isDark ? 'text-neutral-600' : 'text-neutral-400'}`}>
-                Note: Hardwired keys (Power, Touch ID, some media controls) cannot be blocked by browsers.
-            </p>
+        <div style={{
+          marginTop: 36, padding: '11px 18px', borderRadius: 999,
+          background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.65)',
+          border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : T.line}`,
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          display: 'flex', alignItems: 'center', gap: 14,
+        }}>
+          <span style={{ fontSize: 12.5, color: c('mute', 'dMute') }}>
+            {text.pressBoth} <KbdInline dark={isDark}>{'⌘'}</KbdInline>{' '}
+            <KbdInline dark={isDark}>{'⌘'}</KbdInline> {text.unlockInst}
+          </span>
+
+          <div style={{ display: 'flex', gap: 5 }}>
+            {[0, 1, 2].map(i => (
+              <div key={i} style={{
+                width: i < unlockStep ? 18 : 5,
+                height: 5, borderRadius: 999,
+                background: i < unlockStep ? T.brass : (isDark ? T.dLine : T.line),
+                boxShadow: i < unlockStep ? `0 0 8px ${T.brass}` : 'none',
+                transition: 'all 0.25s',
+              }} />
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Ripples Layer */}
-      {ripples.map((ripple) => (
+      {/* emergency unlock */}
+      <button
+        onClick={handleUnlockSequence}
+        style={{
+          position: 'absolute', bottom: 18, right: 18,
+          padding: '6px 12px', borderRadius: 999,
+          background: 'transparent',
+          border: `1px solid ${isDark ? T.dLine : T.line}`,
+          color: c('muteSoft', 'dMute'),
+          fontSize: 11, cursor: 'pointer',
+          opacity: 0.4, transition: 'opacity 0.25s',
+          fontFamily: T.sans,
+          zIndex: 30,
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
+        onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.4')}
+      >
+        {text.emergencyUnlock}
+      </button>
+
+      {/* ripples */}
+      {ripples.map((r) => (
         <div
-          key={ripple.id}
-          className={`absolute rounded-full pointer-events-none animate-ripple border
-            ${isDark ? 'border-white/20 bg-white/5' : 'border-neutral-900/10 bg-neutral-900/5'}`}
+          key={r.id}
           style={{
-            left: ripple.x,
-            top: ripple.y,
-            width: ripple.size,
-            height: ripple.size,
-            transform: 'translate(-50%, -50%)',
+            position: 'absolute',
+            left: r.x, top: r.y,
+            width: r.size, height: r.size,
+            marginLeft: -r.size / 2, marginTop: -r.size / 2,
+            borderRadius: '50%',
+            pointerEvents: 'none',
+            border: `1px solid ${T.brass}`,
+            background: `radial-gradient(circle, ${T.brass}22 0%, transparent 60%)`,
+            animation: 'cloche-ripple 1s ease-out forwards',
           }}
         />
       ))}
 
       <style>{`
-        @keyframes ripple {
-          0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
-          100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+        @keyframes cloche-ripple {
+          0%   { transform: scale(0.4); opacity: 1; }
+          100% { transform: scale(2.4); opacity: 0; }
         }
-        .animate-ripple {
-            animation: ripple 0.8s ease-out forwards;
+        @keyframes cloche-pulse {
+          0%, 100% { opacity: 1; }
+          50%      { opacity: 0.4; }
         }
       `}</style>
-      
-      {/* Emergency Unlock */}
-      <div className="absolute bottom-8 right-8 opacity-0 hover:opacity-100 transition-opacity duration-1000 z-50 pointer-events-auto">
-          <button 
-            onClick={handleUnlockSequence}
-            className={`text-xs cursor-pointer ${isDark ? 'text-neutral-700 hover:text-neutral-400' : 'text-neutral-300 hover:text-neutral-500'}`}
-          >
-            {text.emergencyUnlock}
-          </button>
-      </div>
     </div>
   );
 };
+
+const KbdInline: React.FC<{ children: React.ReactNode; dark: boolean }> = ({ children, dark }) => (
+  <span style={{
+    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+    minWidth: 20, height: 20, padding: '0 5px', borderRadius: 5,
+    background: dark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.9)',
+    border: `1px solid ${dark ? 'rgba(255,255,255,0.1)' : T.line}`,
+    fontFamily: T.sans, fontSize: 11.5,
+    color: dark ? T.dInk : T.ink,
+    verticalAlign: 'middle',
+  }}>
+    {children}
+  </span>
+);

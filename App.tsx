@@ -4,6 +4,7 @@ import { CleaningMode } from './components/CleaningMode';
 import { Toaster } from './components/Toaster';
 import { AboutModal } from './components/AboutModal';
 import { Language } from './utils/translations';
+import { T } from './utils/clocheTokens';
 
 export type Theme = 'dark' | 'light';
 
@@ -52,7 +53,18 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <div className={`w-full h-screen overflow-hidden relative selection:bg-blue-500/30 transition-colors duration-300 ${theme === 'dark' ? 'bg-neutral-950 text-white' : 'bg-neutral-50 text-neutral-900'}`}>
+    <div
+      style={{
+        width: '100%',
+        height: '100vh',
+        overflow: 'hidden',
+        position: 'relative',
+        background: theme === 'dark' ? T.dBg : T.bone,
+        color: theme === 'dark' ? T.dInk : T.ink,
+        fontFamily: T.sans,
+        transition: 'background-color 0.3s, color 0.3s',
+      }}
+    >
       {isLocked ? (
         <CleaningMode 
           onUnlock={handleUnlock} 

@@ -1,8 +1,10 @@
 import React from 'react';
-import { X, Coffee, Mail, Moon, Sun, ShieldCheck, Command } from 'lucide-react';
+import { X, Coffee, Mail, Moon, Sun, Shield, Command } from 'lucide-react';
 import { Theme } from '../App';
 import { appVersion } from '../utils/changelog';
 import { t, Language } from '../utils/translations';
+import { T } from '../utils/clocheTokens';
+import { ClocheDome } from './ClocheDome';
 
 interface AboutModalProps {
   isOpen: boolean;
@@ -16,131 +18,272 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, theme, 
   if (!isOpen) return null;
 
   const isDark = theme === 'dark';
+  const c = (l: keyof typeof T, d: keyof typeof T): string => (isDark ? T[d] : T[l]) as string;
   const text = t[lang];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 100,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      padding: 16,
+      background: 'rgba(20,16,12,0.40)',
+      backdropFilter: 'blur(10px)',
+      WebkitBackdropFilter: 'blur(10px)',
+    }} onClick={onClose}>
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={onClose}
-      />
-      <div className={`relative w-full max-w-md border rounded-2xl shadow-2xl p-6 animate-in fade-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto no-scrollbar flex flex-col ${
-        isDark ? 'bg-neutral-900 border-neutral-800 text-white' : 'bg-white border-neutral-200 text-neutral-900'
-      }`}>
-        <div className="flex items-center justify-between mb-1">
-          <h2 className="text-xl font-bold">CleanMode</h2>
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          width: '100%', maxWidth: 460,
+          padding: 32, borderRadius: 26,
+          background: c('parchment', 'dSurface'),
+          border: `1px solid ${c('line', 'dLine')}`,
+          boxShadow: '0 40px 80px -20px rgba(0,0,0,0.4)',
+          fontFamily: T.sans, color: c('ink', 'dInk'),
+          position: 'relative',
+          maxHeight: '90vh', overflowY: 'auto',
+        }}
+      >
+        <div style={{ position: 'absolute', top: 20, right: 20 }}>
           <button
             onClick={onClose}
-            className={`transition-colors ${isDark ? 'text-neutral-500 hover:text-white' : 'text-neutral-400 hover:text-neutral-900'}`}
+            aria-label="Close"
+            style={{
+              width: 30, height: 30, borderRadius: 999,
+              background: 'transparent',
+              border: `1px solid ${c('line', 'dLine')}`,
+              color: c('mute', 'dMute'),
+              cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}
           >
-            <X className="w-5 h-5" />
+            <X size={13} />
           </button>
         </div>
 
-        <p className={`text-sm mb-6 ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>v{appVersion} • Developed by MrBarkan</p>
-
-        {/* Privacy Badge */}
-        <div className={`mb-6 px-4 py-3 rounded-xl border flex gap-3 items-center
-          ${isDark ? 'bg-emerald-500/5 border-emerald-500/20' : 'bg-emerald-50 border-emerald-200'}`}>
-          <ShieldCheck className={`w-5 h-5 flex-shrink-0 ${isDark ? 'text-emerald-400' : 'text-emerald-700'}`} />
-          <p className={`text-sm leading-snug ${isDark ? 'text-emerald-300' : 'text-emerald-800'}`}>
-            {text.aboutPrivacyBody}
-          </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 6 }}>
+          <ClocheDome size={48} variant={isDark ? 'marble' : 'brass'} withPlate={false} />
+          <div>
+            <div style={{
+              fontFamily: T.serif, fontSize: 30, lineHeight: 1,
+              fontWeight: 400, letterSpacing: '-0.02em',
+            }}>
+              Cloche
+            </div>
+            <div style={{ fontSize: 12, color: c('mute', 'dMute'), marginTop: 4 }}>
+              {`v${appVersion} · by MRBRKN`}
+            </div>
+          </div>
         </div>
 
-        {/* Appearance Section */}
-        <div className={`mb-6 p-4 rounded-xl border flex items-center justify-between ${isDark ? 'bg-neutral-950 border-neutral-800' : 'bg-neutral-50 border-neutral-200'}`}>
-          <div className="flex flex-col">
-            <span className="font-medium text-sm">{text.aboutAppearance}</span>
-            <span className={`text-xs ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>
-              {isDark ? text.aboutAppearanceDark : text.aboutAppearanceLight}
-            </span>
+        {/* Privacy */}
+        <div style={{
+          marginTop: 22, padding: '14px 16px',
+          borderRadius: 14,
+          background: c('champagne', 'dRaised'),
+          border: `1px solid ${T.brass}33`,
+          display: 'flex', gap: 14, alignItems: 'center',
+        }}>
+          <div style={{
+            width: 32, height: 32, borderRadius: 999,
+            background: isDark ? T.dBrass : T.brass,
+            color: isDark ? T.dBg : T.parchment,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            flexShrink: 0,
+          }}>
+            <Shield size={15} />
           </div>
-          <div className={`flex items-center gap-1 p-1 rounded-full border ${isDark ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-neutral-200'}`}>
+          <div style={{ minWidth: 0 }}>
+            <div style={{
+              fontSize: 13.5, fontWeight: 500,
+              color: isDark ? T.dInk : T.brassDeep,
+            }}>
+              {text.aboutPrivacyTitle}
+            </div>
+            <div style={{
+              fontSize: 12.5, marginTop: 3,
+              color: isDark ? T.dMute : T.brassDeep,
+              opacity: isDark ? 1 : 0.8,
+            }}>
+              {text.aboutPrivacyBody}
+            </div>
+          </div>
+        </div>
+
+        {/* Appearance */}
+        <div style={{
+          marginTop: 14, padding: '14px 16px', borderRadius: 14,
+          background: c('paper', 'dRaised'),
+          border: `1px solid ${c('line', 'dLine')}`,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        }}>
+          <div>
+            <div style={{ fontSize: 13.5, fontWeight: 500 }}>
+              {text.aboutAppearance}
+            </div>
+            <div style={{ fontSize: 12.5, color: c('mute', 'dMute'), marginTop: 3 }}>
+              {isDark ? text.aboutAppearanceDark : text.aboutAppearanceLight}
+            </div>
+          </div>
+          <div style={{
+            display: 'flex', padding: 3, gap: 2,
+            background: c('bone', 'dBg'), borderRadius: 999,
+            border: `1px solid ${c('line', 'dLine')}`,
+          }}>
             <button
               onClick={() => setTheme('light')}
-              className={`p-2 rounded-full transition-all ${theme === 'light' ? 'bg-amber-100 text-amber-600 shadow-sm' : 'text-neutral-400 hover:text-neutral-500'}`}
+              style={{
+                padding: '6px 10px', borderRadius: 999, border: 'none',
+                background: isDark ? 'transparent' : T.ink,
+                color: isDark ? c('mute', 'dMute') : T.parchment,
+                fontFamily: T.sans, fontSize: 11, cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: 6,
+              }}
             >
-              <Sun className="w-4 h-4" />
+              <Sun size={12} /> Linen
             </button>
             <button
               onClick={() => setTheme('dark')}
-              className={`p-2 rounded-full transition-all ${theme === 'dark' ? 'bg-neutral-800 text-blue-400 shadow-sm' : 'text-neutral-400 hover:text-neutral-500'}`}
+              style={{
+                padding: '6px 10px', borderRadius: 999, border: 'none',
+                background: isDark ? T.dBrass : 'transparent',
+                color: isDark ? T.dBg : c('mute', 'dMute'),
+                fontFamily: T.sans, fontSize: 11, cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: 6,
+              }}
             >
-              <Moon className="w-4 h-4" />
+              <Moon size={12} /> Espresso
             </button>
           </div>
         </div>
 
-        {/* Keyboard Shortcuts Section */}
-        <div className={`mb-6 p-4 rounded-xl border ${isDark ? 'bg-neutral-950 border-neutral-800' : 'bg-neutral-50 border-neutral-200'}`}>
-          <div className={`flex items-center gap-2 mb-3 text-xs font-bold uppercase tracking-wider ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
-            <Command className="w-3 h-3" />
-            {text.aboutShortcutsTitle}
+        {/* Shortcuts */}
+        <div style={{
+          marginTop: 14, padding: 16, borderRadius: 14,
+          background: c('paper', 'dRaised'),
+          border: `1px solid ${c('line', 'dLine')}`,
+        }}>
+          <div style={{
+            fontSize: 13.5, fontWeight: 500, marginBottom: 12,
+            display: 'flex', alignItems: 'center', gap: 8,
+          }}>
+            <Command size={13} /> {text.aboutShortcutsTitle}
           </div>
-          <div className="space-y-3">
-            <div>
-              <p className={`text-sm font-medium ${isDark ? 'text-neutral-200' : 'text-neutral-800'}`}>
-                {text.aboutShortcutUnlock}
-              </p>
-              <p className={`text-xs mt-0.5 leading-relaxed ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>
-                {text.aboutShortcutUnlockDesc}
-              </p>
-            </div>
-            <div>
-              <p className={`text-sm font-medium ${isDark ? 'text-neutral-200' : 'text-neutral-800'}`}>
-                {text.aboutShortcutEmergency}
-              </p>
-              <p className={`text-xs mt-0.5 leading-relaxed ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>
-                {text.aboutShortcutEmergencyDesc}
-              </p>
-            </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <ShortcutRow
+              keys={['⌘', '⌘', '×3']}
+              label={text.aboutShortcutUnlock}
+              sub={text.aboutShortcutUnlockDesc}
+              dark={isDark}
+            />
+            <ShortcutRow
+              keys={['↘', 'hover']}
+              label={text.aboutShortcutEmergency}
+              sub={text.aboutShortcutEmergencyDesc}
+              dark={isDark}
+            />
           </div>
         </div>
 
-        {/* Contact + Coffee */}
-        <div className="space-y-3 mb-2">
-          <a
+        {/* Footer actions */}
+        <div style={{ marginTop: 18, display: 'flex', gap: 10 }}>
+          <FooterAction
+            icon={<Mail size={14} />}
+            title={text.aboutContact}
+            sub="dbarkan@gmail.com"
             href="mailto:dbarkan@gmail.com"
-            className={`flex items-center gap-3 p-3 rounded-xl transition-colors group border ${
-              isDark
-                ? 'bg-neutral-800/50 border-transparent hover:bg-neutral-800'
-                : 'bg-neutral-50 border-neutral-100 hover:border-blue-200 hover:bg-blue-50/50'
-            }`}
-          >
-            <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500">
-              <Mail className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="font-medium text-sm">{text.aboutContact}</div>
-              <div className={`text-xs ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>dbarkan@gmail.com</div>
-            </div>
-          </a>
-
-          <a
+            dark={isDark}
+          />
+          <FooterAction
+            icon={<Coffee size={14} />}
+            title={text.aboutCoffee}
+            sub={text.aboutCoffeeDesc}
             href="https://paypal.me/dbarkan"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`flex items-center gap-3 p-3 rounded-xl transition-colors group border ${
-              isDark
-                ? 'bg-amber-500/10 border-transparent hover:bg-amber-500/20'
-                : 'bg-amber-50 border-amber-100 hover:bg-amber-100/50'
-            }`}
-          >
-            <div className="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center text-amber-500">
-              <Coffee className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="font-medium text-sm">{text.aboutCoffee}</div>
-              <div className={`text-xs ${isDark ? 'text-amber-500/80' : 'text-amber-600/70'}`}>{text.aboutCoffeeDesc}</div>
-            </div>
-          </a>
-        </div>
-
-        <div className={`mt-6 pt-6 border-t text-center text-xs ${isDark ? 'border-neutral-800 text-neutral-600' : 'border-neutral-200 text-neutral-400'}`}>
-          {text.aboutFooter}
+            external
+            highlight
+            dark={isDark}
+          />
         </div>
       </div>
     </div>
+  );
+};
+
+const ShortcutRow: React.FC<{
+  keys: string[];
+  label: string;
+  sub: string;
+  dark: boolean;
+}> = ({ keys, label, sub, dark }) => {
+  const c = (l: keyof typeof T, d: keyof typeof T): string => (dark ? T[d] : T[l]) as string;
+  const kbd: React.CSSProperties = {
+    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+    minWidth: 22, height: 22, padding: '0 6px', borderRadius: 6,
+    background: dark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.9)',
+    border: `1px solid ${dark ? 'rgba(255,255,255,0.1)' : T.line}`,
+    fontFamily: T.sans, fontSize: 11.5,
+    color: dark ? T.dInk : T.ink,
+  };
+  return (
+    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+      <div style={{ display: 'flex', gap: 4, flexShrink: 0, paddingTop: 1 }}>
+        {keys.map((k, i) => (
+          <span key={i} style={kbd}>{k}</span>
+        ))}
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontSize: 13, fontWeight: 500 }}>{label}</div>
+        <div style={{ fontSize: 12, color: c('mute', 'dMute'), marginTop: 2 }}>{sub}</div>
+      </div>
+    </div>
+  );
+};
+
+const FooterAction: React.FC<{
+  icon: React.ReactNode;
+  title: string;
+  sub: string;
+  href: string;
+  external?: boolean;
+  highlight?: boolean;
+  dark: boolean;
+}> = ({ icon, title, sub, href, external, highlight, dark }) => {
+  const c = (l: keyof typeof T, d: keyof typeof T): string => (dark ? T[d] : T[l]) as string;
+  return (
+    <a
+      href={href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
+      style={{
+        flex: 1, padding: '12px 14px', borderRadius: 12,
+        background: highlight ? (dark ? T.dRaised : T.champagne) : c('paper', 'dRaised'),
+        border: `1px solid ${highlight ? T.brass + '33' : c('line', 'dLine')}`,
+        display: 'flex', alignItems: 'center', gap: 12,
+        textDecoration: 'none',
+        cursor: 'pointer',
+      }}
+    >
+      <div style={{
+        width: 32, height: 32, borderRadius: 10,
+        background: highlight ? (dark ? T.dBrass : T.brass) : c('bone', 'dBg'),
+        color: highlight ? (dark ? T.dBg : T.parchment) : (dark ? T.dBrass : T.brassDeep),
+        display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+      }}>
+        {icon}
+      </div>
+      <div style={{ minWidth: 0 }}>
+        <div style={{
+          fontSize: 12.5, fontWeight: 500,
+          color: highlight ? (dark ? T.dInk : T.brassDeep) : c('ink', 'dInk'),
+        }}>
+          {title}
+        </div>
+        <div style={{
+          fontSize: 11, marginTop: 2,
+          color: highlight ? (dark ? T.dMute : T.brassDeep + 'B0') : c('mute', 'dMute'),
+        }}>
+          {sub}
+        </div>
+      </div>
+    </a>
   );
 };

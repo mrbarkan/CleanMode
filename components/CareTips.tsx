@@ -2,9 +2,10 @@ import React from 'react';
 import { Droplets, Keyboard, Sparkles, MoveHorizontal, Power, Ban } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { Theme } from '../App';
-import { t, Language } from '../utils/translations';
+import { Language } from '../utils/translations';
 import { localized, type Localized } from '../utils/cleaningGuide';
 import careTipsRaw from '../data/care-tips.json';
+import { T } from '../utils/clocheTokens';
 
 type CareTip = {
   id: string;
@@ -31,34 +32,48 @@ interface CareTipsProps {
 
 export const CareTips: React.FC<CareTipsProps> = ({ theme, lang }) => {
   const isDark = theme === 'dark';
-  const text = t[lang];
+  const lineColor = isDark ? T.dLine : T.line;
+  const inkColor = isDark ? T.dInk : T.ink;
+  const muteColor = isDark ? T.dMute : T.mute;
 
   return (
-    <section className="w-full">
-      <h3 className={`text-xs font-semibold uppercase tracking-wider mb-3
-        ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`}>
-        {text.careTipsHeading}
-      </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-        {tips.map((tip) => {
+    <section style={{ width: '100%' }}>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gap: 0,
+        borderTop: `1px solid ${lineColor}`,
+      }}>
+        {tips.map((tip, i) => {
           const Icon = ICONS[tip.icon] ?? Sparkles;
+          const useSage = i % 2 === 1;
+          const fg = useSage ? T.sage : T.brass;
+          const onRight = i % 2 === 1;
           return (
             <div
               key={tip.id}
-              className={`flex gap-3 p-3 rounded-xl border
-                ${isDark ? 'bg-neutral-900/40 border-neutral-800' : 'bg-white/60 border-neutral-200'}`}
+              style={{
+                padding: onRight ? '14px 0 14px 22px' : '14px 22px 14px 0',
+                borderBottom: `1px solid ${lineColor}`,
+                borderLeft: onRight ? `1px solid ${lineColor}` : 'none',
+                display: 'flex', gap: 12,
+              }}
             >
-              <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0
-                ${isDark ? 'bg-blue-500/10 text-blue-400' : 'bg-blue-50 text-blue-600'}`}>
-                <Icon className="w-4 h-4" />
+              <div style={{ color: fg, flexShrink: 0, marginTop: 2 }}>
+                <Icon size={16} strokeWidth={1.6} />
               </div>
-              <div className="flex-1 min-w-0">
-                <p className={`text-sm font-medium leading-tight ${isDark ? 'text-neutral-200' : 'text-neutral-900'}`}>
+              <div style={{ minWidth: 0 }}>
+                <div style={{
+                  fontSize: 13.5, fontWeight: 500,
+                  color: inkColor, marginBottom: 3,
+                }}>
                   {localized(tip.title, lang)}
-                </p>
-                <p className={`text-xs mt-1 leading-relaxed ${isDark ? 'text-neutral-500' : 'text-neutral-600'}`}>
+                </div>
+                <div style={{
+                  fontSize: 12, lineHeight: 1.5, color: muteColor,
+                }}>
                   {localized(tip.body, lang)}
-                </p>
+                </div>
               </div>
             </div>
           );

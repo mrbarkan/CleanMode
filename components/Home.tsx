@@ -1,14 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Shield, Sparkles, Command, Keyboard, Loader2, Laptop, Globe, Info, AlertTriangle, ExternalLink, ArrowLeft } from 'lucide-react';
+import {
+  Globe, Info, Shield, AlertTriangle, ArrowLeft,
+  Lock, Command, ExternalLink, Loader2,
+  Laptop, Monitor, Mouse,
+} from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { t, Language, languages } from '../utils/translations';
 import { Theme } from '../App';
 import { appVersion } from '../utils/changelog';
 import { PermissionsModal } from './PermissionsModal';
 import { CareTips } from './CareTips';
-import { DevicePicker } from './DevicePicker';
 import { lookupGuide } from '../utils/lookupGuide';
-import { localized, type CleaningEntry } from '../utils/cleaningGuide';
+import { localized, type CleaningEntry, type CatalogFile, type DeviceCategory } from '../utils/cleaningGuide';
+import catalogRaw from '../data/cleaning-catalog.json';
 import type { Permissions } from '../types/window';
+import { T } from '../utils/clocheTokens';
+import { ClocheDome } from './ClocheDome';
 
 interface HomeProps {
   onLock: (tips?: string) => void;
@@ -18,8 +25,19 @@ interface HomeProps {
   theme: Theme;
 }
 
+const catalog = catalogRaw as CatalogFile;
+const CATEGORY_ORDER: DeviceCategory[] = ['laptop', 'desktop', 'peripheral'];
+const CATEGORY_ICONS: Record<DeviceCategory, LucideIcon> = {
+  laptop: Laptop,
+  desktop: Monitor,
+  peripheral: Mouse,
+};
+
 export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, theme }) => {
-  // Initialize deviceModel from localStorage
+  const isDark = theme === 'dark';
+  const c = (l: keyof typeof T, d: keyof typeof T): string => (isDark ? T[d] : T[l]) as string;
+  const text = t[lang];
+
   const [deviceModel, setDeviceModel] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('cleanmode-model') || '';
@@ -35,20 +53,14 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
   const [isPermissionsModalOpen, setIsPermissionsModalOpen] = useState(false);
   const rightPanelRef = useRef<HTMLDivElement>(null);
 
-  const text = t[lang];
-  const isDark = theme === 'dark';
-
-  // Smoothly scroll right panel to top when an entry appears or clears
   useEffect(() => {
     rightPanelRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
   }, [entry]);
 
-  // Save deviceModel to localStorage when it changes
   useEffect(() => {
     localStorage.setItem('cleanmode-model', deviceModel);
   }, [deviceModel]);
 
-  // Check both macOS permissions once on mount.
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -60,7 +72,6 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
           if (!cancelled) setPermissions(null);
         }
       } else {
-        // Browser/non-Electron — banner not applicable.
         if (!cancelled) setPermissions({ accessibility: true, inputMonitoring: true });
       }
     })();
@@ -70,6 +81,13 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
   const allPermissionsGranted = permissions !== null
     && permissions.accessibility
     && permissions.inputMonitoring;
+
+  const entryAsTips = (): string => {
+    if (!entry) return '';
+    const kb = localized(entry.surfaces.keyboardTrackpad, lang);
+    const sc = localized(entry.surfaces.screenShell, lang);
+    return `${kb}\n\n${sc}`;
+  };
 
   const handleStart = async () => {
     const result = await window.electron?.enterCleaningMode?.() ?? { ok: true as const };
@@ -114,13 +132,6 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
     }
   };
 
-  const entryAsTips = (): string => {
-    if (!entry) return '';
-    const kb = localized(entry.surfaces.keyboardTrackpad, lang);
-    const sc = localized(entry.surfaces.screenShell, lang);
-    return `${kb}\n\n${sc}`;
-  };
-
   const handlePickDevice = async (displayName: string) => {
     setDeviceModel(displayName);
     setIsLoading(true);
@@ -143,262 +154,282 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
     setError('');
   };
 
+  const langLabel = languages.find(l => l.code === lang)?.name ?? lang.toUpperCase();
+
+  const grouped: Record<DeviceCategory, CleaningEntry[]> = {
+    laptop: [], desktop: [], peripheral: [],
+  };
+  for (const e of catalog.entries) {
+    if (e.category) grouped[e.category].push(e);
+  }
+  const categoryLabel = (cat: DeviceCategory): string => {
+    if (cat === 'laptop') return text.categoryLaptops;
+    if (cat === 'desktop') return text.categoryDesktops;
+    return text.categoryPeripherals;
+  };
+
   return (
-    <div className={`flex h-full w-full relative transition-colors duration-300 ${isDark ? 'bg-neutral-950' : 'bg-neutral-50'}`}>
-      
-      {/* DRAG REGION FOR ELECTRON */}
-      <div className="absolute top-0 left-0 right-0 h-10 w-full drag-region z-50 pointer-events-none" />
+    <div style={{
+      width: '100%', height: '100%',
+      background: c('bone', 'dBg'),
+      fontFamily: T.sans, color: c('ink', 'dInk'),
+      display: 'flex', overflow: 'hidden', position: 'relative',
+    }}>
+      {/* Drag region for Electron */}
+      <div className="drag-region" style={{
+        position: 'absolute', top: 0, left: 0, right: 0, height: 28,
+        zIndex: 50, pointerEvents: 'none',
+      }} />
 
-      {/* 
-        -------------------------------------------
-        LEFT SIDEBAR: CONTROLS & NAVIGATION
-        -------------------------------------------
-      */}
-      <div className={`flex-shrink-0 w-[320px] lg:w-[420px] h-full flex flex-col justify-between border-r z-10 transition-colors duration-300
-        ${isDark ? 'bg-neutral-950 border-neutral-900' : 'bg-white border-neutral-200'}`}>
-        
-        {/* Top: Branding */}
-        <div className="p-8 pb-0 pt-12">
-            <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/20">
-                    <Sparkles className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                    <h1 className={`text-2xl font-bold tracking-tight ${isDark ? 'text-white' : 'text-neutral-900'}`}>
-                        {text.title}
-                    </h1>
-                    <p className={`text-xs ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>
-                        v{appVersion}
-                    </p>
-                </div>
-            </div>
-
-            <div className="space-y-6">
-                <p className={`text-sm leading-relaxed ${isDark ? 'text-neutral-400' : 'text-neutral-600'}`}>
-                    {text.subtitle}
-                </p>
-
-                {/* Main Button */}
-                <div className="relative group w-full">
-                    {/* Shadow/Glow effect only in dark mode or if blue in light mode */}
-                    <div className={`absolute -inset-1 rounded-xl blur opacity-30 group-hover:opacity-60 transition duration-500
-                        ${isDark ? 'bg-gradient-to-r from-blue-600 to-indigo-600' : 'bg-blue-400'}`}></div>
-
-                    <button
-                        onClick={handleStart}
-                        className={`relative w-full px-6 py-4 rounded-xl font-medium flex items-center justify-center gap-3 transition-all active:scale-95 shadow-xl border
-                        ${isDark
-                            ? 'bg-neutral-900 border-neutral-800 text-white hover:bg-neutral-800'
-                            : 'bg-blue-600 border-blue-600 text-white hover:bg-blue-700 shadow-blue-600/20'}`}
-                    >
-                        <Shield className={`w-5 h-5 ${isDark ? 'text-blue-400' : 'text-white'}`} />
-                        <span>{text.startBtn}</span>
-                    </button>
-                </div>
-
-                {permissions !== null && !allPermissionsGranted && (
-                  <div className={`p-3 rounded-xl border flex gap-3 items-start
-                    ${isDark ? 'bg-amber-500/10 border-amber-500/20' : 'bg-amber-50 border-amber-200'}`}>
-                    <AlertTriangle className={`w-4 h-4 mt-0.5 flex-shrink-0 ${isDark ? 'text-amber-400' : 'text-amber-600'}`} />
-                    <div className="flex-1 min-w-0">
-                      <p className={`text-xs font-medium ${isDark ? 'text-amber-300' : 'text-amber-800'}`}>
-                        {text.permissionsBannerTitle}
-                      </p>
-                      <p className={`text-xs mt-0.5 ${isDark ? 'text-amber-400/80' : 'text-amber-700'}`}>
-                        {text.permissionsBannerBody}
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => setIsPermissionsModalOpen(true)}
-                      className={`text-xs font-semibold px-2 py-1 rounded transition-colors
-                        ${isDark ? 'bg-amber-500/20 hover:bg-amber-500/30 text-amber-300' : 'bg-amber-100 hover:bg-amber-200 text-amber-800'}`}
-                    >
-                      {text.permissionsGrant}
-                    </button>
-                  </div>
-                )}
-            </div>
+      {/* ─── LEFT SIDEBAR ─── */}
+      <aside style={{
+        width: 360, flexShrink: 0, height: '100%',
+        display: 'flex', flexDirection: 'column',
+        borderRight: `1px solid ${c('line', 'dLine')}`,
+        background: c('parchment', 'dSurface'),
+      }}>
+        <div style={{ padding: '44px 36px 0' }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
+            <h1 style={{
+              fontFamily: T.serif, fontSize: 40, lineHeight: 1, margin: 0,
+              fontWeight: 400, letterSpacing: '-0.025em', color: c('ink', 'dInk'),
+            }}>
+              Cloche
+            </h1>
+            <span style={{ fontSize: 12, color: c('muteSoft', 'dMute') }}>
+              {appVersion}
+            </span>
+          </div>
         </div>
 
-        {/* Middle: Key Info (Stays fixed in sidebar) */}
-        <div className="p-8 space-y-4">
-             <div className={`p-4 rounded-xl border flex gap-4 items-start ${isDark ? 'bg-neutral-900/50 border-neutral-800' : 'bg-neutral-50 border-neutral-100'}`}>
-                <Keyboard className={`w-5 h-5 mt-0.5 ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`} />
-                <div>
-                    <h3 className={`text-xs font-semibold uppercase tracking-wide mb-1 ${isDark ? 'text-neutral-300' : 'text-neutral-900'}`}>{text.blockInput}</h3>
-                    <p className={`text-xs leading-normal ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>{text.blockInputDesc}</p>
+        <div style={{ padding: '28px 36px 0', flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 0 24px' }}>
+            <ClocheDome size={150} variant={isDark ? 'marble' : 'brass'} />
+          </div>
+
+          <p style={{
+            fontSize: 13.5, lineHeight: 1.55, color: c('mute', 'dMute'),
+            margin: '0 0 20px', textAlign: 'center',
+          }}>
+            {text.subtitle}
+          </p>
+
+          <button onClick={handleStart} style={{
+            width: '100%', padding: '15px 22px',
+            background: isDark ? T.dBrass : T.brass,
+            color: isDark ? T.dBg : T.parchment,
+            border: 'none', borderRadius: 12,
+            fontFamily: T.sans, fontSize: 14, fontWeight: 500,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+            cursor: 'pointer',
+            boxShadow: `0 8px 22px -10px ${isDark ? T.dBrass : T.brass}88`,
+            transition: 'opacity 0.15s',
+          }}>
+            <Lock size={15} strokeWidth={1.7} />
+            <span>{text.startBtn}</span>
+          </button>
+
+          {permissions !== null && !allPermissionsGranted && (
+            <div style={{
+              marginTop: 14, padding: '11px 14px', borderRadius: 12,
+              background: c('champagne', 'dRaised'),
+              border: `1px solid ${T.brass}33`,
+              display: 'flex', gap: 11, alignItems: 'flex-start',
+            }}>
+              <AlertTriangle size={15} color={T.brass} style={{ flexShrink: 0, marginTop: 2 }} />
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: 12.5, fontWeight: 500, color: T.brassDeep, lineHeight: 1.4 }}>
+                  {text.permissionsBannerTitle}
                 </div>
-             </div>
-             <div className={`p-4 rounded-xl border flex gap-4 items-start ${isDark ? 'bg-neutral-900/50 border-neutral-800' : 'bg-neutral-50 border-neutral-100'}`}>
-                <div className="flex gap-0.5 mt-0.5">
-                    <Command className={`w-5 h-5 ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`} />
-                    <Command className={`w-5 h-5 ${isDark ? 'text-neutral-500' : 'text-neutral-400'}`} />
+                <div style={{ fontSize: 11.5, color: T.brassDeep, opacity: 0.8, marginTop: 2 }}>
+                  {text.permissionsBannerBody}
                 </div>
-                <div>
-                    <h3 className={`text-xs font-semibold uppercase tracking-wide mb-1 ${isDark ? 'text-neutral-300' : 'text-neutral-900'}`}>{text.tripleCombo}</h3>
-                    <p className={`text-xs leading-normal ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>{text.tripleComboDesc}</p>
+              </div>
+              <button
+                onClick={() => setIsPermissionsModalOpen(true)}
+                style={{
+                  padding: '4px 9px', borderRadius: 6,
+                  background: T.brass, color: T.parchment, border: 'none',
+                  fontSize: 11, fontWeight: 500, cursor: 'pointer',
+                  flexShrink: 0,
+                }}
+              >
+                {text.permissionsGrant}
+              </button>
+            </div>
+          )}
+
+          <div style={{ marginTop: 28, display: 'flex', flexDirection: 'column' }}>
+            {[
+              { icon: <Keyboardish c={c('muteSoft', 'dMute')} />, body: text.blockInputDesc },
+              { icon: <Command size={14} color={c('muteSoft', 'dMute')} />, body: text.tripleComboDesc },
+            ].map((row, i) => (
+              <div key={i} style={{
+                display: 'flex', gap: 14, padding: '13px 2px',
+                borderTop: i === 0 ? `1px solid ${c('line', 'dLine')}` : 'none',
+                borderBottom: `1px solid ${c('line', 'dLine')}`,
+              }}>
+                <div style={{ flexShrink: 0, marginTop: 1 }}>{row.icon}</div>
+                <div style={{ fontSize: 12.5, lineHeight: 1.55, color: c('mute', 'dMute') }}>
+                  {row.body}
                 </div>
-             </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Bottom: Settings Footer */}
-        <div className={`p-6 border-t flex items-center justify-between ${isDark ? 'border-neutral-900' : 'border-neutral-200'}`}>
-             
-             {/* Language Dropdown */}
-            <div className="relative">
-                <button 
-                    onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg border transition-colors text-xs font-medium uppercase tracking-wider
-                    ${isDark 
-                        ? 'bg-neutral-900 border-neutral-800 hover:border-neutral-700 text-neutral-400 hover:text-white' 
-                        : 'bg-white border-neutral-200 hover:border-neutral-300 text-neutral-600 hover:text-neutral-900'}`}
-                >
-                    <Globe className="w-3 h-3" />
-                    {lang}
-                </button>
-                
-                {isLangMenuOpen && (
-                    <>
-                    <div className="fixed inset-0 z-40" onClick={() => setIsLangMenuOpen(false)} />
-                    <div className={`absolute bottom-full left-0 mb-2 w-48 border rounded-xl shadow-xl overflow-hidden z-50 flex flex-col py-1
-                        ${isDark ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-neutral-200'}`}>
-                        {languages.map((l) => (
-                            <button
-                                key={l.code}
-                                onClick={() => {
-                                    setLang(l.code);
-                                    setIsLangMenuOpen(false);
-                                }}
-                                className={`px-4 py-3 text-left text-sm transition-colors 
-                                ${lang === l.code 
-                                    ? 'text-blue-500 font-medium' 
-                                    : isDark ? 'text-neutral-400 hover:bg-neutral-800' : 'text-neutral-600 hover:bg-neutral-50'}`}
-                            >
-                                {l.name}
-                            </button>
-                        ))}
-                    </div>
-                    </>
-                )}
-            </div>
-
-            <button 
-                onClick={onOpenAbout}
-                className={`p-2 rounded-lg border transition-colors 
-                ${isDark 
-                    ? 'bg-neutral-900 border-neutral-800 hover:border-neutral-700 text-neutral-400 hover:text-white' 
-                    : 'bg-white border-neutral-200 hover:border-neutral-300 text-neutral-600 hover:text-neutral-900'}`}
+        {/* Footer */}
+        <div style={{
+          padding: '14px 20px', borderTop: `1px solid ${c('line', 'dLine')}`,
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          position: 'relative',
+        }}>
+          <div style={{ position: 'relative' }}>
+            <button
+              onClick={() => setIsLangMenuOpen(o => !o)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '5px 10px', borderRadius: 8,
+                background: 'transparent', border: `1px solid ${c('line', 'dLine')}`,
+                fontSize: 11.5, color: c('mute', 'dMute'), cursor: 'pointer',
+                fontFamily: T.sans,
+              }}
             >
-                <Info className="w-4 h-4" />
+              <Globe size={12} />
+              {langLabel}
             </button>
+
+            {isLangMenuOpen && (
+              <>
+                <div
+                  onClick={() => setIsLangMenuOpen(false)}
+                  style={{ position: 'fixed', inset: 0, zIndex: 40 }}
+                />
+                <div style={{
+                  position: 'absolute', bottom: '100%', left: 0, marginBottom: 6,
+                  minWidth: 170, borderRadius: 10, overflow: 'hidden',
+                  background: c('parchment', 'dSurface'),
+                  border: `1px solid ${c('line', 'dLine')}`,
+                  boxShadow: '0 18px 36px -12px rgba(0,0,0,0.25)',
+                  zIndex: 50, padding: 4,
+                }}>
+                  {languages.map((l) => {
+                    const active = lang === l.code;
+                    return (
+                      <button
+                        key={l.code}
+                        onClick={() => { setLang(l.code); setIsLangMenuOpen(false); }}
+                        style={{
+                          width: '100%', textAlign: 'left',
+                          padding: '8px 12px', borderRadius: 6,
+                          background: active ? (isDark ? T.dRaised : T.bone) : 'transparent',
+                          color: active ? (isDark ? T.dInk : T.brass) : c('ink', 'dInk'),
+                          border: 'none', cursor: 'pointer',
+                          fontFamily: T.sans, fontSize: 12.5,
+                          fontWeight: active ? 500 : 400,
+                        }}
+                      >
+                        {l.name}
+                      </button>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+          </div>
+
+          <div style={{ display: 'flex', gap: 6 }}>
+            <FooterIconButton dark={isDark} ariaLabel="Privacy">
+              <Shield size={13} />
+            </FooterIconButton>
+            <FooterIconButton dark={isDark} onClick={onOpenAbout} ariaLabel={text.about}>
+              <Info size={13} />
+            </FooterIconButton>
+          </div>
         </div>
-      </div>
+      </aside>
 
-      {/* 
-        -------------------------------------------
-        RIGHT CONTENT: CLEANING ASSISTANT
-        -------------------------------------------
-      */}
-      <div className="flex-1 h-full relative overflow-hidden flex flex-col min-w-0">
-         {/* Background pattern */}
-         <div className={`absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_10%,transparent_100%)]`} />
-         
-         <div ref={rightPanelRef} className={`flex-1 overflow-y-auto no-scrollbar flex flex-col items-center justify-start p-6 lg:p-12 transition-all duration-300
-            ${entry ? 'pt-8' : 'pt-16'}`}>
-            
-            <div className={`w-full max-w-2xl space-y-8 relative z-10 transition-all duration-300
-                ${entry ? 'mt-2' : 'mt-8 lg:mt-16'}`}>
-
-                {!entry && (
-                    <div className="text-center space-y-2">
-                        <h2 className={`text-3xl md:text-4xl font-bold ${isDark ? 'text-white' : 'text-neutral-900'}`}>
-                            {text.guideTitle}
-                        </h2>
-                        <p className={`text-sm ${isDark ? 'text-neutral-400' : 'text-neutral-500'}`}>
-                            {text.guideSubtitle}
-                        </p>
-                    </div>
-                )}
-
-                {isLoading && (
-                    <div className="flex justify-center py-8">
-                        <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
-                    </div>
-                )}
-
-                {error && (
-                    <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center justify-center gap-2">
-                        <AlertTriangle className="w-4 h-4" />
-                        {error}
-                    </div>
-                )}
-                
-                {/* Results Area */}
-                {entry ? (
-                  <div className="mb-12">
-                    <button
-                      onClick={handleClearResult}
-                      className={`mb-3 inline-flex items-center gap-1.5 text-xs font-medium transition-colors
-                        ${isDark ? 'text-neutral-400 hover:text-white' : 'text-neutral-500 hover:text-neutral-900'}`}
-                    >
-                      <ArrowLeft className="w-3.5 h-3.5" />
-                      {text.backToHome}
-                    </button>
-                    <div className={`rounded-2xl p-8 border animate-in fade-in slide-in-from-bottom-4 shadow-xl
-                        ${isDark ? 'bg-neutral-900/80 border-neutral-800 text-neutral-300' : 'bg-white/80 border-neutral-200 text-neutral-700'}`}>
-                        <h4 className={`font-medium mb-6 text-sm uppercase tracking-wider flex items-center gap-2 pb-4 border-b
-                            ${isDark ? 'text-blue-400 border-neutral-800' : 'text-blue-600 border-neutral-100'}`}>
-                            <Laptop className="w-4 h-4" />
-                            {text.tipsFor} {entry.source === 'fallback' ? deviceModel : entry.displayName}
-                        </h4>
-
-                        {entry.source === 'fallback' && (
-                            <p className={`text-xs italic mb-4 ${isDark ? 'text-neutral-500' : 'text-neutral-500'}`}>
-                                {text.tipsGenericNotice}
-                            </p>
-                        )}
-
-                        <div className="prose prose-sm max-w-none space-y-6">
-                            <div className={`whitespace-pre-wrap leading-7 ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
-                                {localized(entry.surfaces.keyboardTrackpad, lang)}
-                            </div>
-                            <div className={`whitespace-pre-wrap leading-7 ${isDark ? 'text-neutral-300' : 'text-neutral-600'}`}>
-                                {localized(entry.surfaces.screenShell, lang)}
-                            </div>
-                        </div>
-
-                        {entry.sensitivities.length > 0 && (
-                            <div className={`mt-6 pt-4 border-t ${isDark ? 'border-neutral-800' : 'border-neutral-100'}`}>
-                                <p className={`text-xs font-medium uppercase tracking-wider ${isDark ? 'text-amber-400' : 'text-amber-600'}`}>
-                                    ⚠ {entry.sensitivities.map(s => localized(s, lang)).join(' • ')}
-                                </p>
-                            </div>
-                        )}
-
-                        {entry.source === 'catalog' && entry.sourceUrl && (
-                            <div className={`mt-6 pt-4 border-t ${isDark ? 'border-neutral-800' : 'border-neutral-100'}`}>
-                                <a
-                                    href={entry.sourceUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={`inline-flex items-center gap-2 text-xs ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}
-                                >
-                                    <ExternalLink className="w-3 h-3" />
-                                    {text.tipsViewSource}
-                                </a>
-                            </div>
-                        )}
-                    </div>
-                  </div>
-                ) : (
-                    <div className="space-y-8 mb-12">
-                        <DevicePicker theme={theme} lang={lang} onPick={handlePickDevice} />
-                        <CareTips theme={theme} lang={lang} />
-                    </div>
-                )}
+      {/* ─── RIGHT PANE ─── */}
+      <main ref={rightPanelRef} style={{ flex: 1, overflowY: 'auto', position: 'relative' }}>
+        <div style={{ padding: '40px 56px 36px', maxWidth: 880 }}>
+          {isLoading && (
+            <div style={{ display: 'flex', justifyContent: 'center', padding: '40px 0' }}>
+              <Loader2 size={22} color={T.brass} style={{ animation: 'cloche-spin 1s linear infinite' }} />
+              <style>{`@keyframes cloche-spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }`}</style>
             </div>
-         </div>
-      </div>
+          )}
+
+          {error && !isLoading && (
+            <div style={{
+              padding: '12px 16px', borderRadius: 12, marginBottom: 24,
+              background: c('champagne', 'dRaised'),
+              border: `1px solid ${T.brass}33`,
+              color: T.brassDeep, fontSize: 13,
+              display: 'flex', alignItems: 'center', gap: 10,
+            }}>
+              <AlertTriangle size={14} /> {error}
+            </div>
+          )}
+
+          {!entry && !isLoading && (
+            <>
+              <section style={{ marginBottom: 28 }}>
+                <SectionHead
+                  dark={isDark}
+                  title={text.careTipsHeading}
+                />
+                <CareTips theme={theme} lang={lang} />
+              </section>
+
+              <section>
+                <SectionHead
+                  dark={isDark}
+                  title={text.browseHeading}
+                  hint={text.guideSubtitle}
+                />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 14, paddingTop: 2 }}>
+                  {CATEGORY_ORDER.map((cat) => {
+                    const entries = grouped[cat];
+                    if (entries.length === 0) return null;
+                    const Icon = CATEGORY_ICONS[cat];
+                    return (
+                      <div key={cat}>
+                        <div style={{
+                          display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8,
+                          fontSize: 12, color: c('mute', 'dMute'),
+                        }}>
+                          <Icon size={13} />
+                          {categoryLabel(cat)}
+                        </div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                          {entries.map((e) => (
+                            <Chip
+                              key={e.id}
+                              label={e.displayName}
+                              dark={isDark}
+                              onClick={() => handlePickDevice(e.displayName)}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            </>
+          )}
+
+          {entry && !isLoading && (
+            <GuideView
+              entry={entry}
+              deviceModel={deviceModel}
+              lang={lang}
+              dark={isDark}
+              onBack={handleClearResult}
+            />
+          )}
+        </div>
+      </main>
 
       <PermissionsModal
         isOpen={isPermissionsModalOpen}
@@ -410,7 +441,181 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
         theme={theme}
         lang={lang}
       />
+    </div>
+  );
+};
 
+// — local helpers —
+
+const Keyboardish: React.FC<{ c: string }> = ({ c }) => (
+  <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="7" width="18" height="11" rx="2" />
+    <path d="M7 11h.01M11 11h.01M15 11h.01M7 15h10" />
+  </svg>
+);
+
+const Chip: React.FC<{ label: string; dark: boolean; onClick: () => void; active?: boolean }> = ({ label, dark, onClick, active }) => (
+  <button
+    onClick={onClick}
+    style={{
+      padding: '7px 13px', borderRadius: 999, cursor: 'pointer',
+      fontFamily: T.sans, fontSize: 12.5,
+      color: active ? (dark ? T.dBg : T.parchment) : (dark ? T.dInk : T.ink),
+      background: active ? (dark ? T.dBrass : T.ink) : (dark ? T.dSurface : T.paper),
+      border: `1px solid ${active ? 'transparent' : (dark ? T.dLine : T.line)}`,
+      transition: 'all 0.15s',
+    }}
+  >
+    {label}
+  </button>
+);
+
+const SectionHead: React.FC<{ title: string; hint?: string; dark: boolean }> = ({ title, hint, dark }) => (
+  <div style={{ marginBottom: 12 }}>
+    <h2 style={{
+      fontFamily: T.serif, fontSize: 24, lineHeight: 1.1, margin: 0,
+      fontWeight: 400, letterSpacing: '-0.015em',
+      color: dark ? T.dInk : T.ink,
+    }}>
+      {title}
+    </h2>
+    {hint && (
+      <div style={{ fontSize: 12.5, color: dark ? T.dMute : T.mute, marginTop: 4 }}>
+        {hint}
+      </div>
+    )}
+  </div>
+);
+
+const FooterIconButton: React.FC<{
+  dark: boolean;
+  children: React.ReactNode;
+  onClick?: () => void;
+  ariaLabel?: string;
+}> = ({ dark, children, onClick, ariaLabel }) => (
+  <button
+    onClick={onClick}
+    aria-label={ariaLabel}
+    style={{
+      width: 30, height: 30, borderRadius: 8,
+      background: 'transparent',
+      border: `1px solid ${dark ? T.dLine : T.line}`,
+      color: dark ? T.dMute : T.muteSoft,
+      cursor: 'pointer',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+    }}
+  >
+    {children}
+  </button>
+);
+
+interface GuideViewProps {
+  entry: CleaningEntry;
+  deviceModel: string;
+  lang: Language;
+  dark: boolean;
+  onBack: () => void;
+}
+
+const GuideView: React.FC<GuideViewProps> = ({ entry, deviceModel, lang, dark, onBack }) => {
+  const c = (l: keyof typeof T, d: keyof typeof T): string => (dark ? T[d] : T[l]) as string;
+  const text = t[lang];
+  const title = entry.source === 'fallback' ? deviceModel : entry.displayName;
+
+  return (
+    <div>
+      <button
+        onClick={onBack}
+        style={{
+          display: 'inline-flex', alignItems: 'center', gap: 6,
+          padding: '5px 10px 5px 6px', borderRadius: 6,
+          background: 'transparent', border: 'none',
+          color: c('mute', 'dMute'),
+          fontFamily: T.sans, fontSize: 12.5,
+          cursor: 'pointer', marginBottom: 18, marginLeft: -6,
+        }}
+      >
+        <ArrowLeft size={14} /> {text.backToHome}
+      </button>
+
+      <h2 style={{
+        fontFamily: T.serif, fontSize: 36, lineHeight: 1, margin: 0,
+        fontWeight: 400, color: c('ink', 'dInk'), letterSpacing: '-0.02em',
+      }}>
+        {title}
+      </h2>
+      <div style={{ fontSize: 13, color: c('mute', 'dMute'), marginTop: 6 }}>
+        {entry.source === 'catalog' ? 'From Apple Support' : text.tipsGenericNotice}
+      </div>
+
+      <Surface
+        heading={text.tipsFor}
+        body={localized(entry.surfaces.keyboardTrackpad, lang)}
+        dark={dark}
+      />
+      <Surface
+        heading={text.guideTitle}
+        body={localized(entry.surfaces.screenShell, lang)}
+        dark={dark}
+      />
+
+      {entry.sensitivities.length > 0 && (
+        <div style={{
+          marginTop: 28, padding: '13px 16px',
+          background: c('champagne', 'dRaised'),
+          borderRadius: 10,
+          display: 'flex', gap: 12, alignItems: 'flex-start',
+        }}>
+          <div style={{ color: T.brass, flexShrink: 0, marginTop: 2 }}>
+            <AlertTriangle size={14} />
+          </div>
+          <div style={{ fontSize: 12.5, lineHeight: 1.55, color: T.brassDeep }}>
+            {entry.sensitivities.map(s => localized(s, lang)).join(' • ')}
+          </div>
+        </div>
+      )}
+
+      {entry.source === 'catalog' && entry.sourceUrl && (
+        <div style={{ marginTop: 22 }}>
+          <a
+            href={entry.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              fontSize: 12.5, color: T.brass, textDecoration: 'none',
+              fontFamily: T.sans,
+            }}
+          >
+            <ExternalLink size={13} /> {text.tipsViewSource}
+          </a>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const Surface: React.FC<{ heading: string; body: string; dark: boolean }> = ({ heading, body, dark }) => {
+  const c = (l: keyof typeof T, d: keyof typeof T): string => (dark ? T[d] : T[l]) as string;
+  if (!body) return null;
+  return (
+    <div style={{ marginTop: 36 }}>
+      <h3 style={{
+        fontSize: 14, fontWeight: 500, color: c('ink', 'dInk'),
+        margin: 0, marginBottom: 12, letterSpacing: '-0.005em',
+      }}>
+        {heading}
+      </h3>
+      <div style={{
+        borderTop: `1px solid ${c('line', 'dLine')}`,
+        borderBottom: `1px solid ${c('line', 'dLine')}`,
+        padding: '14px 0',
+        fontSize: 13.5, lineHeight: 1.6,
+        color: c('inkSoft', 'dInk'),
+        whiteSpace: 'pre-wrap',
+      }}>
+        {body}
+      </div>
     </div>
   );
 };
