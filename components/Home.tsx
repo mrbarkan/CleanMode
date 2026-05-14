@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Shield, Sparkles, Command, Keyboard, Loader2, Laptop, Globe, Info, AlertTriangle, ExternalLink, ArrowLeft } from 'lucide-react';
 import { t, Language, languages } from '../utils/translations';
 import { Theme } from '../App';
@@ -33,9 +33,15 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const [permissions, setPermissions] = useState<Permissions | null>(null);
   const [isPermissionsModalOpen, setIsPermissionsModalOpen] = useState(false);
+  const rightPanelRef = useRef<HTMLDivElement>(null);
 
   const text = t[lang];
   const isDark = theme === 'dark';
+
+  // Smoothly scroll right panel to top when an entry appears or clears
+  useEffect(() => {
+    rightPanelRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [entry]);
 
   // Save deviceModel to localStorage when it changes
   useEffect(() => {
@@ -105,22 +111,6 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
       onLock(entryAsTips());
     } else if (result.error === 'permissions-denied') {
       setPermissions(result.permissions);
-    }
-  };
-
-  const handleSearch = async () => {
-    if (!deviceModel.trim()) return;
-    setIsLoading(true);
-    setError('');
-    setEntry(null);
-    try {
-      const guide = await lookupGuide(deviceModel, lang);
-      setEntry(guide);
-    } catch (err) {
-      console.error(err);
-      setError(text.fetchError);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -313,7 +303,7 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
          {/* Background pattern */}
          <div className={`absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:24px_24px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_10%,transparent_100%)]`} />
          
-         <div className="flex-1 overflow-y-auto no-scrollbar flex flex-col items-center justify-start p-6 lg:p-12 pt-16">
+         <div ref={rightPanelRef} className="flex-1 overflow-y-auto no-scrollbar flex flex-col items-center justify-start p-6 lg:p-12 pt-16">
             
             <div className="w-full max-w-2xl mt-8 lg:mt-16 space-y-8 relative z-10">
                 
@@ -326,32 +316,11 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
                     </p>
                 </div>
 
-                {/* Input Area */}
-                <div className={`flex gap-2 p-2 rounded-2xl border shadow-2xl shadow-blue-900/5 transition-all focus-within:ring-2 focus-within:ring-blue-500/20
-                    ${isDark ? 'bg-neutral-900 border-neutral-800' : 'bg-white border-neutral-200'}`}>
-                    <div className="flex-1 flex items-center px-4">
-                        <Laptop className={`w-5 h-5 mr-3 ${isDark ? 'text-neutral-600' : 'text-neutral-400'}`} />
-                        <input 
-                            type="text" 
-                            value={deviceModel}
-                            onChange={(e) => setDeviceModel(e.target.value)}
-                            placeholder={text.guidePlaceholder}
-                            className={`w-full bg-transparent text-sm focus:outline-none 
-                            ${isDark ? 'text-white placeholder-neutral-600' : 'text-neutral-900 placeholder-neutral-400'}`}
-                            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                        />
+                {isLoading && (
+                    <div className="flex justify-center py-8">
+                        <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
                     </div>
-                    <button
-                        onClick={handleSearch}
-                        disabled={isLoading || !deviceModel.trim()}
-                        className={`px-6 py-3 rounded-xl transition-all flex items-center justify-center font-medium
-                        ${isLoading || !deviceModel.trim() 
-                            ? (isDark ? 'bg-neutral-800 text-neutral-600 cursor-not-allowed' : 'bg-neutral-100 text-neutral-400 cursor-not-allowed')
-                            : 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-500/20'}`}
-                    >
-                        {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : text.searchButton}
-                    </button>
-                </div>
+                )}
 
                 {error && (
                     <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center justify-center gap-2">

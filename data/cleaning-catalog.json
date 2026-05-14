@@ -239,6 +239,193 @@
       "source": "catalog"
     },
     {
+      "id": "mac-mini",
+      "displayName": "Mac mini",
+      "category": "desktop",
+      "aliases": [
+        "mac mini", "mini", "mac mini m1", "mac mini m2", "mac mini m4", "mac mini intel"
+      ],
+      "surfaces": {
+        "keyboardTrackpad": {
+          "en": "• Power off the Mac mini and unplug all cables\n• Wipe the aluminum top and sides with a soft, lint-free cloth lightly damp with water\n• For stubborn marks, dampen the cloth with 70% isopropyl alcohol — never spray directly\n• Use a dry, soft brush to remove dust from the bottom vent\n• Avoid liquid near the ports and the power button\n• Allow to dry completely before plugging back in",
+          "es": "• Apaga el Mac mini y desconecta todos los cables\n• Limpia la parte superior y los lados de aluminio con un paño suave y sin pelusas ligeramente humedecido con agua\n• Para manchas difíciles, humedece el paño con alcohol isopropílico al 70% — nunca rocíes directamente\n• Usa un cepillo seco y suave para eliminar el polvo del respiradero inferior\n• Evita el líquido cerca de los puertos y el botón de encendido\n• Deja secar completamente antes de volver a enchufar",
+          "fr": "• Éteignez le Mac mini et débranchez tous les câbles\n• Essuyez le dessus et les côtés en aluminium avec un chiffon doux non pelucheux légèrement humidifié à l'eau\n• Pour les taches tenaces, humidifiez le chiffon avec de l'alcool isopropylique à 70% — ne vaporisez jamais directement\n• Utilisez une brosse sèche et douce pour retirer la poussière de l'évent inférieur\n• Évitez le liquide près des ports et du bouton d'alimentation\n• Laissez sécher complètement avant de rebrancher",
+          "de": "• Mac mini ausschalten und alle Kabel abziehen\n• Aluminium-Oberseite und -Seiten mit weichem, fusselfreiem Tuch leicht angefeuchtet abwischen\n• Bei hartnäckigen Flecken Tuch mit 70% Isopropylalkohol anfeuchten — niemals direkt aufsprühen\n• Trockene, weiche Bürste verwenden, um Staub aus der unteren Lüftung zu entfernen\n• Flüssigkeit von Anschlüssen und Einschaltknopf fernhalten\n• Vor dem erneuten Anschließen vollständig trocknen lassen",
+          "zh": "• 关闭 Mac mini 并拔下所有线缆\n• 使用稍微沾水的柔软无绒布擦拭铝制顶部和侧面\n• 对于顽固污渍,用 70% 异丙醇沾湿布 — 切勿直接喷洒\n• 用干净柔软的刷子清除底部通风口的灰尘\n• 避免液体靠近端口和电源按钮\n• 重新插入电源前让其完全干燥",
+          "ja": "• Mac mini の電源を切り、すべてのケーブルを外す\n• アルミニウムの天面と側面を、水で軽く湿らせた柔らかい糸くずの出ない布で拭く\n• 頑固な汚れには、布に70%イソプロピルアルコールを含ませる — 直接吹き付けない\n• 底面の通気口のホコリは乾いた柔らかいブラシで取り除く\n• ポートや電源ボタン付近の液体を避ける\n• 再接続する前に完全に乾燥させる",
+          "pt": "• Desligue o Mac mini e desconecte todos os cabos\n• Limpe a parte superior e as laterais de alumínio com um pano macio e sem fiapos levemente úmido com água\n• Para marcas difíceis, umedeça o pano com álcool isopropílico 70% — nunca pulverize diretamente\n• Use uma escova seca e macia para remover poeira da saída de ar inferior\n• Evite líquido perto das portas e do botão de energia\n• Deixe secar completamente antes de reconectar"
+        },
+        "screenShell": {
+          "en": "• The aluminum bottom plate can be wiped with the same lightly damp cloth used on top\n• Be careful around the rubber feet — they pop off easily and trap liquid\n• Finish with a dry cloth",
+          "es": "• La placa inferior de aluminio se puede limpiar con el mismo paño ligeramente húmedo usado arriba\n• Ten cuidado con los pies de goma — se sueltan fácilmente y atrapan líquido\n• Termina con un paño seco",
+          "fr": "• La plaque inférieure en aluminium peut être essuyée avec le même chiffon légèrement humide utilisé sur le dessus\n• Attention aux pieds en caoutchouc — ils se détachent facilement et retiennent le liquide\n• Terminez avec un chiffon sec",
+          "de": "• Die Aluminium-Bodenplatte kann mit demselben leicht feuchten Tuch wie die Oberseite abgewischt werden\n• Vorsicht bei den Gummifüßen — sie lösen sich leicht und können Flüssigkeit einschließen\n• Mit trockenem Tuch nachwischen",
+          "zh": "• 铝制底板可以用擦拭顶部时的同一块稍湿的布擦拭\n• 注意橡胶脚垫 — 它们容易脱落并积聚液体\n• 用干布擦干",
+          "ja": "• アルミニウムの底面プレートは、天面に使ったのと同じ軽く湿った布で拭ける\n• ゴム足に注意 — 簡単に外れて液体を抱え込みます\n• 乾いた布で仕上げる",
+          "pt": "• A placa inferior de alumínio pode ser limpa com o mesmo pano levemente úmido usado em cima\n• Cuidado com os pés de borracha — soltam-se facilmente e retêm líquido\n• Finalize com um pano seco"
+        }
+      },
+      "sensitivities": [],
+      "sourceUrl": "https://support.apple.com/en-us/102213",
+      "source": "catalog"
+    },
+    {
+      "id": "mac-studio",
+      "displayName": "Mac Studio",
+      "category": "desktop",
+      "aliases": [
+        "mac studio", "studio", "mac studio m1", "mac studio m2", "mac studio m4",
+        "mac studio max", "mac studio ultra"
+      ],
+      "surfaces": {
+        "keyboardTrackpad": {
+          "en": "• Power off the Mac Studio and unplug all cables\n• Wipe the aluminum case with a soft, lint-free cloth lightly damp with water\n• For stubborn marks, dampen the cloth with 70% isopropyl alcohol — never spray directly\n• Pay attention to the perforated bottom — dust builds up there. A dry, soft brush works best\n• Avoid liquid near the rear ports and the front USB-C / SD slot\n• Allow to dry completely before plugging back in",
+          "es": "• Apaga el Mac Studio y desconecta todos los cables\n• Limpia la carcasa de aluminio con un paño suave y sin pelusas ligeramente humedecido con agua\n• Para manchas difíciles, humedece el paño con alcohol isopropílico al 70% — nunca rocíes directamente\n• Presta atención a la parte inferior perforada — allí se acumula polvo. Un cepillo seco y suave funciona mejor\n• Evita el líquido cerca de los puertos traseros y la ranura USB-C / SD frontal\n• Deja secar completamente antes de volver a enchufar",
+          "fr": "• Éteignez le Mac Studio et débranchez tous les câbles\n• Essuyez le boîtier en aluminium avec un chiffon doux non pelucheux légèrement humidifié à l'eau\n• Pour les taches tenaces, humidifiez le chiffon avec de l'alcool isopropylique à 70% — ne vaporisez jamais directement\n• Faites attention au dessous perforé — la poussière s'y accumule. Une brosse sèche et douce convient le mieux\n• Évitez le liquide près des ports arrière et de la fente USB-C / SD avant\n• Laissez sécher complètement avant de rebrancher",
+          "de": "• Mac Studio ausschalten und alle Kabel abziehen\n• Aluminiumgehäuse mit weichem, fusselfreiem Tuch leicht angefeuchtet abwischen\n• Bei hartnäckigen Flecken Tuch mit 70% Isopropylalkohol anfeuchten — niemals direkt aufsprühen\n• Achten Sie auf die perforierte Unterseite — dort sammelt sich Staub. Eine trockene, weiche Bürste funktioniert am besten\n• Flüssigkeit von hinteren Anschlüssen und vorderem USB-C / SD-Slot fernhalten\n• Vor dem erneuten Anschließen vollständig trocknen lassen",
+          "zh": "• 关闭 Mac Studio 并拔下所有线缆\n• 使用稍微沾水的柔软无绒布擦拭铝制外壳\n• 对于顽固污渍,用 70% 异丙醇沾湿布 — 切勿直接喷洒\n• 注意底部穿孔区域 — 灰尘会在此堆积。干燥柔软的刷子效果最好\n• 避免液体靠近后部端口和前部 USB-C / SD 插槽\n• 重新插入电源前让其完全干燥",
+          "ja": "• Mac Studio の電源を切り、すべてのケーブルを外す\n• アルミニウムのケースを、水で軽く湿らせた柔らかい糸くずの出ない布で拭く\n• 頑固な汚れには、布に70%イソプロピルアルコールを含ませる — 直接吹き付けない\n• 底面の穴あき部分に注意 — そこにホコリがたまります。乾いた柔らかいブラシが最適\n• 背面ポートや前面の USB-C / SD スロット付近の液体を避ける\n• 再接続する前に完全に乾燥させる",
+          "pt": "• Desligue o Mac Studio e desconecte todos os cabos\n• Limpe a carcaça de alumínio com um pano macio e sem fiapos levemente úmido com água\n• Para marcas difíceis, umedeça o pano com álcool isopropílico 70% — nunca pulverize diretamente\n• Preste atenção à parte inferior perfurada — poeira se acumula ali. Uma escova seca e macia funciona melhor\n• Evite líquido perto das portas traseiras e do slot USB-C / SD frontal\n• Deixe secar completamente antes de reconectar"
+        },
+        "screenShell": {
+          "en": "• The exterior aluminum can be wiped with the same damp cloth\n• Use a soft cloth on the front Apple logo area — avoid scratching\n• Finish with a dry cloth",
+          "es": "• El exterior de aluminio se puede limpiar con el mismo paño húmedo\n• Usa un paño suave en el área del logo de Apple frontal — evita rayar\n• Termina con un paño seco",
+          "fr": "• L'extérieur en aluminium peut être essuyé avec le même chiffon humide\n• Utilisez un chiffon doux sur la zone du logo Apple à l'avant — évitez de rayer\n• Terminez avec un chiffon sec",
+          "de": "• Das äußere Aluminium kann mit demselben feuchten Tuch abgewischt werden\n• Weiches Tuch für den Bereich des Apple-Logos vorne verwenden — Kratzer vermeiden\n• Mit trockenem Tuch nachwischen",
+          "zh": "• 外部铝合金可以用同一块湿布擦拭\n• 前部 Apple 标志区域使用软布 — 避免刮擦\n• 用干布擦干",
+          "ja": "• 外側のアルミニウムは同じ湿った布で拭ける\n• 前面の Apple ロゴ部分には柔らかい布を使用 — 引っかき傷を避ける\n• 乾いた布で仕上げる",
+          "pt": "• O alumínio externo pode ser limpo com o mesmo pano úmido\n• Use um pano macio na área do logo Apple frontal — evite arranhar\n• Finalize com um pano seco"
+        }
+      },
+      "sensitivities": [],
+      "sourceUrl": "https://support.apple.com/en-us/102213",
+      "source": "catalog"
+    },
+    {
+      "id": "mac-pro",
+      "displayName": "Mac Pro",
+      "category": "desktop",
+      "aliases": [
+        "mac pro", "mac pro tower", "mac pro rack", "mac pro 2019", "mac pro m2",
+        "mac pro ultra", "cheese grater"
+      ],
+      "surfaces": {
+        "keyboardTrackpad": {
+          "en": "• Power off the Mac Pro and unplug all cables before any cleaning\n• Wipe the stainless-steel/aluminum exterior with a soft, lint-free cloth lightly damp with water\n• For stubborn marks, dampen the cloth with 70% isopropyl alcohol — never spray directly\n• The lattice (\"cheese-grater\") grilles trap dust — use a dry, soft brush or low-pressure air, never a wet cloth across them\n• Avoid liquid near the I/O panel and any open expansion slots",
+          "es": "• Apaga el Mac Pro y desconecta todos los cables antes de cualquier limpieza\n• Limpia el exterior de acero inoxidable/aluminio con un paño suave y sin pelusas ligeramente humedecido con agua\n• Para manchas difíciles, humedece el paño con alcohol isopropílico al 70% — nunca rocíes directamente\n• La rejilla en celosía (\"cheese-grater\") atrapa polvo — usa un cepillo seco y suave o aire a baja presión, nunca un paño húmedo sobre ella\n• Evita el líquido cerca del panel de E/S y cualquier ranura de expansión abierta",
+          "fr": "• Éteignez le Mac Pro et débranchez tous les câbles avant tout nettoyage\n• Essuyez l'extérieur en acier inoxydable/aluminium avec un chiffon doux non pelucheux légèrement humidifié à l'eau\n• Pour les taches tenaces, humidifiez le chiffon avec de l'alcool isopropylique à 70% — ne vaporisez jamais directement\n• Les grilles en treillis (\"cheese-grater\") retiennent la poussière — utilisez une brosse sèche et douce ou de l'air à basse pression, jamais un chiffon humide dessus\n• Évitez le liquide près du panneau E/S et des emplacements d'extension ouverts",
+          "de": "• Mac Pro ausschalten und alle Kabel vor jeder Reinigung abziehen\n• Edelstahl-/Aluminium-Außenseite mit weichem, fusselfreiem Tuch leicht angefeuchtet abwischen\n• Bei hartnäckigen Flecken Tuch mit 70% Isopropylalkohol anfeuchten — niemals direkt aufsprühen\n• Die Gitterstruktur (\"Cheese-Grater\") fängt Staub ein — trockene, weiche Bürste oder Druckluft mit niedrigem Druck verwenden, niemals ein feuchtes Tuch darüber\n• Flüssigkeit von I/O-Panel und offenen Erweiterungssteckplätzen fernhalten",
+          "zh": "• 清洁前关闭 Mac Pro 并拔下所有线缆\n• 使用稍微沾水的柔软无绒布擦拭不锈钢/铝合金外壳\n• 对于顽固污渍,用 70% 异丙醇沾湿布 — 切勿直接喷洒\n• 网格(\"奶酪刨\")设计会困住灰尘 — 使用干净柔软的刷子或低压气流,切勿用湿布擦拭\n• 避免液体靠近 I/O 面板和任何打开的扩展插槽",
+          "ja": "• Mac Pro の電源を切り、清掃前にすべてのケーブルを外す\n• ステンレス/アルミニウムの外装を、水で軽く湿らせた柔らかい糸くずの出ない布で拭く\n• 頑固な汚れには、布に70%イソプロピルアルコールを含ませる — 直接吹き付けない\n• 格子状(チーズグレーター)のグリルはホコリを捕らえます — 乾いた柔らかいブラシまたは低圧エアを使用し、湿った布は絶対に使わない\n• I/O パネルや開いた拡張スロット付近の液体を避ける",
+          "pt": "• Desligue o Mac Pro e desconecte todos os cabos antes de qualquer limpeza\n• Limpe o exterior de aço inoxidável/alumínio com um pano macio e sem fiapos levemente úmido com água\n• Para marcas difíceis, umedeça o pano com álcool isopropílico 70% — nunca pulverize diretamente\n• A grade em treliça (\"cheese-grater\") retém poeira — use uma escova seca e macia ou ar de baixa pressão, nunca um pano úmido sobre ela\n• Evite líquido perto do painel de E/S e quaisquer slots de expansão abertos"
+        },
+        "screenShell": {
+          "en": "• Tower handles and feet can be wiped with the damp cloth, finished dry\n• Rack-mount models: avoid liquid near the slide rails\n• Periodically inspect the grille for compacted dust; deep cleaning may require a service tech",
+          "es": "• Las asas y los pies de la torre se pueden limpiar con el paño húmedo, terminando seco\n• Modelos en rack: evita el líquido cerca de los rieles deslizantes\n• Inspecciona periódicamente la rejilla en busca de polvo compactado; la limpieza profunda puede requerir un técnico",
+          "fr": "• Les poignées et pieds de la tour peuvent être essuyés avec le chiffon humide, puis séchés\n• Modèles rack : évitez le liquide près des rails coulissants\n• Inspectez périodiquement la grille pour la poussière compactée ; un nettoyage en profondeur peut nécessiter un technicien",
+          "de": "• Turm-Griffe und Füße können mit dem feuchten Tuch abgewischt und trocken nachgewischt werden\n• Rack-Modelle: Flüssigkeit von den Gleitschienen fernhalten\n• Gitter regelmäßig auf verdichteten Staub prüfen; Tiefenreinigung erfordert möglicherweise einen Techniker",
+          "zh": "• 塔式机型的把手和脚垫可以用湿布擦拭后用干布擦干\n• 机架式机型:避免液体靠近滑轨\n• 定期检查网格是否有压实的灰尘;深度清洁可能需要技术人员",
+          "ja": "• タワー型のハンドルと足は湿った布で拭いた後、乾燥させる\n• ラックマウントモデル:スライドレール付近の液体を避ける\n• グリルに固まったホコリがないか定期的に点検;深部の清掃には技術者が必要な場合があります",
+          "pt": "• As alças e os pés da torre podem ser limpos com o pano úmido, finalizando seco\n• Modelos de rack: evite líquido perto dos trilhos deslizantes\n• Inspecione periodicamente a grade em busca de poeira compactada; limpeza profunda pode exigir um técnico"
+        }
+      },
+      "sensitivities": [
+        {
+          "en": "lattice grille — never wipe with a wet cloth; use dry brush or low-pressure air only",
+          "es": "rejilla en celosía — nunca limpies con un paño húmedo; usa solo cepillo seco o aire a baja presión",
+          "fr": "grille en treillis — ne jamais essuyer avec un chiffon humide ; utilisez uniquement une brosse sèche ou de l'air à basse pression",
+          "de": "Gitterstruktur — niemals mit feuchtem Tuch wischen; nur trockene Bürste oder Druckluft mit niedrigem Druck",
+          "zh": "网格设计 — 切勿用湿布擦拭;仅使用干刷或低压气流",
+          "ja": "格子状グリル — 湿った布で拭かない;乾いたブラシまたは低圧エアのみ使用",
+          "pt": "grade em treliça — nunca limpe com pano úmido; use apenas escova seca ou ar de baixa pressão"
+        }
+      ],
+      "sourceUrl": "https://support.apple.com/en-us/102213",
+      "source": "catalog"
+    },
+    {
+      "id": "studio-display",
+      "displayName": "Studio Display",
+      "category": "desktop",
+      "aliases": [
+        "studio display", "apple studio display", "27 inch display", "27-inch display"
+      ],
+      "surfaces": {
+        "keyboardTrackpad": {
+          "en": "• Power off the connected Mac and unplug the Studio Display from power\n• Wipe the aluminum bezel and stand with a soft, lint-free cloth lightly damp with water\n• For stubborn marks, dampen the cloth with 70% isopropyl alcohol — never spray directly\n• Be gentle around the Thunderbolt cable entry and rear ports\n• Allow to dry completely before reconnecting",
+          "es": "• Apaga el Mac conectado y desconecta el Studio Display de la corriente\n• Limpia el marco de aluminio y el soporte con un paño suave y sin pelusas ligeramente humedecido con agua\n• Para manchas difíciles, humedece el paño con alcohol isopropílico al 70% — nunca rocíes directamente\n• Sé suave alrededor de la entrada del cable Thunderbolt y los puertos traseros\n• Deja secar completamente antes de reconectar",
+          "fr": "• Éteignez le Mac connecté et débranchez le Studio Display de l'alimentation\n• Essuyez le cadre en aluminium et le pied avec un chiffon doux non pelucheux légèrement humidifié à l'eau\n• Pour les taches tenaces, humidifiez le chiffon avec de l'alcool isopropylique à 70% — ne vaporisez jamais directement\n• Soyez doux autour de l'entrée du câble Thunderbolt et des ports arrière\n• Laissez sécher complètement avant de reconnecter",
+          "de": "• Verbundenen Mac ausschalten und Studio Display vom Strom trennen\n• Aluminiumrahmen und Standfuß mit weichem, fusselfreiem Tuch leicht angefeuchtet abwischen\n• Bei hartnäckigen Flecken Tuch mit 70% Isopropylalkohol anfeuchten — niemals direkt aufsprühen\n• Vorsichtig sein um den Thunderbolt-Kabeleingang und die hinteren Anschlüsse\n• Vor dem erneuten Anschließen vollständig trocknen lassen",
+          "zh": "• 关闭连接的 Mac 并拔下 Studio Display 的电源\n• 使用稍微沾水的柔软无绒布擦拭铝制边框和支架\n• 对于顽固污渍,用 70% 异丙醇沾湿布 — 切勿直接喷洒\n• 在 Thunderbolt 电缆入口和后部端口周围要轻柔\n• 重新连接前让其完全干燥",
+          "ja": "• 接続している Mac の電源を切り、Studio Display の電源を外す\n• アルミニウムのベゼルとスタンドを、水で軽く湿らせた柔らかい糸くずの出ない布で拭く\n• 頑固な汚れには、布に70%イソプロピルアルコールを含ませる — 直接吹き付けない\n• Thunderbolt ケーブルの入口や背面ポート付近は優しく扱う\n• 再接続する前に完全に乾燥させる",
+          "pt": "• Desligue o Mac conectado e desconecte o Studio Display da energia\n• Limpe a moldura de alumínio e o suporte com um pano macio e sem fiapos levemente úmido com água\n• Para marcas difíceis, umedeça o pano com álcool isopropílico 70% — nunca pulverize diretamente\n• Seja delicado ao redor da entrada do cabo Thunderbolt e das portas traseiras\n• Deixe secar completamente antes de reconectar"
+        },
+        "screenShell": {
+          "en": "• Use a polishing cloth or clean microfiber, slightly damp with water\n• Wipe the screen in straight strokes — never use ammonia, bleach, or abrasive cleaners\n• If your Studio Display has nano-texture glass, use ONLY the Apple polishing cloth that shipped with it, with water only\n• Avoid pressure on the center of the screen",
+          "es": "• Usa un paño de pulido o microfibra limpia, ligeramente humedecido con agua\n• Limpia la pantalla con movimientos rectos — nunca uses amoníaco, lejía ni limpiadores abrasivos\n• Si tu Studio Display tiene cristal nano-texturizado, usa SOLO el paño de pulido Apple que vino con él, solo con agua\n• Evita presionar el centro de la pantalla",
+          "fr": "• Utilisez un chiffon de polissage ou une microfibre propre, légèrement humidifié à l'eau\n• Essuyez l'écran en mouvements droits — n'utilisez jamais d'ammoniaque, d'eau de Javel ou de nettoyants abrasifs\n• Si votre Studio Display a un verre nano-texturé, utilisez UNIQUEMENT le chiffon de polissage Apple fourni, avec de l'eau uniquement\n• Évitez d'appuyer sur le centre de l'écran",
+          "de": "• Poliertuch oder sauberes Mikrofasertuch verwenden, leicht mit Wasser angefeuchtet\n• Bildschirm in geraden Strichen abwischen — niemals Ammoniak, Bleichmittel oder scheuernde Reiniger verwenden\n• Bei nano-texturiertem Glas NUR das mitgelieferte Apple-Poliertuch verwenden, nur mit Wasser\n• Druck auf die Bildschirmmitte vermeiden",
+          "zh": "• 使用抛光布或干净的超细纤维布,用水稍微沾湿\n• 沿直线擦拭屏幕 — 切勿使用氨水、漂白剂或研磨清洁剂\n• 如果您的 Studio Display 配备纳米纹理玻璃,只能使用随附的 Apple 抛光布,仅用水\n• 避免按压屏幕中央",
+          "ja": "• ポリッシングクロスまたは清潔なマイクロファイバーを使用、水で軽く湿らせる\n• 画面を直線的に拭く — アンモニア、漂白剤、研磨剤入りクリーナーは絶対に使用しない\n• お使いの Studio Display にナノテクスチャーガラスがある場合は、付属の Apple ポリッシングクロスのみ使用、水のみ\n• 画面中央に圧力をかけない",
+          "pt": "• Use um pano de polimento ou microfibra limpa, levemente úmido com água\n• Limpe a tela com movimentos retos — nunca use amônia, alvejante ou limpadores abrasivos\n• Se o seu Studio Display tem vidro nano-texturizado, use APENAS o pano de polimento Apple que veio com ele, apenas com água\n• Evite pressão no centro da tela"
+        }
+      },
+      "sensitivities": [
+        {
+          "en": "nano-texture glass option — Apple polishing cloth + water only",
+          "es": "opción de cristal nano-texturizado — paño de pulido Apple + solo agua",
+          "fr": "option verre nano-texturé — chiffon de polissage Apple + eau uniquement",
+          "de": "Nano-Textur-Glas-Option — Apple-Poliertuch + nur Wasser",
+          "zh": "纳米纹理玻璃选项 — Apple 抛光布 + 仅用水",
+          "ja": "ナノテクスチャーガラスオプション — Apple ポリッシングクロス + 水のみ",
+          "pt": "opção de vidro nano-texturizado — pano de polimento Apple + apenas água"
+        }
+      ],
+      "sourceUrl": "https://support.apple.com/en-us/102213",
+      "source": "catalog"
+    },
+    {
+      "id": "pro-display-xdr",
+      "displayName": "Pro Display XDR",
+      "category": "desktop",
+      "aliases": [
+        "pro display xdr", "xdr", "pro display", "apple pro display", "32 inch display", "32-inch display"
+      ],
+      "surfaces": {
+        "keyboardTrackpad": {
+          "en": "• Power off the connected Mac and unplug the Pro Display XDR\n• Wipe the aluminum bezel and Pro Stand with a soft, lint-free cloth lightly damp with water\n• For stubborn marks, dampen the cloth with 70% isopropyl alcohol — never spray directly\n• Be very gentle around the rear lattice that mirrors the Mac Pro grille — use a dry brush, not a wet cloth\n• Allow to dry completely before reconnecting",
+          "es": "• Apaga el Mac conectado y desconecta el Pro Display XDR\n• Limpia el marco de aluminio y el Pro Stand con un paño suave y sin pelusas ligeramente humedecido con agua\n• Para manchas difíciles, humedece el paño con alcohol isopropílico al 70% — nunca rocíes directamente\n• Sé muy suave alrededor de la rejilla trasera que refleja la del Mac Pro — usa un cepillo seco, no un paño húmedo\n• Deja secar completamente antes de reconectar",
+          "fr": "• Éteignez le Mac connecté et débranchez le Pro Display XDR\n• Essuyez le cadre en aluminium et le Pro Stand avec un chiffon doux non pelucheux légèrement humidifié à l'eau\n• Pour les taches tenaces, humidifiez le chiffon avec de l'alcool isopropylique à 70% — ne vaporisez jamais directement\n• Soyez très doux autour du treillis arrière qui reflète la grille du Mac Pro — utilisez une brosse sèche, pas un chiffon humide\n• Laissez sécher complètement avant de reconnecter",
+          "de": "• Verbundenen Mac ausschalten und Pro Display XDR vom Strom trennen\n• Aluminiumrahmen und Pro Stand mit weichem, fusselfreiem Tuch leicht angefeuchtet abwischen\n• Bei hartnäckigen Flecken Tuch mit 70% Isopropylalkohol anfeuchten — niemals direkt aufsprühen\n• Sehr vorsichtig am rückseitigen Gitter (wie beim Mac Pro) — trockene Bürste verwenden, kein feuchtes Tuch\n• Vor dem erneuten Anschließen vollständig trocknen lassen",
+          "zh": "• 关闭连接的 Mac 并拔下 Pro Display XDR 的电源\n• 使用稍微沾水的柔软无绒布擦拭铝制边框和 Pro Stand\n• 对于顽固污渍,用 70% 异丙醇沾湿布 — 切勿直接喷洒\n• 后部网格(类似 Mac Pro 设计)需要非常轻柔 — 使用干刷,不要用湿布\n• 重新连接前让其完全干燥",
+          "ja": "• 接続している Mac の電源を切り、Pro Display XDR の電源を外す\n• アルミニウムのベゼルと Pro Stand を、水で軽く湿らせた柔らかい糸くずの出ない布で拭く\n• 頑固な汚れには、布に70%イソプロピルアルコールを含ませる — 直接吹き付けない\n• Mac Pro と同じ背面格子は特に優しく — 湿った布ではなく乾いたブラシを使用\n• 再接続する前に完全に乾燥させる",
+          "pt": "• Desligue o Mac conectado e desconecte o Pro Display XDR\n• Limpe a moldura de alumínio e o Pro Stand com um pano macio e sem fiapos levemente úmido com água\n• Para marcas difíceis, umedeça o pano com álcool isopropílico 70% — nunca pulverize diretamente\n• Seja muito delicado ao redor da grade traseira que espelha a do Mac Pro — use uma escova seca, não um pano úmido\n• Deixe secar completamente antes de reconectar"
+        },
+        "screenShell": {
+          "en": "• Pro Display XDR ships with nano-texture glass as the premium option — use ONLY the Apple polishing cloth provided, with water only, NEVER alcohol or any cleaner\n• Wipe in straight strokes — even tiny abrasive particles can permanently damage the matte coating\n• For the standard glass version, use a polishing cloth lightly damp with water; alcohol acceptable for stubborn marks\n• Avoid pressure on the screen — replacement is very expensive",
+          "es": "• El Pro Display XDR viene con cristal nano-texturizado como opción premium — usa SOLO el paño de pulido Apple proporcionado, solo con agua, NUNCA alcohol ni ningún limpiador\n• Limpia con movimientos rectos — incluso partículas abrasivas diminutas pueden dañar permanentemente el recubrimiento mate\n• Para la versión de cristal estándar, usa un paño de pulido ligeramente humedecido con agua; el alcohol es aceptable para manchas difíciles\n• Evita presionar la pantalla — el reemplazo es muy caro",
+          "fr": "• Le Pro Display XDR est livré avec un verre nano-texturé comme option premium — utilisez UNIQUEMENT le chiffon de polissage Apple fourni, avec de l'eau seulement, JAMAIS d'alcool ni aucun nettoyant\n• Essuyez en mouvements droits — même de minuscules particules abrasives peuvent endommager définitivement le revêtement mat\n• Pour la version en verre standard, utilisez un chiffon de polissage légèrement humidifié à l'eau ; l'alcool est acceptable pour les taches tenaces\n• Évitez d'appuyer sur l'écran — le remplacement est très coûteux",
+          "de": "• Pro Display XDR wird mit nano-texturiertem Glas als Premium-Option geliefert — NUR das mitgelieferte Apple-Poliertuch verwenden, nur mit Wasser, NIEMALS Alkohol oder Reinigungsmittel\n• In geraden Strichen wischen — selbst winzige Schleifpartikel können die matte Beschichtung dauerhaft beschädigen\n• Bei der Standard-Glasversion ein Poliertuch leicht mit Wasser anfeuchten; Alkohol bei hartnäckigen Flecken akzeptabel\n• Druck auf den Bildschirm vermeiden — der Austausch ist sehr teuer",
+          "zh": "• Pro Display XDR 高端版本配备纳米纹理玻璃 — 只能使用随附的 Apple 抛光布,仅用水,绝不使用酒精或任何清洁剂\n• 沿直线擦拭 — 即使微小的研磨颗粒也可能永久损坏哑光涂层\n• 标准玻璃版本可使用稍微沾水的抛光布;顽固污渍可使用酒精\n• 避免按压屏幕 — 更换费用非常高",
+          "ja": "• Pro Display XDR はプレミアムオプションとしてナノテクスチャーガラスを採用 — 付属の Apple ポリッシングクロスのみ使用、水のみ、アルコールやクリーナーは絶対に使わない\n• 直線的に拭く — 微細な研磨粒子でもマット仕上げのコーティングを永久に傷つけることがあります\n• 標準ガラス版は水で軽く湿らせたポリッシングクロスを使用;頑固な汚れにはアルコールも可\n• 画面に圧力をかけない — 交換は非常に高価です",
+          "pt": "• O Pro Display XDR vem com vidro nano-texturizado como opção premium — use APENAS o pano de polimento Apple fornecido, apenas com água, NUNCA álcool ou qualquer limpador\n• Limpe com movimentos retos — mesmo partículas abrasivas minúsculas podem danificar permanentemente o revestimento fosco\n• Para a versão de vidro padrão, use um pano de polimento levemente úmido com água; álcool aceitável para marcas difíceis\n• Evite pressão na tela — a substituição é muito cara"
+        }
+      },
+      "sensitivities": [
+        {
+          "en": "nano-texture glass (premium) — Apple polishing cloth + water only, never alcohol",
+          "es": "cristal nano-texturizado (premium) — paño de pulido Apple + solo agua, nunca alcohol",
+          "fr": "verre nano-texturé (premium) — chiffon de polissage Apple + eau uniquement, jamais d'alcool",
+          "de": "Nano-Textur-Glas (Premium) — Apple-Poliertuch + nur Wasser, niemals Alkohol",
+          "zh": "纳米纹理玻璃(高端)— Apple 抛光布 + 仅用水,绝不使用酒精",
+          "ja": "ナノテクスチャーガラス(プレミアム)— Apple ポリッシングクロス + 水のみ、アルコール禁止",
+          "pt": "vidro nano-texturizado (premium) — pano de polimento Apple + apenas água, nunca álcool"
+        }
+      ],
+      "sourceUrl": "https://support.apple.com/en-us/102213",
+      "source": "catalog"
+    },
+    {
       "id": "magic-keyboard",
       "displayName": "Magic Keyboard",
       "category": "peripheral",
