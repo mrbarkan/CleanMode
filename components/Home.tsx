@@ -202,6 +202,12 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
               {appVersion}
             </span>
           </div>
+          <div style={{
+            fontSize: 10.5, letterSpacing: '0.22em', textTransform: 'uppercase',
+            color: c('muteSoft', 'dMute'), marginTop: 7,
+          }}>
+            Cloche Edition
+          </div>
         </div>
 
         <div style={{ padding: '28px 36px 0', flex: 1, display: 'flex', flexDirection: 'column' }}>
