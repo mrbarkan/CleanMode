@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  Globe, Info, Shield, AlertTriangle, ArrowLeft,
+  Globe, Info, AlertTriangle, ArrowLeft,
   Lock, Command, ExternalLink, Loader2,
   Laptop, Monitor, Mouse,
 } from 'lucide-react';
@@ -171,7 +171,9 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
   return (
     <div style={{
       width: '100%', height: '100%',
-      background: c('bone', 'dBg'),
+      background: isDark
+        ? `radial-gradient(125% 90% at 28% 0%, ${T.dFadeHi} 0%, ${T.dFadeMid} 52%, ${T.dFadeLo} 100%)`
+        : T.bone,
       fontFamily: T.sans, color: c('ink', 'dInk'),
       display: 'flex', overflow: 'hidden', position: 'relative',
     }}>
@@ -194,7 +196,7 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
               fontFamily: T.serif, fontSize: 40, lineHeight: 1, margin: 0,
               fontWeight: 400, letterSpacing: '-0.025em', color: c('ink', 'dInk'),
             }}>
-              Cloche
+              CleanMode
             </h1>
             <span style={{ fontSize: 12, color: c('muteSoft', 'dMute') }}>
               {appVersion}
@@ -236,12 +238,12 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
               border: `1px solid ${T.brass}33`,
               display: 'flex', gap: 11, alignItems: 'flex-start',
             }}>
-              <AlertTriangle size={15} color={T.brass} style={{ flexShrink: 0, marginTop: 2 }} />
+              <AlertTriangle size={15} color={isDark ? T.dBrass : T.brass} style={{ flexShrink: 0, marginTop: 2 }} />
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 12.5, fontWeight: 500, color: T.brassDeep, lineHeight: 1.4 }}>
+                <div style={{ fontSize: 12.5, fontWeight: 500, color: isDark ? T.dInk : T.brassDeep, lineHeight: 1.4 }}>
                   {text.permissionsBannerTitle}
                 </div>
-                <div style={{ fontSize: 11.5, color: T.brassDeep, opacity: 0.8, marginTop: 2 }}>
+                <div style={{ fontSize: 11.5, color: isDark ? T.dMute : T.brassDeep, opacity: isDark ? 1 : 0.8, marginTop: 2 }}>
                   {text.permissionsBannerBody}
                 </div>
               </div>
@@ -249,7 +251,7 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
                 onClick={() => setIsPermissionsModalOpen(true)}
                 style={{
                   padding: '4px 9px', borderRadius: 6,
-                  background: T.brass, color: T.parchment, border: 'none',
+                  background: isDark ? T.dBrass : T.brass, color: isDark ? T.dBg : T.parchment, border: 'none',
                   fontSize: 11, fontWeight: 500, cursor: 'pointer',
                   flexShrink: 0,
                 }}
@@ -339,9 +341,6 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
           </div>
 
           <div style={{ display: 'flex', gap: 6 }}>
-            <FooterIconButton dark={isDark} ariaLabel="Privacy">
-              <Shield size={13} />
-            </FooterIconButton>
             <FooterIconButton dark={isDark} onClick={onOpenAbout} ariaLabel={text.about}>
               <Info size={13} />
             </FooterIconButton>
@@ -354,7 +353,7 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
         <div style={{ padding: '40px 56px 36px', maxWidth: 880 }}>
           {isLoading && (
             <div style={{ display: 'flex', justifyContent: 'center', padding: '40px 0' }}>
-              <Loader2 size={22} color={T.brass} style={{ animation: 'cloche-spin 1s linear infinite' }} />
+              <Loader2 size={22} color={isDark ? T.dBrass : T.brass} style={{ animation: 'cloche-spin 1s linear infinite' }} />
               <style>{`@keyframes cloche-spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }`}</style>
             </div>
           )}
@@ -364,7 +363,7 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
               padding: '12px 16px', borderRadius: 12, marginBottom: 24,
               background: c('champagne', 'dRaised'),
               border: `1px solid ${T.brass}33`,
-              color: T.brassDeep, fontSize: 13,
+              color: isDark ? T.dInk : T.brassDeep, fontSize: 13,
               display: 'flex', alignItems: 'center', gap: 10,
             }}>
               <AlertTriangle size={14} /> {error}
@@ -566,10 +565,10 @@ const GuideView: React.FC<GuideViewProps> = ({ entry, deviceModel, lang, dark, o
           borderRadius: 10,
           display: 'flex', gap: 12, alignItems: 'flex-start',
         }}>
-          <div style={{ color: T.brass, flexShrink: 0, marginTop: 2 }}>
+          <div style={{ color: dark ? T.dBrass : T.brass, flexShrink: 0, marginTop: 2 }}>
             <AlertTriangle size={14} />
           </div>
-          <div style={{ fontSize: 12.5, lineHeight: 1.55, color: T.brassDeep }}>
+          <div style={{ fontSize: 12.5, lineHeight: 1.55, color: dark ? T.dInk : T.brassDeep }}>
             {entry.sensitivities.map(s => localized(s, lang)).join(' • ')}
           </div>
         </div>
@@ -583,7 +582,7 @@ const GuideView: React.FC<GuideViewProps> = ({ entry, deviceModel, lang, dark, o
             rel="noopener noreferrer"
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 6,
-              fontSize: 12.5, color: T.brass, textDecoration: 'none',
+              fontSize: 12.5, color: dark ? T.dBrass : T.brass, textDecoration: 'none',
               fontFamily: T.sans,
             }}
           >

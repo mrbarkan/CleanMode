@@ -6,6 +6,13 @@ const isDev = !app.isPackaged;
 // Set app name early so menus, Dock label, and "Hide / Quit" all say CleanMode.
 app.setName('CleanMode');
 
+// Single-instance lock: a second launch would spawn a competing fullscreen
+// blocker that fights the first for global shortcuts and always-on-top z-order.
+// Refuse the second instance and surface the existing window instead.
+if (!app.requestSingleInstanceLock()) {
+  app.quit();
+}
+
 let mainWindow;
 let isCleaningMode = false;
 
@@ -73,6 +80,8 @@ function createWindow() {
     minHeight: 600,
     title: 'CleanMode',
     titleBarStyle: 'hiddenInset',
+    backgroundColor: '#1B0710', // matches index.html — no white flash on launch
+    show: false,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -86,6 +95,9 @@ function createWindow() {
     : `file://${path.join(__dirname, '../dist/index.html')}`;
 
   mainWindow.loadURL(startUrl);
+
+  // Show only once the first paint is ready, so the user never sees a blank/white window.
+  mainWindow.once('ready-to-show', () => mainWindow.show());
 
   if (isDev) {
     mainWindow.webContents.openDevTools({ mode: 'detach' });
@@ -199,6 +211,13 @@ app.whenReady().then(() => {
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
+});
+
+// A second launch attempt hits the lock and quits; focus the live window here.
+app.on('second-instance', () => {
+  if (!mainWindow) return;
+  if (mainWindow.isMinimized()) mainWindow.restore();
+  mainWindow.focus();
 });
 
 app.on('will-quit', () => {

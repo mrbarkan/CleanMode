@@ -47,7 +47,9 @@ export const CareTips: React.FC<CareTipsProps> = ({ theme, lang }) => {
         {tips.map((tip, i) => {
           const Icon = ICONS[tip.icon] ?? Sparkles;
           const useSage = i % 2 === 1;
-          const fg = useSage ? T.sage : T.brass;
+          // Light mode alternates claret/sage; on the deep-crimson dark bg both
+          // vanish, so use the artichoke accent there.
+          const fg = isDark ? T.dBrass : (useSage ? T.sage : T.brass);
           const onRight = i % 2 === 1;
           return (
             <div

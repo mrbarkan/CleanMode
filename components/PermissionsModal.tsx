@@ -170,11 +170,11 @@ export const PermissionsModal: React.FC<PermissionsModalProps> = ({
             onClick={onTryAgain}
             style={{
               padding: '10px 18px', borderRadius: 12,
-              background: T.brass, color: T.parchment,
+              background: isDark ? T.dBrass : T.brass, color: isDark ? T.dBg : T.parchment,
               border: 'none', fontFamily: T.sans, fontSize: 13, fontWeight: 500,
               cursor: 'pointer',
               display: 'inline-flex', alignItems: 'center', gap: 8,
-              boxShadow: `0 8px 18px -6px ${T.brass}99`,
+              boxShadow: `0 8px 18px -6px ${(isDark ? T.dBrass : T.brass)}99`,
             }}
           >
             {text.permissionsTryAgain} <ArrowRight size={13} />

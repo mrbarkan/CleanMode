@@ -106,6 +106,13 @@ static napi_value StartTap(napi_env env, napi_callback_info info) {
         return result;
     }
 
+    // Hide the OS cursor immediately on start. Because the native tap swallows
+    // mouse-move events, Chromium never re-evaluates its CSS `cursor: none` until
+    // a click slips through — so we hide at the window-server level instead.
+    // Balanced by CGDisplayShowCursor in StopTap; macOS also auto-restores the
+    // cursor if this app terminates while it's hidden.
+    CGDisplayHideCursor(kCGDirectMainDisplay);
+
     napi_get_boolean(env, true, &result);
     return result;
 }
@@ -117,6 +124,7 @@ static napi_value StopTap(napi_env env, napi_callback_info info) {
             CFRunLoopStop(g_thread_runloop);
         }
         pthread_join(g_thread, NULL);
+        CGDisplayShowCursor(kCGDirectMainDisplay);   // balances the hide in StartTap
     }
     napi_value result;
     napi_get_undefined(env, &result);

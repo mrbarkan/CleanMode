@@ -32,6 +32,7 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
   const text = t[lang];
   const isDark = theme === 'dark';
   const c = (l: keyof typeof T, d: keyof typeof T): string => (isDark ? T[d] : T[l]) as string;
+  const accent = isDark ? T.dBrass : T.brass; // artichoke in dark, claret in light
 
   const handleUnlockSequence = useCallback(() => {
     if (window.electron) {
@@ -152,7 +153,9 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
         position: 'fixed', inset: 0, zIndex: 50,
         overflow: 'hidden', cursor: 'none',
         fontFamily: T.sans,
-        background: isDark ? T.dBg : T.bone,
+        background: isDark
+          ? `radial-gradient(circle at 50% 42%, ${T.dFadeHi} 0%, ${T.dFadeMid} 55%, ${T.dFadeLo} 100%)`
+          : T.bone,
         color: c('ink', 'dInk'),
         userSelect: 'none',
       }}
@@ -166,9 +169,9 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
         <rect width="100%" height="100%" filter="url(#cloche-grain)" />
       </svg>
 
-      {/* top status pill */}
+      {/* top status pill — kept clear of the MacBook Pro notch */}
       <div style={{
-        position: 'absolute', top: 22, left: '50%', transform: 'translateX(-50%)',
+        position: 'absolute', top: 52, left: '50%', transform: 'translateX(-50%)',
         display: 'flex', alignItems: 'center', gap: 12,
         padding: '7px 14px', borderRadius: 999,
         background: isDark ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.6)',
@@ -180,7 +183,7 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
       }}>
         <span style={{
           width: 7, height: 7, borderRadius: 999,
-          background: T.brass, boxShadow: `0 0 10px ${T.brass}`,
+          background: accent, boxShadow: `0 0 10px ${accent}`,
           animation: 'cloche-pulse 1.8s ease-in-out infinite',
         }} />
         <span style={{ color: c('ink', 'dInk'), fontWeight: 500 }}>
@@ -238,7 +241,7 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
           position: 'absolute', top: -50, left: '50%', transform: 'translateX(-50%)',
           width: 460, height: 460, borderRadius: '50%',
           background: isDark
-            ? 'radial-gradient(circle, rgba(255,210,170,0.10) 0%, rgba(255,210,170,0) 65%)'
+            ? 'radial-gradient(circle, rgba(244,238,232,0.08) 0%, rgba(244,238,232,0) 65%)'
             : 'radial-gradient(circle, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 65%)',
           pointerEvents: 'none',
         }} />
@@ -269,8 +272,8 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
               <div key={i} style={{
                 width: i < unlockStep ? 18 : 5,
                 height: 5, borderRadius: 999,
-                background: i < unlockStep ? T.brass : (isDark ? T.dLine : T.line),
-                boxShadow: i < unlockStep ? `0 0 8px ${T.brass}` : 'none',
+                background: i < unlockStep ? accent : (isDark ? T.dLine : T.line),
+                boxShadow: i < unlockStep ? `0 0 8px ${accent}` : 'none',
                 transition: 'all 0.25s',
               }} />
             ))}
@@ -309,8 +312,8 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
             marginLeft: -r.size / 2, marginTop: -r.size / 2,
             borderRadius: '50%',
             pointerEvents: 'none',
-            border: `1px solid ${T.brass}`,
-            background: `radial-gradient(circle, ${T.brass}22 0%, transparent 60%)`,
+            border: `1px solid ${accent}`,
+            background: `radial-gradient(circle, ${accent}22 0%, transparent 60%)`,
             animation: 'cloche-ripple 1s ease-out forwards',
           }}
         />

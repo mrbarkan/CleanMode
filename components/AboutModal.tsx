@@ -67,7 +67,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, theme, 
               fontFamily: T.serif, fontSize: 30, lineHeight: 1,
               fontWeight: 400, letterSpacing: '-0.02em',
             }}>
-              Cloche
+              CleanMode
             </div>
             <div style={{ fontSize: 12, color: c('mute', 'dMute'), marginTop: 4 }}>
               {`v${appVersion} · by MRBRKN`}
@@ -151,7 +151,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, theme, 
                 display: 'flex', alignItems: 'center', gap: 6,
               }}
             >
-              <Moon size={12} /> Espresso
+              <Moon size={12} /> Cherry
             </button>
           </div>
         </div>

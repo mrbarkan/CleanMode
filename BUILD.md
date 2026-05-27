@@ -35,13 +35,20 @@ npm run native:build-current
 
 ## Release build
 
-Set the signing environment variables (typically in `~/.zshrc` or your shell profile, NOT committed):
+Signing env vars live in a gitignored `.env.signing` at the repo root (see
+`.env.signing` — created locally, never committed):
 
 ```bash
 export APPLE_ID="you@example.com"
 export APPLE_APP_SPECIFIC_PASSWORD="abcd-efgh-ijkl-mnop"
 export APPLE_TEAM_ID="ABCD123456"
-export CSC_NAME="Developer ID Application: Your Name (ABCD123456)"
+export CSC_NAME="Your Name (ABCD123456)"   # no "Developer ID Application:" prefix
+```
+
+Load them into your shell before building:
+
+```bash
+set -a && source .env.signing && set +a
 ```
 
 Then build:

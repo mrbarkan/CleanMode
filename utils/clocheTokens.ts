@@ -30,18 +30,22 @@ export const T = {
   amber:     '#A66253',
   claret:    '#6F222A',
 
-  // Dark (espresso)
-  dBg:       '#1F0D0C',
-  dSurface:  '#2A1210',
-  dRaised:   '#3A1B17',
-  dLine:     '#4A2A22',
-  dInk:      '#ECE2CC',
-  dMute:     '#A89178',
-  dBrass:    '#D1B38F',
+  // Dark (deep crimson — wine + off-white + artichoke)
+  dBg:       '#1B0710',  // deep crimson-black base
+  dSurface:  '#260A15',  // sidebar / solid panels
+  dRaised:   '#351124',  // raised cards & banners
+  dLine:     '#48182E',  // hairlines / borders
+  dInk:      '#F4EEE8',  // off-white text
+  dMute:     '#C2A6AF',  // dusty mauve secondary text
+  dBrass:    '#A6B187',  // artichoke accent
+  // Gradient "wave fade" stops (lighter wine -> deep crimson -> near-black)
+  dFadeHi:   '#351124',
+  dFadeMid:  '#1B0710',
+  dFadeLo:   '#14050C',
 
   // Type
   serif: '"Instrument Serif", "Cormorant Garamond", Georgia, serif',
-  sans:  '"Geist", -apple-system, BlinkMacSystemFont, "SF Pro", "Helvetica Neue", sans-serif',
+  sans:  '"Geist Sans", -apple-system, BlinkMacSystemFont, "SF Pro", "Helvetica Neue", sans-serif',
   mono:  '"Geist Mono", "JetBrains Mono", ui-monospace, monospace',
 };
 
