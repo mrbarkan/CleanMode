@@ -1,7 +1,7 @@
 {
   "name": "clean-mode",
   "version": "1.0.0",
-  "description": "A browser-based keyboard and trackpad blocker simulation.",
+  "description": "A macOS app that safely blocks keyboard, trackpad, and system shortcuts while you wipe down your Mac.",
   "author": "MrBarkan",
   "main": "electron/main.js",
   "scripts": {
