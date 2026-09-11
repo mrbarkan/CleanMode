@@ -1,0 +1,15 @@
+{
+  "fill" : { "automatic-gradient" : "srgb:0.43529,0.13333,0.16471,1.00000" },
+  "groups" : [
+    {
+      "layers" : [
+        { "glass" : true, "hidden" : false, "image-name" : "plate.svg", "name" : "plate", "position" : { "scale" : 1.18, "translation-in-points" : [ 0, 0 ] } },
+        { "glass" : true, "hidden" : false, "image-name" : "dome.svg",  "name" : "dome",  "position" : { "scale" : 1.18, "translation-in-points" : [ 0, 0 ] } },
+        { "glass" : true, "hidden" : false, "image-name" : "knob.svg",  "name" : "knob",  "position" : { "scale" : 1.18, "translation-in-points" : [ 0, 0 ] } }
+      ],
+      "shadow" : { "kind" : "neutral", "opacity" : 0.5 },
+      "translucency" : { "enabled" : true, "value" : 0.5 }
+    }
+  ],
+  "supported-platforms" : { "circles" : [ "watchOS" ], "squares" : "shared" }
+}
