@@ -1,65 +1,63 @@
-<div align="center">
+<p align="center">
+  <img src="docs/icon.png" width="128" alt="CleanMode icon">
+</p>
 
-# CleanMode
+<h1 align="center">CleanMode</h1>
 
-**Wipe down your Mac without it fighting back.**
+<p align="center">
+  Wipe down your Mac without it fighting back.<br>
+  One click locks the keyboard, trackpad and system shortcuts; a two-handed combo unlocks them.
+</p>
 
-CleanMode safely blocks your keyboard, trackpad, and system shortcuts while you clean — no accidental typing, brightness changes, Mission Control, or Spotlight. 100% on-device: no API keys, no tracking — the only network call is an optional update check.
-
-[![Download](https://img.shields.io/github/v/release/mrbarkan/CleanMode?label=Download&style=for-the-badge)](https://github.com/mrbarkan/CleanMode/releases/latest)
-&nbsp;
-![Platform](https://img.shields.io/badge/macOS-13%2B-black?style=for-the-badge&logo=apple)
-&nbsp;
-![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)
-
-</div>
+<p align="center">
+  <a href="https://github.com/mrbarkan/CleanMode/releases/latest"><img src="https://img.shields.io/github/v/release/mrbarkan/CleanMode?label=download&color=orange" alt="Latest release"></a>
+  <img src="https://img.shields.io/badge/macOS-13%2B-blue" alt="macOS 13+">
+  <img src="https://img.shields.io/badge/Electron-44-47848F?logo=electron&logoColor=white" alt="Electron 44">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="MIT"></a>
+</p>
 
 ---
 
-## Download
+## Why
 
-Grab the latest build from the [**Releases page**](https://github.com/mrbarkan/CleanMode/releases/latest), or download directly:
+Cleaning a MacBook means typing gibberish into whatever is open, launching Mission Control with your cloth, and changing the volume with your thumb. Web-based "lock the keyboard" pages can't stop any of the system keys. CleanMode is a small native-backed app that absorbs *everything* — keys, function keys, trackpad gestures, hot corners — until you deliberately let go.
 
-| Your Mac | Download |
-| --- | --- |
-| **Apple Silicon** (M1/M2/M3/M4) | [CleanMode-1.0.0-arm64.dmg](https://github.com/mrbarkan/CleanMode/releases/download/v1.0.0/CleanMode-1.0.0-arm64.dmg) |
-| **Intel** | [CleanMode-1.0.0.dmg](https://github.com/mrbarkan/CleanMode/releases/download/v1.0.0/CleanMode-1.0.0.dmg) |
+## Features
 
-> Not sure which one? Click  → **About This Mac**. "Apple M-series" means Apple Silicon; "Intel" means the Intel download.
+- **Catches what the browser can't** — a native macOS event tap absorbs OS-level shortcuts (brightness, Mission Control, Spotlight, media keys, Siri's double-⌘) that web apps simply cannot block.
+- **Trackpad-proof** — swipes, pinches, scrolling and force touch are absorbed, and the pointer stays on the locked screen, so wiping can't hit a hot corner or another display.
+- **Deliberate unlock** — press **both ⌘ keys** together three times. A two-handed combo means you'll never exit by accident mid-wipe. An emergency unlock button hides in the bottom-right corner.
+- **Smudge finder** — click during cleaning to switch to a solid black screen (dust shows up) or white screen (streaks show up).
+- **Cleaning guides** — Apple's own instructions for every current Mac, display and peripheral, offline and in 7 languages.
+- **Themes** — light (Linen) and dark (Cherry). Liquid Glass icon on macOS 26.
+- **Updates** — [Sparkle](https://sparkle-project.org): signed updates install themselves, or **CleanMode → Check for Updates…** whenever you like.
+- **Languages** — English, Spanish, French, German, Chinese, Japanese, Portuguese.
 
 ## Install
 
-1. Open the DMG and drag **CleanMode** into your **Applications** folder.
-2. Launch it. The app is signed with a Developer ID and notarized by Apple, so it opens with **no Gatekeeper warning**.
-3. On first use, macOS will ask for **Accessibility** and **Input Monitoring** permissions. These are required to absorb keyboard and trackpad input — CleanMode can't do its job without them.
+Download the DMG for your Mac from the [latest release](https://github.com/mrbarkan/CleanMode/releases/latest) — `CleanMode-<version>-arm64.dmg` for Apple Silicon (M1 and later), `CleanMode-<version>-x64.dmg` for Intel — and drag CleanMode to Applications. It is Developer ID signed and notarized, so it opens without the Privacy & Security detour.
+
+> Not sure which one? Click  → **About This Mac**. "Apple M-series" means Apple Silicon.
+
+On first use macOS asks for **Accessibility** and **Input Monitoring**. Both are required: they let CleanMode see and absorb input while cleaning mode is on. Nothing is captured outside of it.
+
+Requires macOS 13 Ventura or later.
 
 ## How to use
 
 1. Click **Start Cleaning Mode**.
-2. Wipe away — every keypress, click, and system shortcut is absorbed. Nothing reaches your apps.
-3. **To unlock:** press **both ⌘ Command keys** at the same time, three times.
+2. Wipe away — every keypress, click, gesture and system shortcut is absorbed.
+3. Press **both ⌘ keys** at the same time, three times, to unlock.
 
-## Features
+## Privacy
 
-- **Catches what the browser can't.** A native macOS event tap absorbs OS-level shortcuts (brightness, Mission Control, Spotlight, media keys, Siri's double-⌘) that web apps simply cannot block.
-- **Trackpad-proof.** Swipes, pinches, scrolling and force touch are absorbed, and the pointer stays on the locked screen — wiping can't hit a hot corner or another display.
-- **Smudge finder.** Click during cleaning to switch to a solid black screen (dust shows up) or white screen (streaks show up).
-- **Deliberate unlock.** A two-handed key combo means you'll never exit by accident mid-wipe.
-- **Private.** No accounts, no API keys, no telemetry. Everything runs on your machine; the only network call is the opt-in update check.
-- **Stays up to date.** Built-in updates via Sparkle (CleanMode → Check for Updates…).
-- **Themes.** Light (Linen) and dark (Cherry).
-- **7 languages.** English, Spanish, French, German, Chinese, Japanese, and Portuguese.
-
-## Requirements
-
-- macOS 13 Ventura or later (tested on macOS 26 Tahoe)
-- Apple Silicon or Intel
+No accounts, no API keys, no telemetry. Everything runs on your Mac; the only network request is the optional update check against this repository's releases.
 
 ---
 
 ## For developers
 
-CleanMode is a Vite + React + TypeScript app packaged with Electron.
+CleanMode is a Vite + React + TypeScript app packaged with Electron, plus a small Objective-C++ native module (`electron/native/eventtap`) for the event tap and Sparkle bridge.
 
 ```bash
 npm install
@@ -69,7 +67,7 @@ npm run electron:dev           # run the app
 
 `data/cleaning-catalog.json` is a hand-authored catalog of Apple device cleaning instructions in 7 languages — edit the JSON directly and rebuild to change it.
 
-For producing signed and notarized release artifacts, see [BUILD.md](BUILD.md).
+For signed, notarized release builds and publishing updates, see [BUILD.md](BUILD.md).
 
 ## License
 
