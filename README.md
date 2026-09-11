@@ -42,6 +42,8 @@ Grab the latest build from the [**Releases page**](https://github.com/mrbarkan/C
 ## Features
 
 - **Catches what the browser can't.** A native macOS event tap absorbs OS-level shortcuts (brightness, Mission Control, Spotlight, media keys, Siri's double-⌘) that web apps simply cannot block.
+- **Trackpad-proof.** Swipes, pinches, scrolling and force touch are absorbed, and the pointer stays on the locked screen — wiping can't hit a hot corner or another display.
+- **Smudge finder.** Click during cleaning to switch to a solid black screen (dust shows up) or white screen (streaks show up).
 - **Deliberate unlock.** A two-handed key combo means you'll never exit by accident mid-wipe.
 - **Private.** No accounts, no API keys, no telemetry. Everything runs on your machine; the only network call is the opt-in update check.
 - **Stays up to date.** Built-in updates via Sparkle (CleanMode → Check for Updates…).

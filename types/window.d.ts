@@ -18,7 +18,7 @@ declare global {
       checkPermissions:      () => Promise<Permissions>;
       promptAccessibility:   () => Promise<boolean>;
       promptInputMonitoring: () => Promise<boolean>;
-      onUnlockCombo:         (cb: () => void) => () => void;
+      onNativeInput:         (cb: (kind: 'combo' | 'key') => void) => () => void;
     };
   }
 }

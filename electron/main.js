@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, ipcMain, globalShortcut, shell } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain, globalShortcut, shell, screen } = require('electron');
 const path = require('path');
 const tap = require('./native/eventtap');
 const isDev = !app.isPackaged;
@@ -153,8 +153,10 @@ ipcMain.handle('enter-cleaning-mode', async () => {
   }
 
   // Native tap (the primary blocker). It swallows Cmd too and reports the unlock
-  // combo here, so macOS's double-Cmd shortcuts (Siri/Dictation) can't fire.
-  if (!tap.start(() => mainWindow.webContents.send('unlock-combo'))) {
+  // combo here, so macOS's double-Cmd shortcuts (Siri/Dictation) can't fire. It also
+  // confines the pointer to this window's display (no hot corners, no other screens).
+  const display = screen.getDisplayMatching(mainWindow.getBounds()).bounds;
+  if (!tap.start((kind) => mainWindow.webContents.send('native-input', kind), display)) {
     return { ok: false, error: 'tap-failed' };
   }
 

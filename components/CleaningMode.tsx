@@ -18,10 +18,15 @@ interface Ripple {
   size: number;
 }
 
+// Smudge finder: solid black shows dust, solid white shows streaks.
+type Smudge = 'normal' | 'black' | 'white';
+const NEXT_SMUDGE: Record<Smudge, Smudge> = { normal: 'black', black: 'white', white: 'normal' };
+
 export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang, theme }) => {
   const [ripples, setRipples] = useState<Ripple[]>([]);
   const [unlockStep, setUnlockStep] = useState(0);
   const [now, setNow] = useState(0);
+  const [smudge, setSmudge] = useState<Smudge>('normal');
 
   const rippleIdCounter = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -86,9 +91,21 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
       resetTimer.current = window.setTimeout(() => setUnlockStep(0), 2200);
     };
 
-    // macOS: the native tap swallows Cmd (so Siri/Dictation's double-Cmd shortcut can't
-    // fire) and reports the combo over IPC. The keydown path below covers the browser build.
-    const offUnlockCombo = window.electron?.onUnlockCombo?.(registerCombo);
+    const keyRipple = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        const x = rect.width / 2 + (Math.random() * 400 - 200);
+        const y = rect.height / 2 + (Math.random() * 200 - 100);
+        addRipple(x, y, true);
+      }
+    };
+
+    // macOS: the native tap swallows every key, Cmd included (so Siri/Dictation's double-Cmd
+    // shortcut can't fire), and reports presses over IPC. The keydown path covers the browser build.
+    const offNativeInput = window.electron?.onNativeInput?.((kind) => {
+      if (kind === 'combo') registerCombo();
+      keyRipple();
+    });
 
     const handleKeyDown = (e: KeyboardEvent) => {
       e.preventDefault();
@@ -105,12 +122,7 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
         }
       }
 
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        const x = rect.width / 2 + (Math.random() * 400 - 200);
-        const y = rect.height / 2 + (Math.random() * 200 - 100);
-        addRipple(x, y, true);
-      }
+      keyRipple();
     };
 
     const handleKeyUp = (e: KeyboardEvent) => {
@@ -126,6 +138,9 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
       const rect = containerRef.current?.getBoundingClientRect();
       if (!rect) return;
       addRipple(e.clientX - rect.left, e.clientY - rect.top);
+      if (!(e.target as Element).closest('button')) {
+        setSmudge(s => NEXT_SMUDGE[s]);
+      }
     };
 
     const blockContext = (e: MouseEvent) => e.preventDefault();
@@ -140,7 +155,7 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
       window.removeEventListener('keyup', handleKeyUp);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('contextmenu', blockContext);
-      offUnlockCombo?.();
+      offNativeInput?.();
       if (resetTimer.current) clearTimeout(resetTimer.current);
       // @ts-ignore
       if (navigator.keyboard && navigator.keyboard.unlock) {
@@ -290,6 +305,18 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
         </div>
       </div>
 
+      {/* smudge finder */}
+      {smudge !== 'normal' && (
+        <div style={{
+          position: 'absolute', inset: 0, zIndex: 25,
+          background: smudge === 'black' ? '#000' : '#fff',
+          display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+          paddingBottom: 22, fontSize: 12, color: 'rgba(128,128,128,0.6)',
+        }}>
+          {smudge === 'black' ? text.smudgeBlack : text.smudgeWhite}
+        </div>
+      )}
+
       {/* emergency unlock */}
       <button
         onClick={handleUnlockSequence}
@@ -324,6 +351,7 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
             border: `1px solid ${accent}`,
             background: `radial-gradient(circle, ${accent}22 0%, transparent 60%)`,
             animation: 'cloche-ripple 1s ease-out forwards',
+            zIndex: 35,
           }}
         />
       ))}

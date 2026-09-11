@@ -1,10 +1,17 @@
 // CleanMode native event tap + Sparkle updater bridge.
 // Public N-API surface: start, stop, isAccessibilityTrusted, promptAccessibility,
 // isInputMonitoringTrusted, promptInputMonitoring, startUpdater, checkForUpdates.
-// Drops every key event, Cmd included. The unlock combo (both Cmd keys held) is detected
-// here and reported through the callback passed to start(). Cmd used to pass through so the
-// renderer could see it, but then macOS's own double-Cmd shortcuts (Siri / Dictation — on by
-// default with Apple Intelligence on Tahoe) fired and stole focus mid-unlock.
+//
+// While running, the tap:
+// - drops every key event, Cmd included, and reports input through the callback passed to
+//   start(): "combo" when both Cmd keys go down (the unlock combo), "key" for other presses.
+//   Cmd used to pass through for the renderer, but then macOS's own double-Cmd shortcuts
+//   (Siri / Dictation — on by default with Apple Intelligence on Tahoe) stole focus mid-unlock.
+// - drops scroll, swipe/pinch/rotate gestures and force touch (Mission Control, Spaces,
+//   Notification Center, Look Up).
+// - pins the real cursor mid-display and moves a virtual pointer instead, clamped to the
+//   locked display, so hot corners and other displays are unreachable but clicks and hover
+//   (emergency unlock, ripples) still land in the window.
 // The tap is run on a dedicated thread with its own CFRunLoop to avoid conflicts
 // with Chromium's MessagePump on Electron's main thread.
 
@@ -19,14 +26,27 @@
 #define NX_DEVICELCMDKEYMASK 0x00000008
 #define NX_DEVICERCMDKEYMASK 0x00000010
 #endif
+#define DEVICE_MODIFIER_BITS 0x0000207F   // left/right ctrl, shift, alt, cmd
+
+enum { kInputCombo = 1, kInputKey = 2 };
 
 static CFMachPortRef     g_tap = NULL;
 static CFRunLoopSourceRef g_runLoopSource = NULL;
 static pthread_t          g_thread;
 static CFRunLoopRef       g_thread_runloop = NULL;
 static bool               g_thread_running = false;
-static napi_threadsafe_function g_onCombo = NULL;
-static bool               g_comboDown = false;   // tap thread only
+static napi_threadsafe_function g_onInput = NULL;
+// Tap-thread state while running; set by StartTap before the thread starts, read by StopTap after join.
+static bool               g_comboDown = false;
+static CGEventFlags       g_prevFlags = 0;
+static CGRect             g_bounds;    // locked display, global points (top-left origin)
+static CGPoint            g_pointer;   // virtual pointer
+
+static void emit(intptr_t kind) {
+    if (g_onInput) napi_call_threadsafe_function(g_onInput, (void *)kind, napi_tsfn_nonblocking);
+}
+
+static CGFloat clamp(CGFloat v, CGFloat lo, CGFloat hi) { return v < lo ? lo : (v > hi ? hi : v); }
 
 static CGEventRef tapCallback(CGEventTapProxy proxy,
                               CGEventType type,
@@ -37,18 +57,49 @@ static CGEventRef tapCallback(CGEventTapProxy proxy,
         return event;
     }
 
-    if (type == kCGEventFlagsChanged) {
-        // Device-dependent flag bits describe which Cmd keys are held *now*, so a missed
-        // key-up (e.g. Cmd held before the tap started) can't leave the state stuck.
-        CGEventFlags flags = CGEventGetFlags(event);
-        bool both = (flags & NX_DEVICELCMDKEYMASK) && (flags & NX_DEVICERCMDKEYMASK);
-        if (both && !g_comboDown && g_onCombo) {
-            napi_call_threadsafe_function(g_onCombo, NULL, napi_tsfn_nonblocking);
-        }
-        g_comboDown = both;
-    }
+    switch (type) {
+        case kCGEventMouseMoved:
+        case kCGEventLeftMouseDragged:
+        case kCGEventRightMouseDragged:
+        case kCGEventOtherMouseDragged:
+            g_pointer.x = clamp(g_pointer.x + CGEventGetIntegerValueField(event, kCGMouseEventDeltaX),
+                                CGRectGetMinX(g_bounds), CGRectGetMaxX(g_bounds) - 1);
+            g_pointer.y = clamp(g_pointer.y + CGEventGetIntegerValueField(event, kCGMouseEventDeltaY),
+                                CGRectGetMinY(g_bounds), CGRectGetMaxY(g_bounds) - 1);
+            // fall through
+        case kCGEventLeftMouseDown:
+        case kCGEventLeftMouseUp:
+        case kCGEventRightMouseDown:
+        case kCGEventRightMouseUp:
+        case kCGEventOtherMouseDown:
+        case kCGEventOtherMouseUp:
+            CGEventSetLocation(event, g_pointer);   // routes the event to our window at the virtual spot
+            return event;
 
-    return NULL;
+        case kCGEventKeyDown:
+            if (!CGEventGetIntegerValueField(event, kCGKeyboardEventAutorepeat)) emit(kInputKey);
+            return NULL;
+
+        case kCGEventFlagsChanged: {
+            // Device-dependent flag bits describe which modifiers are held *now*, so a missed
+            // key-up (e.g. Cmd held before the tap started) can't leave the state stuck.
+            CGEventFlags flags = CGEventGetFlags(event);
+            bool both = (flags & NX_DEVICELCMDKEYMASK) && (flags & NX_DEVICERCMDKEYMASK);
+            if (both && !g_comboDown) {
+                emit(kInputCombo);
+            } else if (__builtin_popcountll(flags & DEVICE_MODIFIER_BITS) >
+                       __builtin_popcountll(g_prevFlags & DEVICE_MODIFIER_BITS)) {
+                emit(kInputKey);   // a modifier went down
+            }
+            g_comboDown = both;
+            g_prevFlags = flags;
+            return NULL;
+        }
+
+        default:
+            // Key-ups, media/system keys, scroll, gestures, force touch.
+            return NULL;
+    }
 }
 
 static void *threadMain(void *arg) {
@@ -58,7 +109,22 @@ static void *threadMain(void *arg) {
         CGEventMaskBit(kCGEventKeyDown) |
         CGEventMaskBit(kCGEventKeyUp)   |
         CGEventMaskBit(kCGEventFlagsChanged) |
-        CGEventMaskBit(NX_SYSDEFINED_EVENT_TYPE);
+        CGEventMaskBit(NX_SYSDEFINED_EVENT_TYPE) |
+        CGEventMaskBit(kCGEventMouseMoved) |
+        CGEventMaskBit(kCGEventLeftMouseDown)  | CGEventMaskBit(kCGEventLeftMouseUp)  |
+        CGEventMaskBit(kCGEventRightMouseDown) | CGEventMaskBit(kCGEventRightMouseUp) |
+        CGEventMaskBit(kCGEventOtherMouseDown) | CGEventMaskBit(kCGEventOtherMouseUp) |
+        CGEventMaskBit(kCGEventLeftMouseDragged) | CGEventMaskBit(kCGEventRightMouseDragged) |
+        CGEventMaskBit(kCGEventOtherMouseDragged) |
+        CGEventMaskBit(kCGEventScrollWheel) |
+        CGEventMaskBit((CGEventType)NSEventTypeRotate) |
+        CGEventMaskBit((CGEventType)NSEventTypeBeginGesture) |
+        CGEventMaskBit((CGEventType)NSEventTypeEndGesture) |
+        CGEventMaskBit((CGEventType)NSEventTypeGesture) |
+        CGEventMaskBit((CGEventType)NSEventTypeMagnify) |
+        CGEventMaskBit((CGEventType)NSEventTypeSwipe) |
+        CGEventMaskBit((CGEventType)NSEventTypeSmartMagnify) |
+        CGEventMaskBit((CGEventType)NSEventTypePressure);
 
     g_tap = CGEventTapCreate(kCGSessionEventTap,
                              kCGHeadInsertEventTap,
@@ -104,22 +170,31 @@ static void *threadMain(void *arg) {
     return NULL;
 }
 
-// Runs on the JS thread for each combo queued by the tap thread.
-static void CallOnCombo(napi_env env, napi_value js_cb, void *context, void *data) {
+// Runs on the JS thread for each input queued by the tap thread.
+static void CallOnInput(napi_env env, napi_value js_cb, void *context, void *data) {
     if (!env || !js_cb) return;
-    napi_value undefined;
+    napi_value undefined, kind;
     napi_get_undefined(env, &undefined);
-    napi_call_function(env, undefined, js_cb, 0, NULL, NULL);
+    napi_create_string_utf8(env, (intptr_t)data == kInputCombo ? "combo" : "key", NAPI_AUTO_LENGTH, &kind);
+    napi_call_function(env, undefined, js_cb, 1, &kind, NULL);
 }
 
-static void ReleaseOnCombo() {
-    if (g_onCombo) {
-        napi_release_threadsafe_function(g_onCombo, napi_tsfn_release);
-        g_onCombo = NULL;
+static void ReleaseOnInput() {
+    if (g_onInput) {
+        napi_release_threadsafe_function(g_onInput, napi_tsfn_release);
+        g_onInput = NULL;
     }
 }
 
-// start(onUnlockCombo?: () => void) — callback fires each time both Cmd keys go down.
+static double GetNumber(napi_env env, napi_value obj, const char *key) {
+    napi_value v;
+    double d = 0;
+    if (napi_get_named_property(env, obj, key, &v) == napi_ok) napi_get_value_double(env, v, &d);
+    return d;
+}
+
+// start(onInput?: (kind: 'combo' | 'key') => void, bounds?: {x, y, width, height})
+// bounds = the locked display in global points; defaults to the main display.
 static napi_value StartTap(napi_env env, napi_callback_info info) {
     napi_value result;
     if (g_thread_running) {
@@ -127,32 +202,45 @@ static napi_value StartTap(napi_env env, napi_callback_info info) {
         return result;
     }
 
-    size_t argc = 1;
-    napi_value argv[1];
+    size_t argc = 2;
+    napi_value argv[2];
     napi_get_cb_info(env, info, &argc, argv, NULL, NULL);
-    napi_valuetype argType = napi_undefined;
-    if (argc >= 1) napi_typeof(env, argv[0], &argType);
-    ReleaseOnCombo();
-    if (argType == napi_function) {
+    napi_valuetype cbType = napi_undefined, boundsType = napi_undefined;
+    if (argc >= 1) napi_typeof(env, argv[0], &cbType);
+    if (argc >= 2) napi_typeof(env, argv[1], &boundsType);
+
+    ReleaseOnInput();
+    if (cbType == napi_function) {
         napi_value name;
-        napi_create_string_utf8(env, "onUnlockCombo", NAPI_AUTO_LENGTH, &name);
+        napi_create_string_utf8(env, "onInput", NAPI_AUTO_LENGTH, &name);
         napi_create_threadsafe_function(env, argv[0], NULL, name, 0, 1,
-                                        NULL, NULL, NULL, CallOnCombo, &g_onCombo);
+                                        NULL, NULL, NULL, CallOnInput, &g_onInput);
     }
+    g_bounds = boundsType == napi_object
+        ? CGRectMake(GetNumber(env, argv[1], "x"), GetNumber(env, argv[1], "y"),
+                     GetNumber(env, argv[1], "width"), GetNumber(env, argv[1], "height"))
+        : CGDisplayBounds(CGMainDisplayID());
+    g_pointer = CGPointMake(CGRectGetMidX(g_bounds), CGRectGetMidY(g_bounds));
+    CGPoint parked = g_pointer;   // the tap thread owns g_pointer once it starts
     g_comboDown = false;
+    g_prevFlags = 0;
 
     g_thread_running = true;
     int rc = pthread_create(&g_thread, NULL, threadMain, NULL);
     if (rc != 0) {
         g_thread_running = false;
-        ReleaseOnCombo();
+        ReleaseOnInput();
         napi_get_boolean(env, false, &result);
         return result;
     }
 
-    // Hide the OS cursor immediately on start. Because the native tap swallows
-    // mouse-move events, Chromium never re-evaluates its CSS `cursor: none` until
-    // a click slips through — so we hide at the window-server level instead.
+    // Park the real cursor mid-display and detach it from the mouse (restored in StopTap,
+    // or automatically if the app quits or loses the foreground).
+    CGWarpMouseCursorPosition(parked);
+    CGAssociateMouseAndMouseCursorPosition(false);
+
+    // Hide the OS cursor immediately on start. Chromium's CSS `cursor: none` only
+    // applies once it re-evaluates the cursor, so we hide at the window-server level instead.
     // Balanced by CGDisplayShowCursor in StopTap; macOS also auto-restores the
     // cursor if this app terminates while it's hidden.
     CGDisplayHideCursor(kCGDirectMainDisplay);
@@ -168,9 +256,11 @@ static napi_value StopTap(napi_env env, napi_callback_info info) {
             CFRunLoopStop(g_thread_runloop);
         }
         pthread_join(g_thread, NULL);
+        CGAssociateMouseAndMouseCursorPosition(true);
+        CGWarpMouseCursorPosition(g_pointer);          // cursor reappears where the pointer last was
         CGDisplayShowCursor(kCGDirectMainDisplay);   // balances the hide in StartTap
     }
-    ReleaseOnCombo();   // tap thread is gone, nothing can call it any more
+    ReleaseOnInput();   // tap thread is gone, nothing can call it any more
     napi_value result;
     napi_get_undefined(env, &result);
     return result;

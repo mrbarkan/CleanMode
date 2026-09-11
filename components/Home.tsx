@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   Globe, Info, AlertTriangle, ArrowLeft,
   Lock, Command, ExternalLink, Loader2,
-  Laptop, Monitor, Mouse,
+  Laptop, Monitor, Mouse, Contrast,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { t, Language, languages } from '../utils/translations';
@@ -271,6 +271,7 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
             {[
               { icon: <Keyboardish c={c('muteSoft', 'dMute')} />, body: text.blockInputDesc },
               { icon: <Command size={14} color={c('muteSoft', 'dMute')} />, body: text.tripleComboDesc },
+              { icon: <Contrast size={14} color={c('muteSoft', 'dMute')} />, body: text.smudgeDesc },
             ].map((row, i) => (
               <div key={i} style={{
                 display: 'flex', gap: 14, padding: '13px 2px',
