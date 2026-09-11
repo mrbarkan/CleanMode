@@ -20,7 +20,10 @@ exports.default = async function stapleDmg(buildResult) {
   // electron-builder doesn't code-sign the DMG container itself. An unsigned DMG
   // fails `spctl -a -t open` ("no usable signature") even when notarized, so we
   // sign → notarize → staple, in that order (notarization requires a signature).
-  const identity = process.env.CSC_NAME;
+  // CSC_NAME has no prefix (electron-builder adds it). Raw codesign needs the full name, or
+  // "Name (TEAMID)" is ambiguous when an Apple Distribution cert for the same team exists.
+  const identity = process.env.CSC_NAME
+    && `Developer ID Application: ${process.env.CSC_NAME.replace(/^Developer ID Application: /, '')}`;
   if (!identity) {
     console.warn('[staple-dmg] CSC_NAME not set — DMG will be notarized but not signed.');
   }
