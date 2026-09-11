@@ -10,6 +10,8 @@ if (process.platform !== 'darwin') {
     promptAccessibility: () => true,
     isInputMonitoringTrusted: () => true,
     promptInputMonitoring: () => true,
+    startUpdater: () => false,
+    checkForUpdates: () => {},
   };
   return;
 }
@@ -31,4 +33,6 @@ module.exports = {
   promptAccessibility: native.promptAccessibility,
   isInputMonitoringTrusted: native.isInputMonitoringTrusted,
   promptInputMonitoring: native.promptInputMonitoring,
+  startUpdater: native.startUpdater,
+  checkForUpdates: native.checkForUpdates,
 };

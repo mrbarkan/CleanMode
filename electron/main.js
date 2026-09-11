@@ -3,6 +3,10 @@ const path = require('path');
 const tap = require('./native/eventtap');
 const isDev = !app.isPackaged;
 
+// Sparkle feed, one per arch (scripts/appcast.sh). `latest` resolves to the newest
+// non-prerelease GitHub release, so no separate hosting is needed.
+const FEED_URL = `https://github.com/mrbarkan/CleanMode/releases/latest/download/appcast-${process.arch}.xml`;
+
 // Set app name early so menus, Dock label, and "Hide / Quit" all say CleanMode.
 app.setName('CleanMode');
 
@@ -16,12 +20,13 @@ if (!app.requestSingleInstanceLock()) {
 let mainWindow;
 let isCleaningMode = false;
 
-function buildAppMenu() {
+function buildAppMenu(hasUpdater) {
   const template = [
     {
       label: 'CleanMode',
       submenu: [
         { role: 'about', label: 'About CleanMode' },
+        ...(hasUpdater ? [{ label: 'Check for Updates…', click: () => tap.checkForUpdates() }] : []),
         { type: 'separator' },
         { role: 'services' },
         { type: 'separator' },
@@ -104,7 +109,8 @@ function createWindow() {
   }
 
   // Existing defense-in-depth layer: window-level key blocking.
-  // Allows Meta keys through so renderer can detect unlock combo.
+  // Allows Meta keys through so the renderer can detect the unlock combo where the
+  // native tap isn't running (non-macOS). On macOS the tap drops Cmd before it gets here.
   mainWindow.webContents.on('before-input-event', (event, input) => {
     if (isCleaningMode) {
       if (input.key === 'Meta' || input.code === 'MetaLeft' || input.code === 'MetaRight') {
@@ -146,8 +152,9 @@ ipcMain.handle('enter-cleaning-mode', async () => {
     return { ok: false, error: 'permissions-denied', permissions };
   }
 
-  // Native tap (the primary blocker for Fn-mapped events).
-  if (!tap.start()) {
+  // Native tap (the primary blocker). It swallows Cmd too and reports the unlock
+  // combo here, so macOS's double-Cmd shortcuts (Siri/Dictation) can't fire.
+  if (!tap.start(() => mainWindow.webContents.send('unlock-combo'))) {
     return { ok: false, error: 'tap-failed' };
   }
 
@@ -202,10 +209,11 @@ app.whenReady().then(() => {
     applicationName: 'CleanMode',
     applicationVersion: app.getVersion(),
     copyright: `© ${new Date().getFullYear()} MrBarkan`,
-    credits: '100% on-device. No network calls, no API keys, no tracking.',
+    credits: '100% on-device. No API keys, no tracking — only an optional update check.',
   });
 
-  buildAppMenu();
+  // Sparkle only exists in packaged builds (embedded by scripts/embed-sparkle.js).
+  buildAppMenu(app.isPackaged && tap.startUpdater(FEED_URL));
   createWindow();
 
   app.on('activate', () => {

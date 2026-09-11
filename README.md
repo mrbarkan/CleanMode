@@ -4,11 +4,11 @@
 
 **Wipe down your Mac without it fighting back.**
 
-CleanMode safely blocks your keyboard, trackpad, and system shortcuts while you clean — no accidental typing, brightness changes, Mission Control, or Spotlight. 100% on-device: no network calls, no API keys, no tracking.
+CleanMode safely blocks your keyboard, trackpad, and system shortcuts while you clean — no accidental typing, brightness changes, Mission Control, or Spotlight. 100% on-device: no API keys, no tracking — the only network call is an optional update check.
 
 [![Download](https://img.shields.io/github/v/release/mrbarkan/CleanMode?label=Download&style=for-the-badge)](https://github.com/mrbarkan/CleanMode/releases/latest)
 &nbsp;
-![Platform](https://img.shields.io/badge/macOS-10.12%2B-black?style=for-the-badge&logo=apple)
+![Platform](https://img.shields.io/badge/macOS-13%2B-black?style=for-the-badge&logo=apple)
 &nbsp;
 ![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)
 
@@ -41,15 +41,16 @@ Grab the latest build from the [**Releases page**](https://github.com/mrbarkan/C
 
 ## Features
 
-- **Catches what the browser can't.** A native macOS event tap absorbs OS-level shortcuts (brightness, Mission Control, Spotlight, media keys) that web apps simply cannot block.
+- **Catches what the browser can't.** A native macOS event tap absorbs OS-level shortcuts (brightness, Mission Control, Spotlight, media keys, Siri's double-⌘) that web apps simply cannot block.
 - **Deliberate unlock.** A two-handed key combo means you'll never exit by accident mid-wipe.
-- **Truly offline.** No network calls, no accounts, no API keys, no telemetry. Everything runs on your machine.
+- **Private.** No accounts, no API keys, no telemetry. Everything runs on your machine; the only network call is the opt-in update check.
+- **Stays up to date.** Built-in updates via Sparkle (CleanMode → Check for Updates…).
 - **Themes.** Light (Linen) and dark (Cherry).
 - **7 languages.** English, Spanish, French, German, Chinese, Japanese, and Portuguese.
 
 ## Requirements
 
-- macOS 10.12 or later
+- macOS 13 Ventura or later (tested on macOS 26 Tahoe)
 - Apple Silicon or Intel
 
 ---

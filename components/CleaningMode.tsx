@@ -73,6 +73,23 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
     };
     lockKeyboard();
 
+    const registerCombo = () => {
+      setUnlockStep(prev => {
+        const next = prev + 1;
+        if (next >= 3) {
+          setTimeout(handleUnlockSequence, 250);
+          return 3;
+        }
+        return next;
+      });
+      if (resetTimer.current) clearTimeout(resetTimer.current);
+      resetTimer.current = window.setTimeout(() => setUnlockStep(0), 2200);
+    };
+
+    // macOS: the native tap swallows Cmd (so Siri/Dictation's double-Cmd shortcut can't
+    // fire) and reports the combo over IPC. The keydown path below covers the browser build.
+    const offUnlockCombo = window.electron?.onUnlockCombo?.(registerCombo);
+
     const handleKeyDown = (e: KeyboardEvent) => {
       e.preventDefault();
       e.stopPropagation();
@@ -84,16 +101,7 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
       if (isLeftCmd && isRightCmd) {
         if (!comboActive.current) {
           comboActive.current = true;
-          setUnlockStep(prev => {
-            const next = prev + 1;
-            if (next >= 3) {
-              setTimeout(handleUnlockSequence, 250);
-              return 3;
-            }
-            return next;
-          });
-          if (resetTimer.current) clearTimeout(resetTimer.current);
-          resetTimer.current = window.setTimeout(() => setUnlockStep(0), 2200);
+          registerCombo();
         }
       }
 
@@ -132,6 +140,7 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
       window.removeEventListener('keyup', handleKeyUp);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('contextmenu', blockContext);
+      offUnlockCombo?.();
       if (resetTimer.current) clearTimeout(resetTimer.current);
       // @ts-ignore
       if (navigator.keyboard && navigator.keyboard.unlock) {

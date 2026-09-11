@@ -28,7 +28,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^4.2.1",
     "concurrently": "^8.2.2",
-    "electron": "^30.0.1",
+    "electron": "^44.3.0",
     "electron-builder": "^24.13.3",
     "node-gyp": "^10.2.0",
     "node-gyp-build": "^4.8.0",
@@ -40,10 +40,15 @@
   "build": {
     "appId": "com.cleanmode.app",
     "productName": "CleanMode",
+    "afterPack": "scripts/embed-sparkle.js",
     "afterSign": "scripts/notarize.js",
     "afterAllArtifactBuild": "scripts/staple-dmg.js",
     "mac": {
       "category": "public.app-category.utilities",
+      "artifactName": "${productName}-${version}-${arch}.${ext}",
+      "extendInfo": {
+        "SUPublicEDKey": "Y95K8qPB+GjLM3ssC6l1jOFZqpETG3aVC3D1btrbmd8="
+      },
       "target": [
         {
           "target": "dmg",

@@ -66,6 +66,25 @@ npm run electron:build
 
 The release artifacts land in `release/` (or `dist/` depending on electron-builder's default — check the output).
 
+## Updates (Sparkle)
+
+Sparkle 2 is embedded at package time by `scripts/embed-sparkle.js` (the `afterPack` hook). It downloads a pinned, checksum-verified Sparkle into `vendor/Sparkle/` (gitignored), then copies `Sparkle.framework` into the app so electron-builder signs it. Unpackaged dev runs have no framework, so updates are off there.
+
+- **Feeds:** `https://github.com/mrbarkan/CleanMode/releases/latest/download/appcast-<arch>.xml`, one per arch (`FEED_URL` in `electron/main.js`). `latest` skips pre-releases, so publish updates as regular releases.
+- **Signing key:** the EdDSA public key is `mac.extendInfo.SUPublicEDKey` in `package.json`. Its private key lives in your login keychain. Back it up with `vendor/Sparkle/bin/generate_keys -x sparkle-private.key` and keep that file safe: if the key is lost, existing installs can never update again.
+- **Automatic checks are opt-in.** Sparkle asks on the second launch. "Check for Updates…" is in the app menu.
+- Sparkle compares `CFBundleVersion` (= `version` in `package.json`), so every release must bump it.
+
+Shipping an update:
+
+```bash
+# 1. Bump "version" in package.json and utils/changelog.ts, then run the release build above.
+# 2. Sign the zips and write release/appcast-{arm64,x64}.xml:
+scripts/appcast.sh
+# 3. Publish the release with everything attached (tag must be v<version>):
+gh release create v1.0.1 release/CleanMode-1.0.1-*.dmg release/CleanMode-1.0.1-*.zip release/appcast-*.xml
+```
+
 ## Verifying a release artifact
 
 ```bash

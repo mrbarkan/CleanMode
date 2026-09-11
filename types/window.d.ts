@@ -18,6 +18,7 @@ declare global {
       checkPermissions:      () => Promise<Permissions>;
       promptAccessibility:   () => Promise<boolean>;
       promptInputMonitoring: () => Promise<boolean>;
+      onUnlockCombo:         (cb: () => void) => () => void;
     };
   }
 }
