@@ -197,7 +197,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose, theme, 
             icon={<Coffee size={14} />}
             title={text.aboutCoffee}
             sub={text.aboutCoffeeDesc}
-            href="https://paypal.me/dbarkan"
+            href="https://patreon.com/mrbarkan"
             external
             highlight
             dark={isDark}
