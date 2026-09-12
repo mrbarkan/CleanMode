@@ -68,6 +68,8 @@ export const t = {
     aboutCoffee: "Buy me a coffee",
     aboutCoffeeDesc: "Support development",
     aboutFooter: "Clean safely. Don't use water directly on devices.",
+    servedOne: "Served you {n} keystroke",
+    servedMany: "Served you {n} keystrokes",
   },
   es: {
     title: "CleanMode",
@@ -126,6 +128,8 @@ export const t = {
     aboutCoffee: "Invítame un café",
     aboutCoffeeDesc: "Apoya el desarrollo",
     aboutFooter: "Limpia con cuidado. No uses agua directamente sobre los dispositivos.",
+    servedOne: "Te serví {n} pulsación",
+    servedMany: "Te serví {n} pulsaciones",
   },
   fr: {
     title: "CleanMode",
@@ -184,6 +188,8 @@ export const t = {
     aboutCoffee: "Offrez-moi un café",
     aboutCoffeeDesc: "Soutenir le développement",
     aboutFooter: "Nettoyez en toute sécurité. N'utilisez pas d'eau directement sur les appareils.",
+    servedOne: "Je vous ai servi {n} frappe",
+    servedMany: "Je vous ai servi {n} frappes",
   },
   de: {
     title: "CleanMode",
@@ -242,6 +248,8 @@ export const t = {
     aboutCoffee: "Spendier mir einen Kaffee",
     aboutCoffeeDesc: "Entwicklung unterstützen",
     aboutFooter: "Reinigen Sie sicher. Verwenden Sie kein Wasser direkt auf Geräten.",
+    servedOne: "{n} Tastenanschlag serviert",
+    servedMany: "{n} Tastenanschläge serviert",
   },
   zh: {
     title: "CleanMode",
@@ -300,6 +308,8 @@ export const t = {
     aboutCoffee: "请我喝杯咖啡",
     aboutCoffeeDesc: "支持开发",
     aboutFooter: "安全清洁。不要直接在设备上使用水。",
+    servedOne: "为您呈上 {n} 次按键",
+    servedMany: "为您呈上 {n} 次按键",
   },
   ja: {
     title: "CleanMode",
@@ -358,6 +368,8 @@ export const t = {
     aboutCoffee: "コーヒーをおごる",
     aboutCoffeeDesc: "開発を支援",
     aboutFooter: "安全に清掃してください。デバイスに直接水をかけないでください。",
+    servedOne: "{n} 回のキー入力をお出ししました",
+    servedMany: "{n} 回のキー入力をお出ししました",
   },
   pt: {
     title: "CleanMode",
@@ -416,5 +428,7 @@ export const t = {
     aboutCoffee: "Pague-me um café",
     aboutCoffeeDesc: "Apoie o desenvolvimento",
     aboutFooter: "Limpe com segurança. Não use água diretamente nos dispositivos.",
+    servedOne: "Servi {n} toque de tecla",
+    servedMany: "Servi {n} toques de tecla",
   },
 };

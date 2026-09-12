@@ -5,7 +5,7 @@ import { T } from '../utils/clocheTokens';
 import { ClocheDome } from './ClocheDome';
 
 interface CleaningModeProps {
-  onUnlock: () => void;
+  onUnlock: (keystrokes: number) => void;
   tips?: string;
   lang: Language;
   theme: Theme;
@@ -33,6 +33,7 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
   const pressedKeys = useRef<Set<string>>(new Set());
   const comboActive = useRef(false);
   const resetTimer = useRef<number | null>(null);
+  const keyCount = useRef(0);
 
   const text = t[lang];
   const isDark = theme === 'dark';
@@ -41,9 +42,9 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
 
   const handleUnlockSequence = useCallback(() => {
     if (window.electron) {
-      window.electron.exitCleaningMode();
+      window.electron.exitCleaningMode(keyCount.current);
     }
-    onUnlock();
+    onUnlock(keyCount.current);
   }, [onUnlock]);
 
   const addRipple = useCallback((x: number, y: number, isKey = false) => {
@@ -103,6 +104,7 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
     // macOS: the native tap swallows every key, Cmd included (so Siri/Dictation's double-Cmd
     // shortcut can't fire), and reports presses over IPC. The keydown path covers the browser build.
     const offNativeInput = window.electron?.onNativeInput?.((kind) => {
+      keyCount.current++; // the tap already drops auto-repeat
       if (kind === 'combo') registerCombo();
       keyRipple();
     });
@@ -110,6 +112,7 @@ export const CleaningMode: React.FC<CleaningModeProps> = ({ onUnlock, tips, lang
     const handleKeyDown = (e: KeyboardEvent) => {
       e.preventDefault();
       e.stopPropagation();
+      if (!e.repeat) keyCount.current++;
       pressedKeys.current.add(e.code);
 
       const isLeftCmd = pressedKeys.current.has('MetaLeft');

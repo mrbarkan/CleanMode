@@ -20,23 +20,25 @@ CleanMode is a Vite + React 19 + TypeScript app that ships as **both** a browser
 - `components/Home.tsx` — configuration UI: device-model input, Gemini-powered cleaning-tips lookup, language picker, theme toggle, About modal.
 - `components/CleaningMode.tsx` — fullscreen "locked" overlay shown while the user wipes the device.
 
+That swap is the **browser build only**. In Electron, cleaning runs in a **separate window** so the main window is never resized: `enter-cleaning-mode` creates a borderless, display-sized `cleaningWindow` that loads the renderer with `?cleaning=1&tips&lang&theme` (`index.tsx` then renders `CleaningMode` alone), and exiting destroys it. `App.handleLock` returns early when `window.electron` exists.
+
 Theme (`'dark' | 'light'`) and last-used device model are persisted to `localStorage` (`cleanmode-theme`, `cleanmode-model`).
 
 ### Input-blocking is layered (this is the core of the product)
 When entering cleaning mode, **three independent blocking layers** are activated. They are intentionally redundant — browsers cannot block all OS-level shortcuts, so the Electron layers exist to plug those gaps. When changing this code, preserve all three layers and remember they all need to be torn down on unlock.
 
 1. **Electron main process** (`electron/main.js`):
-   - `ipcMain.on('set-cleaning-mode')` toggles `isCleaningMode`.
-   - On enter: `setSimpleFullScreen(true)` on macOS (better than `setKiosk` for hiding OS UI), `setKiosk(true)` elsewhere; `setAlwaysOnTop(true, 'screen-saver')`; registers `globalShortcut` swallowers for F1–F24, Esc, Cmd/Ctrl+Q/W/H/R/P, Cmd+Shift+I, Alt+F4/Tab, and media keys.
+   - `ipcMain.handle('enter-cleaning-mode')` / `ipcMain.on('exit-cleaning-mode')` → `exitCleaningMode()`, which also runs if the cleaning window closes any other way (crash, quit).
+   - On enter (all on the cleaning window): `setSimpleFullScreen(true)` on macOS (better than `setKiosk` for hiding OS UI), `setKiosk(true)` elsewhere; `setAlwaysOnTop(true, 'screen-saver')`; registers `globalShortcut` swallowers for F1–F24, Esc, Cmd/Ctrl+Q/W/H/R/P, Cmd+Shift+I, Alt+F4/Tab, and media keys.
    - `webContents.on('before-input-event')` `preventDefault`s every key while locked **except** `Meta` keys — those must reach the renderer so the unlock combo can be detected where the native tap isn't running. On macOS the native tap (`electron/native/eventtap/eventtap.mm`) drops **every** key including Cmd, detects the both-Cmd combo itself and reports input over IPC (`native-input` → `window.electron.onNativeInput`, kinds `combo` / `key`). It also drops scroll/gesture/force-touch events and, via `CGAssociateMouseAndMouseCursorPosition(false)`, pins the real cursor while moving a virtual pointer clamped to the locked display (blocks hot corners and clicks on other displays). Do not let Cmd pass through the tap again: macOS's double-Cmd shortcuts (Siri / Dictation) fire and steal focus mid-unlock.
 2. **Renderer Keyboard Lock API** (`CleaningMode.tsx` → `navigator.keyboard.lock()`) — captures system keys in browsers that support it (Chromium-based).
 3. **Renderer window listeners** — `keydown`/`keyup`/`mousedown`/`contextmenu` with `preventDefault` + `stopPropagation`.
 
 ### Unlock combo
-Press **both** `MetaLeft` and `MetaRight` simultaneously, three times within 2s (`resetTimer` in `CleaningMode.tsx`). On the third combo, `handleUnlockSequence` fires which (a) sends `setCleaningMode(false)` over IPC to undo the Electron-side lock, then (b) calls `onUnlock` to flip `App` back to `Home`. There is also a hidden "Emergency Unlock" button in the bottom-right that appears on hover.
+Press **both** `MetaLeft` and `MetaRight` simultaneously, three times within 2s (`resetTimer` in `CleaningMode.tsx`). On the third combo, `handleUnlockSequence` fires which (a) sends `exitCleaningMode(keystrokes)` over IPC — main undoes the lock, destroys the cleaning window and sends `cleaning-ended` to the main window, which shows the "Served you N keystrokes" toast — then (b) calls `onUnlock` (flips `App` back to `Home` in the browser build; a no-op in the cleaning window). There is also a hidden "Emergency Unlock" button in the bottom-right that appears on hover.
 
 ### Renderer ↔ main IPC
-The only bridge is `electron/preload.js`, which exposes `window.electron.setCleaningMode(isActive)` via `contextBridge`. `types/window.d.ts` declares the global. `window.electron` is `undefined` in the pure-browser build — both screens must check for it before calling.
+The only bridge is `electron/preload.js`, which exposes `window.electron` via `contextBridge`: `enterCleaningMode({tips, lang, theme})`, `exitCleaningMode(keystrokes)`, `onCleaningEnded`, `onNativeInput`, and the permission helpers. `types/window.d.ts` declares the global. `window.electron` is `undefined` in the pure-browser build — both screens must check for it before calling.
 
 ### Gemini integration
 `Home.tsx` calls `@google/genai` with `model: 'gemini-3-flash-preview'` and the `googleSearch` tool to get grounded, manufacturer-specific cleaning instructions. It reads grounding sources from `response.candidates[0].groundingMetadata.groundingChunks` and renders them as citations.

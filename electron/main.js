@@ -17,7 +17,18 @@ if (!app.requestSingleInstanceLock()) {
   app.quit();
 }
 
+const startUrl = isDev
+  ? 'http://localhost:5173'
+  : `file://${path.join(__dirname, '../dist/index.html')}`;
+
+const webPreferences = {
+  nodeIntegration: false,
+  contextIsolation: true,
+  preload: path.join(__dirname, 'preload.js'),
+};
+
 let mainWindow;
+let cleaningWindow;
 let isCleaningMode = false;
 
 function buildAppMenu(hasUpdater) {
@@ -87,17 +98,9 @@ function createWindow() {
     titleBarStyle: 'hiddenInset',
     backgroundColor: '#1B0710', // matches index.html — no white flash on launch
     show: false,
-    webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
-    },
+    webPreferences,
     icon: path.join(__dirname, '../dist/icon.png')
   });
-
-  const startUrl = isDev
-    ? 'http://localhost:5173'
-    : `file://${path.join(__dirname, '../dist/index.html')}`;
 
   mainWindow.loadURL(startUrl);
 
@@ -107,18 +110,6 @@ function createWindow() {
   if (isDev) {
     mainWindow.webContents.openDevTools({ mode: 'detach' });
   }
-
-  // Existing defense-in-depth layer: window-level key blocking.
-  // Allows Meta keys through so the renderer can detect the unlock combo where the
-  // native tap isn't running (non-macOS). On macOS the tap drops Cmd before it gets here.
-  mainWindow.webContents.on('before-input-event', (event, input) => {
-    if (isCleaningMode) {
-      if (input.key === 'Meta' || input.code === 'MetaLeft' || input.code === 'MetaRight') {
-        return;
-      }
-      event.preventDefault();
-    }
-  });
 }
 
 const fKeys = Array.from({ length: 24 }, (_, i) => `F${i + 1}`);
@@ -137,8 +128,9 @@ const BLOCKED_KEYS = [
   'MediaNextTrack', 'MediaPreviousTrack', 'MediaStop', 'MediaPlayPause'
 ];
 
-ipcMain.handle('enter-cleaning-mode', async () => {
+ipcMain.handle('enter-cleaning-mode', async (_event, { tips = '', lang = 'en', theme = 'dark' } = {}) => {
   if (!mainWindow) return { ok: false, error: 'tap-failed' };
+  if (cleaningWindow) return { ok: true };
 
   // Permission gate: Accessibility lets the tap be created; Input Monitoring lets
   // events actually flow through it. Both are required.
@@ -156,19 +148,42 @@ ipcMain.handle('enter-cleaning-mode', async () => {
   // combo here, so macOS's double-Cmd shortcuts (Siri/Dictation) can't fire. It also
   // confines the pointer to this window's display (no hot corners, no other screens).
   const display = screen.getDisplayMatching(mainWindow.getBounds()).bounds;
-  if (!tap.start((kind) => mainWindow.webContents.send('native-input', kind), display)) {
+  if (!tap.start((kind) => cleaningWindow?.webContents.send('native-input', kind), display)) {
     return { ok: false, error: 'tap-failed' };
   }
 
-  // Existing kiosk + globalShortcut layers (defense in depth).
+  // Cleaning gets its own window covering the display, created here and destroyed on exit,
+  // so the main window is never resized. It loads the same renderer with ?cleaning=1.
   isCleaningMode = true;
+  cleaningWindow = new BrowserWindow({
+    ...display,
+    frame: false,
+    show: false,
+    backgroundColor: '#1B0710',
+    webPreferences,
+  });
+
+  // Existing defense-in-depth layers: window-level key blocking, kiosk, globalShortcut.
+  // Meta keys pass so the renderer can detect the unlock combo where the native tap isn't
+  // running (non-macOS). On macOS the tap drops Cmd before it gets here.
+  cleaningWindow.webContents.on('before-input-event', (event, input) => {
+    if (input.key === 'Meta' || input.code === 'MetaLeft' || input.code === 'MetaRight') return;
+    event.preventDefault();
+  });
   if (process.platform === 'darwin') {
-    mainWindow.setSimpleFullScreen(true);
+    // Already sized to the display while hidden, so there is no visible zoom animation.
+    cleaningWindow.setSimpleFullScreen(true);
   } else {
-    mainWindow.setKiosk(true);
+    cleaningWindow.setKiosk(true);
   }
-  mainWindow.setAlwaysOnTop(true, 'screen-saver');
-  mainWindow.focus();
+  cleaningWindow.setAlwaysOnTop(true, 'screen-saver');
+  cleaningWindow.once('ready-to-show', () => {
+    cleaningWindow?.show();
+    cleaningWindow?.focus();
+  });
+  // Safety net: if the window goes away any other way (crash, quit), still release the lock.
+  cleaningWindow.on('closed', () => exitCleaningMode());
+  cleaningWindow.loadURL(`${startUrl}?${new URLSearchParams({ cleaning: '1', tips, lang, theme })}`);
 
   BLOCKED_KEYS.forEach(key => {
     try {
@@ -181,20 +196,28 @@ ipcMain.handle('enter-cleaning-mode', async () => {
   return { ok: true };
 });
 
-ipcMain.on('exit-cleaning-mode', () => {
-  if (!mainWindow) return;
+function exitCleaningMode(keystrokes = 0) {
+  if (!isCleaningMode) return;
   isCleaningMode = false;
 
   tap.stop();
   globalShortcut.unregisterAll();
 
-  mainWindow.setAlwaysOnTop(false);
-  if (process.platform === 'darwin') {
-    mainWindow.setSimpleFullScreen(false);
-  } else {
-    mainWindow.setKiosk(false);
+  const win = cleaningWindow;
+  cleaningWindow = null;
+  if (win && !win.isDestroyed()) {
+    win.hide();
+    // Simple fullscreen auto-hides the Dock and menu bar app-wide; undo it before destroying.
+    if (process.platform === 'darwin') win.setSimpleFullScreen(false);
+    win.destroy();
   }
-});
+
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    mainWindow.webContents.send('cleaning-ended', keystrokes);
+  }
+}
+
+ipcMain.on('exit-cleaning-mode', (_event, keystrokes) => exitCleaningMode(keystrokes));
 
 ipcMain.handle('check-permissions', () => ({
   accessibility:   tap.isAccessibilityTrusted(),

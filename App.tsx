@@ -3,7 +3,7 @@ import { Home } from './components/Home';
 import { CleaningMode } from './components/CleaningMode';
 import { Toaster } from './components/Toaster';
 import { AboutModal } from './components/AboutModal';
-import { Language } from './utils/translations';
+import { t, Language } from './utils/translations';
 import { T } from './utils/clocheTokens';
 
 export type Theme = 'dark' | 'light';
@@ -11,6 +11,7 @@ export type Theme = 'dark' | 'light';
 const App: React.FC = () => {
   const [isLocked, setIsLocked] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [served, setServed] = useState(0);
   const [cleaningTips, setCleaningTips] = useState<string>('');
   const [language, setLanguage] = useState<Language>('en');
   
@@ -31,6 +32,8 @@ const App: React.FC = () => {
   }, [theme]);
 
   const handleLock = (tips?: string) => {
+    // Electron shows cleaning in its own window (electron/main.js); this overlay is the browser build.
+    if (window.electron) return;
     if (tips) {
       setCleaningTips(tips);
     }
@@ -43,7 +46,8 @@ const App: React.FC = () => {
     setIsLocked(true);
   };
 
-  const handleUnlock = useCallback(() => {
+  const handleUnlock = useCallback((keystrokes: number) => {
+    setServed(keystrokes);
     setIsLocked(false);
     setShowToast(true);
     if (document.exitFullscreen && document.fullscreenElement) {
@@ -51,6 +55,8 @@ const App: React.FC = () => {
     }
     setTimeout(() => setShowToast(false), 3000);
   }, []);
+
+  useEffect(() => window.electron?.onCleaningEnded?.(handleUnlock), [handleUnlock]);
 
   return (
     <div
@@ -82,7 +88,11 @@ const App: React.FC = () => {
         />
       )}
       
-      <Toaster message="Device Unlocked" isVisible={showToast} />
+      <Toaster
+        message={(served === 1 ? t[language].servedOne : t[language].servedMany)
+          .replace('{n}', served.toLocaleString())}
+        isVisible={showToast}
+      />
       <AboutModal
         isOpen={isAboutOpen}
         onClose={() => setIsAboutOpen(false)}

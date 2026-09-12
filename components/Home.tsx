@@ -90,7 +90,7 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
   };
 
   const handleStart = async () => {
-    const result = await window.electron?.enterCleaningMode?.() ?? { ok: true as const };
+    const result = await window.electron?.enterCleaningMode?.({ tips: entryAsTips(), lang, theme }) ?? { ok: true as const };
     if (result.ok) {
       onLock(entryAsTips());
       return;
@@ -122,7 +122,7 @@ export const Home: React.FC<HomeProps> = ({ onLock, lang, setLang, onOpenAbout, 
   };
 
   const handleTryAgain = async () => {
-    const result = await window.electron?.enterCleaningMode?.() ?? { ok: true as const };
+    const result = await window.electron?.enterCleaningMode?.({ tips: entryAsTips(), lang, theme }) ?? { ok: true as const };
     if (result.ok) {
       setIsPermissionsModalOpen(false);
       setPermissions({ accessibility: true, inputMonitoring: true });

@@ -1,8 +1,14 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electron', {
-  enterCleaningMode:     () => ipcRenderer.invoke('enter-cleaning-mode'),
-  exitCleaningMode:      () => ipcRenderer.send('exit-cleaning-mode'),
+  enterCleaningMode:     (opts) => ipcRenderer.invoke('enter-cleaning-mode', opts),
+  exitCleaningMode:      (keystrokes) => ipcRenderer.send('exit-cleaning-mode', keystrokes),
+  // Main window: the cleaning window closed, with how many keystrokes it absorbed.
+  onCleaningEnded: (cb) => {
+    const listener = (_event, keystrokes) => cb(keystrokes);
+    ipcRenderer.on('cleaning-ended', listener);
+    return () => ipcRenderer.removeListener('cleaning-ended', listener);
+  },
   checkPermissions:      () => ipcRenderer.invoke('check-permissions'),
   promptAccessibility:   () => ipcRenderer.invoke('prompt-accessibility'),
   promptInputMonitoring: () => ipcRenderer.invoke('prompt-input-monitoring'),

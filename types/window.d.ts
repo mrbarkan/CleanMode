@@ -13,8 +13,9 @@ export type EnterCleaningModeResult =
 declare global {
   interface Window {
     electron?: {
-      enterCleaningMode:     () => Promise<EnterCleaningModeResult>;
-      exitCleaningMode:      () => void;
+      enterCleaningMode:     (opts: { tips: string; lang: string; theme: string }) => Promise<EnterCleaningModeResult>;
+      exitCleaningMode:      (keystrokes: number) => void;
+      onCleaningEnded:       (cb: (keystrokes: number) => void) => () => void;
       checkPermissions:      () => Promise<Permissions>;
       promptAccessibility:   () => Promise<boolean>;
       promptInputMonitoring: () => Promise<boolean>;
